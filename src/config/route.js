@@ -2,8 +2,22 @@ import Home from '@/home'
 
 const routes = [
     {
-        path: '/home',
-        component: Home,
+        path: '/article/:id',
+        exact: true,
+        // component: 'Article'
+    },
+    {
+        // component: 'BaseLayout',
+        routes: [
+            {
+                path: '/home',
+                component: Home,
+            },
+            {
+                path: '/',
+                component: Home
+            }
+        ]
     }
 ];
 

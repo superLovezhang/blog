@@ -3,7 +3,7 @@ import React, { FC } from "react";
 interface ArticleProps {
 
 }
-const Article: FC<ArticleProps> = ({  }) => {
+const Article: FC<ArticleProps> = () => {
     return <div>article</div>
 }
 

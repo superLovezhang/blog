@@ -1,6 +1,6 @@
-import Home from '@/home'
-import BaseLayout from '@/baseLayout'
-import Article from '@/article'
+import Home from '@/page/home'
+import BaseLayout from '@/page/baseLayout'
+import Article from '@/page/article'
 
 const routes = [
     {

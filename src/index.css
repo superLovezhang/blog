@@ -46,3 +46,14 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+html .light {
+  --spare-bg-color: rgb(245, 245, 245);
+  --main-bg-color: rgb(255, 255, 255);
+}
+html .dark {
+  --spare-bg-color: rgb(245, 245, 245);
+  --main-bg-color: rgb(255, 255, 255);
+}
+.app {
+  background-color: var(--spare-bg-color);
+}

@@ -9,7 +9,7 @@ interface BaseLayoutProps {
     route : RouteConfig
 }
 const BaseLayout: FC<BaseLayoutProps> = ({ route }) => {
-    return <div className={styles.baseLayoutWrap}>
+    return <div className={styles.base_layout_wrap}>
         <Header/>
         <div className={styles.container}>
             {renderRoutes(route.routes)}

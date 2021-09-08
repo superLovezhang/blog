@@ -8,7 +8,7 @@ const Header = () => {
         <div className={styles.header_wrap}>
             <div className={styles.left_side}>
                 <div className={styles.logo + ' cursor_pointer'}>
-                    <span className={`iconfont icon-code-box-fill ${styles.logo_icon}`}></span>
+                    <i className={`iconfont icon-code-box-fill ${styles.logo_icon}`}></i>
                 </div>
                 <div className={`${styles.left_side_item} active cursor_pointer`}>首页</div>
                 <div className={styles.left_side_item + ' cursor_pointer'}>每日必应</div>
@@ -17,15 +17,15 @@ const Header = () => {
             </div>
             <div className={styles.right_side}>
                 <div className={styles.search_input}>
-                    <span className={`iconfont icon-fenxiang`}></span>
+                    <i className={`iconfont icon-fenxiang`}></i>
                     <input type="text" placeholder="搜索内容" maxLength={32}/>
                 </div>
                 <div className={styles.setting_panel}>
                     <div className={`${styles.switch_theme} ${styles.setting_button} cursor_pointer`}>
-                        <span className={'iconfont icon-sunny-sharp'}></span>
+                        <i className={'iconfont icon-sunny-sharp'}></i>
                     </div>
                     <div className={`${styles.publish_article} ${styles.setting_button} cursor_pointer`}>
-                        <span className={'iconfont icon-houtaiguanli-fabuwenzhang'}></span>
+                        <i className={'iconfont icon-houtaiguanli-fabuwenzhang'}></i>
                     </div>
                     <div
                         className={styles.user_avatar + ' cursor_pointer'}
@@ -46,7 +46,7 @@ const Header = () => {
                 onMouseEnter={() => setDropDownVisible(true)}
                 onMouseLeave={() => setDropDownVisible(false)}
             >
-                <span className={'iconfont icon-caret-up'}></span>
+                <i className={'iconfont icon-caret-up'}></i>
                 <div className={styles.setting_item + ' cursor_pointer'}>
                     个人主页
                 </div>

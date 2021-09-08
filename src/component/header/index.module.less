@@ -1,13 +1,15 @@
 .header {
   height: 60px;
-  overflow: hidden;
+  padding-top: .5px;
   box-shadow: 0px -4px 13px black;
-  background-color: var(--main-background-color);
+  background-color: var(--main-bg-color);
   .header_wrap {
     width: 1200px;
     height: 32px;
     margin: 14px auto;
     display: flex;
+    font-size: 14px;
+    position: relative;
     align-items: center;
     justify-content: space-between;
     .left_side {
@@ -100,6 +102,35 @@
             overflow: hidden;
             text-overflow: ellipsis;
           }
+        }
+      }
+    }
+    .drop_down_setting {
+      top: 40px;
+      right: 0;
+      width: 175px;
+      height: 115px;
+      z-index: 99;
+      padding: 12px 14px;
+      border-radius: 5px;
+      position: absolute;
+      box-sizing: border-box;
+      background-color: var(--main-bg-color);
+      box-shadow: 0 0 15px rgb(0 0 0 / 20%);
+      span {
+        left: 50%;
+        top: -12px;
+        color: #d5d5d5;
+        position: absolute;
+        transform: translateX(-50%);
+      }
+      .setting_item {
+        color: #333;
+        height: 33.3%;
+        display: flex;
+        align-items: center;
+        &:hover {
+          color: #05a6f0;
         }
       }
     }

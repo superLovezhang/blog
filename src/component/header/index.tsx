@@ -1,6 +1,9 @@
+import { useState } from "react"
 import styles from './index.module.less'
 
 const Header = () => {
+    const [dropDownVisible, setDropDownVisible] = useState(false)
+
     return <div className={styles.header}>
         <div className={styles.header_wrap}>
             <div className={styles.left_side}>
@@ -24,7 +27,11 @@ const Header = () => {
                     <div className={`${styles.publish_article} ${styles.setting_button} cursor_pointer`}>
                         <span className={'iconfont icon-houtaiguanli-fabuwenzhang'}></span>
                     </div>
-                    <div className={styles.user_avatar + ' cursor_pointer'}>
+                    <div
+                        className={styles.user_avatar + ' cursor_pointer'}
+                        onMouseEnter={() => setDropDownVisible(true)}
+                        onMouseLeave={() => setDropDownVisible(false)}
+                    >
                         <img
                             className={styles.setting_button}
                             src="https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/avatar/default-avatar.png?x-oss-process=image/resize,limit_0,m_fill,w_40,h_40/quality,q_100"
@@ -34,6 +41,22 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+            {dropDownVisible && <div
+                className={styles.drop_down_setting}
+                onMouseEnter={() => setDropDownVisible(true)}
+                onMouseLeave={() => setDropDownVisible(false)}
+            >
+                <span className={'iconfont icon-caret-up'}></span>
+                <div className={styles.setting_item + ' cursor_pointer'}>
+                    个人主页
+                </div>
+                <div className={styles.setting_item + ' cursor_pointer'}>
+                    个人设置
+                </div>
+                <div className={styles.setting_item + ' cursor_pointer'}>
+                    退出
+                </div>
+            </div>}
         </div>
     </div>
 }

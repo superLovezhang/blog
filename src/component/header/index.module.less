@@ -1,52 +1,105 @@
 .header {
-  height: 75px;
+  height: 60px;
+  overflow: hidden;
+  box-shadow: 0px -4px 13px black;
   background-color: var(--main-background-color);
   .header_wrap {
     width: 1200px;
-    margin: 0 auto;
+    height: 32px;
+    margin: 14px auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     .left_side {
+      width: 420px;
+      margin-right: 163px;
       display: flex;
+      justify-content: space-between;
+      align-items: center;
       .logo {
-        margin-right: 9px;
+        margin-right: -30px;
         .logo_icon {
-          width: 30px;
-          height: 30px;
+          font-size: 25px;
           color: #05a6f0;
         }
       }
-      .left_side_items {
-        width: 485px;
-        height: 30px;
-        display: flex;
+      .left_side_item {
         font-size: 14px;
         color: #333333;
-        justify-content: space-around;
-        items-align: center;
-        .left_side_item {
-
-        }
       }
     }
     .right_side {
-      width: 772px;
+      width: 617px;
+      height: 32px;
+      display: flex;
       .search_input {
-
+        width: 280px;
+        height: 32px;
+        margin-right: 113px;
+        font-size: 13px;
+        position: relative;
+        span {
+          left: 12px;
+          top: 10px;
+          font-size: inherit;
+          color: #99999b;
+          position: absolute;
+        }
+        input {
+          width: 100%;
+          height: 100%;
+          font-size: inherit;
+          color: #939393;
+          padding-left: 30px;
+          border: none;
+          outline: none;
+          box-sizing: border-box;
+          border-radius: 16px;
+          border: 1px solid transparent;
+          background-color: rgb(240,241,244);
+          transition: all 0.3s;
+          &:focus{
+            border: 1px solid #05a6f0;
+          }
+          &:hover{
+            border: 1px solid #05a6f0;
+          }
+        }
       }
       .setting_panel {
-        .switch_theme_button {
-
+        width: 225px;
+        display: flex;
+        justify-content: space-between;
+        .setting_button {
+          width: 32px;
+          height: 32px;
+          text-align: center;
+          line-height: 32px;
+          border-radius: 50%;
         }
-        .publish_article_button {
-
+        .switch_theme {
+          background-color: #e5e6eb;
+        }
+        .publish_article {
+          color: white;
+          background-color: #05a6f0;
         }
         .user_avatar {
-
-        }
-        .username {
-
+          width: 124px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          img {
+            margin-right: 10px;
+            background-color: red;
+          }
+          .username {
+            width: 83px;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
     }

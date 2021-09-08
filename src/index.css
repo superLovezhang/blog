@@ -49,14 +49,20 @@ table {
 html .light {
   --spare-bg-color: rgb(245, 245, 245);
   --main-bg-color: rgb(255, 255, 255);
+  --font-color: #333;
 }
 html .dark {
   --spare-bg-color: rgb(245, 245, 245);
   --main-bg-color: rgb(255, 255, 255);
+  --font-color: rgb(255, 255, 255);
 }
 .app {
+  color: var(--font-color);
   background-color: var(--spare-bg-color);
 }
 .active {
-  color: #05a6f0;
+  color: #05a6f0!important;
+}
+.cursor_pointer {
+  cursor: pointer;
 }

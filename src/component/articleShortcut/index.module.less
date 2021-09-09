@@ -3,5 +3,23 @@
   height: 80vh;
   top: 60px;
   position: sticky;
-  background-color: green;
+  background-color: var(--spare-bg-color);
+  .common_style {
+    padding: 20px;
+    font-size: 15px;
+    background-color: var(--main-bg-color);
+    .title {
+      height: 30px;
+      font-weight: bolder;
+      border-bottom: 1px solid #f2f2f2;
+      i {
+        margin-right: 7px;
+      }
+    }
+  }
+  .shortcut_recommendation,
+  .shortcut_collection {
+    margin-bottom: 10px;
+    .common_style();
+  }
 }

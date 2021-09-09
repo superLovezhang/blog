@@ -56,7 +56,7 @@ html.dark {
   --main-bg-color: rgb(255, 255, 255);
   --font-color: rgb(255, 255, 255);
 }
-.app {
+#root {
   color: var(--font-color);
   background-color: var(--spare-bg-color);
 }

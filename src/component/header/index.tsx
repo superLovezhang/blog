@@ -1,8 +1,15 @@
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import styles from './index.module.less'
+import { useTheme } from "@/util/hook.ts"
 
 const Header = () => {
     const [dropDownVisible, setDropDownVisible] = useState(false)
+    const [theme, toggleTheme, setStorageTheme] = useTheme()
+
+    useEffect(() => {
+        setStorageTheme()
+        // eslint-disable-next-line
+    }, [])
 
     return <div className={styles.header}>
         <div className={styles.header_wrap}>
@@ -21,8 +28,12 @@ const Header = () => {
                     <input type="text" placeholder="搜索内容" maxLength={32}/>
                 </div>
                 <div className={styles.setting_panel}>
-                    <div className={`${styles.switch_theme} ${styles.setting_button} cursor_pointer`}>
-                        <i className={'iconfont icon-sunny-sharp'}></i>
+                    <div
+                        className={`${styles.switch_theme} ${styles.setting_button} cursor_pointer`}
+                        onClick={toggleTheme}
+                    >
+                        {theme === 'light' ? <i className={'iconfont icon-sunny-sharp'}></i> :
+                            <i className={'iconfont icon-Moon'}></i>}
                     </div>
                     <div className={`${styles.publish_article} ${styles.setting_button} cursor_pointer`}>
                         <i className={'iconfont icon-houtaiguanli-fabuwenzhang'}></i>

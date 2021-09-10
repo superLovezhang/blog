@@ -21,5 +21,31 @@
   .shortcut_collection {
     margin-bottom: 10px;
     .common_style();
+    .item {
+      height: 35px;
+      cursor: pointer;
+      line-height: 35px;
+      border-bottom: 1px solid #f2f2f2;
+      i {
+        color: #f26d5f;
+        font-size: 15px;
+        font-weight: bold;
+        margin-right: 7px;
+      }
+      span {
+        width: 210px;
+        font-size: 12px;
+        display: inline-block;
+        line-height: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      &:nth-of-type(n + 5) {
+        i {
+          color: #ff8200;
+        }
+      }
+    }
   }
 }

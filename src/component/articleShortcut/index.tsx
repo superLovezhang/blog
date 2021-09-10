@@ -1,8 +1,8 @@
 import { FC}  from "react"
 import styles from './index.module.less'
 
+const RECOMMENDATIONS = '豆瓣FM接口,'.repeat(10).split(',').filter(item => item !== '')
 interface ArticleShortcutProps {
-
 }
 const ArticleShortcut: FC<ArticleShortcutProps> = () => {
     return <div className={styles.article_shortcut_wrap}>
@@ -11,7 +11,10 @@ const ArticleShortcut: FC<ArticleShortcutProps> = () => {
                 <i className={'iconfont icon-like-fill'}></i>
                 <span>今日推荐</span>
             </div>
-
+            {RECOMMENDATIONS.map((item, index) => <div className={styles.item}>
+                <i>{index + 1}</i>
+                <span>{item}</span>
+            </div>)}
         </div>
         <div className={styles.shortcut_collection}>
             <div className={styles.title}>

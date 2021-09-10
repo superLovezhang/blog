@@ -4,13 +4,17 @@ import Article from '@/page/article'
 
 const routes = [
     {
-        path: '/article/:id',
-        exact: true,
-        component: Article
+        path: '/publish',
+        exact: true
     },
     {
         component: BaseLayout,
         routes: [
+            {
+                path: '/article/:id',
+                exact: true,
+                component: Article
+            },
             {
                 path: '/home',
                 component: Home,

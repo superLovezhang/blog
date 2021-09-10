@@ -1,9 +1,13 @@
+import { useHistory } from 'react-router-dom'
+
 import Category from "@/component/category/index.tsx"
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 
 import styles from './index.module.less'
 
 const Home = () => {
+    const history = useHistory()
+
     return <div className={styles.home_wrap}>
         <Category/>
         <div className={styles.article_box}>
@@ -14,7 +18,11 @@ const Home = () => {
             </div>
             <div className={styles.article_list}>
                 {/*@ts-ignore*/}
-                {[...new Array(5).keys()].map(index => <div className={styles.article_item} key={index}>
+                {[...new Array(5).keys()].map(index => <div
+                    className={styles.article_item}
+                    key={index}
+                    onClick={() => history.push('/article/1')}
+                >
                     <h3 className={styles.article_title}>字符串的新增方法</h3>
                     <div className={`${styles.article_summary} ${styles.article_card}`}>
                         <div className={styles.summary_img}>

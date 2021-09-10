@@ -1,4 +1,6 @@
-import { FC}  from "react"
+import { FC }  from "react"
+
+import Empty from "@/component/empty/index.tsx"
 import styles from './index.module.less'
 
 const RECOMMENDATIONS = '豆瓣FM接口,'.repeat(10).split(',').filter(item => item !== '')
@@ -21,6 +23,7 @@ const ArticleShortcut: FC<ArticleShortcutProps> = () => {
                 <i className={'iconfont icon-collection-fill'}></i>
                 <span>我的最新收藏</span>
             </div>
+            <Empty/>
         </div>
     </div>
 }

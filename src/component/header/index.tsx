@@ -1,10 +1,18 @@
-import {useEffect, useState} from "react"
-import styles from './index.module.less'
+import {useEffect, useMemo, useState} from "react"
+
 import { useTheme } from "@/util/hook.ts"
+import { className } from '@/util/util.ts'
+
+import styles from './index.module.less'
 
 const Header = () => {
     const [dropDownVisible, setDropDownVisible] = useState(false)
     const [theme, toggleTheme, setStorageTheme] = useTheme()
+    const themeSwitchClass = useMemo(() => className({
+        'iconfont': true,
+        'icon-sunny-sharp': theme === 'light',
+        'icon-Moon': theme !== 'light'
+    }), [theme])
 
     useEffect(() => {
         setStorageTheme()
@@ -32,8 +40,7 @@ const Header = () => {
                         className={`${styles.switch_theme} ${styles.setting_button} cursor_pointer`}
                         onClick={toggleTheme}
                     >
-                        {theme === 'light' ? <i className={'iconfont icon-sunny-sharp'}></i> :
-                            <i className={'iconfont icon-Moon'}></i>}
+                        <i className={themeSwitchClass}></i>
                     </div>
                     <div className={`${styles.publish_article} ${styles.setting_button} cursor_pointer`}>
                         <i className={'iconfont icon-houtaiguanli-fabuwenzhang'}></i>

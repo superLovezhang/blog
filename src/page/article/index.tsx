@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
+import Empty from "@/component/empty/index.tsx"
 import Share from "@/component/share/index.tsx"
 
 import styles from './index.module.less'
@@ -66,6 +67,34 @@ const Article: FC<ArticleProps> = () => {
                 下图为 2021 年苹果秋季发布会邀请函中国版 " 真身 "。
                 <br/><br/>
                 IT 之家会继续追踪报道更新消息，迎接科技节 " 春晚 " 的到来。
+            </div>
+            <div className={styles.article_publish_comment}>
+                <div className={styles.avatar}>
+                    <img src="https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/avatar/default-avatar.png?x-oss-process=image/resize,limit_0,m_fill,w_40,h_40/quality,q_100" alt=""/>
+                </div>
+                <div className={styles.comment_part}>
+                    <div className={styles.username}>superLovezhang</div>
+                    <div className={styles.comment_textarea}>
+                        <textarea
+                            placeholder="写下你的想法"
+                            maxLength={200}
+                        />
+                    </div>
+                    <div className={styles.comment_insert}>
+                        <div className={styles.insert_item}>
+                            <i className={'iconfont icon-emotion-fill'}></i>
+                            <span>表情</span>
+                        </div>
+                        <div className={styles.insert_item}>
+                            <i className={'iconfont icon-picture-fill'}></i>
+                            <span>图片</span>
+                        </div>
+                        <div className={styles.publish_button}>发布</div>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.article_comments}>
+                <Empty tip={'赶快写下您的第一条评论吧'}/>
             </div>
         </div>
         <ArticleShortcut/>

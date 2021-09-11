@@ -53,6 +53,7 @@ html.light {
   --sub-font-color: #939393;
   --input-bg-color: #f0f1f4;
   --border-line-color: #f2f2f2;
+  --input-border-color: #05a6f0;
 }
 html.dark {
   --spare-bg-color: #0c0c0c;
@@ -61,8 +62,10 @@ html.dark {
   --sub-font-color: #999;
   --input-bg-color: #25252c;
   --border-line-color: #202025;
+  --input-border-color: #05a6f0;
 }
 #root {
+  padding-bottom: 20px;
   color: var(--font-color);
   background-color: var(--spare-bg-color);
 }

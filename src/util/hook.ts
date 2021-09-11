@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 export const useTheme: () => [string, () => void, () => void] = () => {
     const [theme, setTheme] = useState<string>(window.localStorage.getItem("theme") ?? 'light')
@@ -15,4 +15,20 @@ export const useTheme: () => [string, () => void, () => void] = () => {
     }
 
     return [theme, toggleTheme, () => setStorageTheme(theme)]
+}
+export const useScroll = () => {
+    const [visible, setVisible] = useState(false)
+
+    const scrollDistance = () => window.scrollY
+    const callback = useCallback((e: Event) => {
+        setVisible(scrollDistance() > 100)
+        // eslint-disable-next-line
+    }, [])
+    useEffect(() => {
+        window.addEventListener('scroll', callback)
+        return () => window.removeEventListener('scroll', callback)
+        // eslint-disable-next-line
+    }, [])
+
+    return visible
 }

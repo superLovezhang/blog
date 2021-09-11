@@ -13,7 +13,7 @@ const ArticleShortcut: FC<ArticleShortcutProps> = () => {
                 <i className={'iconfont icon-like-fill'}></i>
                 <span>今日推荐</span>
             </div>
-            {RECOMMENDATIONS.map((item, index) => <div className={styles.item}>
+            {RECOMMENDATIONS.map((item, index) => <div className={styles.item} key={index}>
                 <i>{index + 1}</i>
                 <span>{item}</span>
             </div>)}

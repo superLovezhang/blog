@@ -2,8 +2,63 @@
   display: flex;
   .article_detail {
     width: 850px;
-    height: 180vh;
     margin: 0 12px 0 25px;
-    background-color: green;
+    .common_style {
+      padding: 20px 22px;
+      background-color: var(--main-bg-color);
+    }
+    .article_info {
+      margin-bottom: 12px;
+      .common_style();
+      .article_title {
+        margin-top: 14px;
+        font-size: 28px;
+        font-weight: bold;
+        line-height: 30px;
+      }
+      .article_info_bottom {
+        height: 30px;
+        margin-top: 19px;
+        font-size: 12px;
+        color: var(--sub-font-color);
+        .article_data {
+          float: left;
+          width: 240px;
+          display: flex;
+          .author {
+            width: 98px;
+            display: flex;
+            align-items: center;
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+            }
+            span {
+              width: 65px;
+              font-size: 13px;
+              text-align: center;
+            }
+          }
+          .detail_info {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .info_item {
+
+            }
+          }
+        }
+        .publish_time {
+          float: right;
+          line-height: 30px;
+        }
+      }
+    }
+    .article_content {
+      .common_style();
+      line-height: 25px;
+    }
   }
 }

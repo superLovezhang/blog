@@ -1,4 +1,5 @@
 import React, { FC } from "react"
+import Picker from 'emoji-picker-react'
 
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 import Empty from "@/component/empty/index.tsx"
@@ -93,6 +94,7 @@ const Article: FC<ArticleProps> = () => {
                     </div>
                 </div>
             </div>
+            <Picker onEmojiClick={(e, data) => console.log(data)}/>
             <div className={styles.article_comments}>
                 <Empty tip={'赶快写下您的第一条评论吧'}/>
             </div>

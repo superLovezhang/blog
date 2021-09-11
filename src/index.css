@@ -50,6 +50,7 @@ html.light {
   --spare-bg-color: #f5f5f5;
   --main-bg-color: #fff;
   --font-color: #333;
+  --sub-font-color: #939393;
   --input-bg-color: #f0f1f4;
   --border-line-color: #f2f2f2;
 }
@@ -57,6 +58,7 @@ html.dark {
   --spare-bg-color: #0c0c0c;
   --main-bg-color: #16161a;
   --font-color: #d3d3d3;
+  --sub-font-color: #999;
   --input-bg-color: #25252c;
   --border-line-color: #202025;
 }

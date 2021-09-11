@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 export const useTheme: () => [string, () => void, () => void] = () => {
     const [theme, setTheme] = useState<string>(window.localStorage.getItem("theme") ?? 'light')

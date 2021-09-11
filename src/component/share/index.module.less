@@ -2,7 +2,34 @@
   top: 160px;
   width: 42px;
   height: 180px;
+  display: flex;
   margin-top: 88px;
   position: sticky;
-  background-color: red;
+  text-align: center;
+  flex-direction: column;
+  color: var(--sub-font-color);
+  justify-content: space-between;
+  .share_item {
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    line-height: 42px;
+    border-radius: 50%;
+    background-color: var(--main-bg-color);
+    i {
+      font-size: 20px;
+    }
+  }
+  span {
+    font-size: 13px;
+  }
+  .comment {
+
+  }
+  .zone:hover > i {
+    color: rgb(254,206,0);
+  }
+  .weibo:hover > i {
+    color: rgb(213,44,43);
+  }
 }

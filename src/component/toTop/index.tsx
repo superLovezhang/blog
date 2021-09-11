@@ -3,7 +3,7 @@ import styles from './index.module.less'
 
 const ToTop = () => {
     const visible = useScroll()
-    const scrollToTop = () => window.scrollTo({ top: 0 })
+    const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
     return <div
         className={styles.top}

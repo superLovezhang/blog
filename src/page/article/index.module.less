@@ -1,5 +1,6 @@
 .article_detail_wrap {
   display: flex;
+  padding-bottom: 110px;
   .article_detail {
     width: 850px;
     margin: 0 12px 0 25px;
@@ -102,6 +103,7 @@
         .comment_insert {
           margin-top: 4px;
           font-size: 12px;
+          position: relative;
           color: var(--sub-font-color);
           .insert_item {
             float: left;
@@ -115,6 +117,10 @@
             span:nth-of-type(1) {
               margin-right: 20px;
             }
+            .emoji_picker {
+              position: absolute;
+              top: 25px;
+            }
           }
           .publish_button {
             width: 80px;
@@ -127,6 +133,30 @@
             line-height: 30px;
             text-align: center;
             background: linear-gradient(135deg,#0084ff,#3fe6fe);
+          }
+        }
+        .comment_img {
+          display: flex;
+          .common_img_style {
+            width: 90px;
+            height: 90px;
+            margin-right: 5px;
+            border-radius: 4px;
+          }
+          .img_item {
+           .common_img_style();
+            background-color: red;
+          }
+          .add_img {
+            .common_img_style();
+            cursor: pointer;
+            text-align: center;
+            line-height:90px;
+            box-sizing: border-box;
+            border: 1px dashed var(--sub-font-color);
+            i {
+              font-size: 28px;
+            }
           }
         }
       }

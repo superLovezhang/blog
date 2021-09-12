@@ -1,9 +1,10 @@
-import React, { FC } from "react"
-import Picker from 'emoji-picker-react'
+import React, {FC, useEffect, useState} from "react"
+import { IEmojiData } from "emoji-picker-react"
 
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 import Empty from "@/component/empty/index.tsx"
 import Share from "@/component/share/index.tsx"
+import EmojiPicker from "@/component/emojiPicker/index.tsx"
 
 import styles from './index.module.less'
 
@@ -11,6 +12,17 @@ interface ArticleProps {
 
 }
 const Article: FC<ArticleProps> = () => {
+    const [emojiVisible, setEmojiVisible] = useState(false)
+    const [comment, setComment] = useState('')
+
+    const editComment = (comment: string) => {
+        setComment(comment)
+    }
+    useEffect(() => {
+        window.onclick= (e) => setEmojiVisible(false)
+        return () => {  window.onclick = null }
+    }, [])
+
     return <div className={styles.article_detail_wrap}>
         <Share/>
         <div className={styles.article_detail}>
@@ -79,12 +91,25 @@ const Article: FC<ArticleProps> = () => {
                         <textarea
                             placeholder="写下你的想法"
                             maxLength={200}
+                            value={comment}
+                            onChange={(e) => editComment(e.target.value ?? '')}
                         />
                     </div>
-                    <div className={styles.comment_insert}>
+                    <div className={`${styles.comment_insert} clearfix`}>
                         <div className={styles.insert_item}>
-                            <i className={'iconfont icon-emotion-fill'}></i>
-                            <span>表情</span>
+                            <div className="emotion_symbol" onClick={(e) => {
+                                setEmojiVisible(!emojiVisible)
+                                e.stopPropagation()
+                            }}>
+                                <i className={'iconfont icon-emotion-fill'}></i>
+                                <span>表情</span>
+                            </div>
+                            <div className={styles.emoji_picker}>
+                               <EmojiPicker
+                                   visible={emojiVisible}
+                                   callback={(data: IEmojiData) => editComment(comment + data.emoji)}
+                               />
+                            </div>
                         </div>
                         <div className={styles.insert_item}>
                             <i className={'iconfont icon-picture-fill'}></i>
@@ -92,9 +117,14 @@ const Article: FC<ArticleProps> = () => {
                         </div>
                         <div className={styles.publish_button}>发布</div>
                     </div>
+                    <div className={styles.comment_img}>
+                        <div className={styles.img_item}></div>
+                        <div className={styles.add_img}>
+                            <i className='iconfont icon-add'></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <Picker onEmojiClick={(e, data) => console.log(data)}/>
             <div className={styles.article_comments}>
                 <Empty tip={'赶快写下您的第一条评论吧'}/>
             </div>

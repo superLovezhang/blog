@@ -7,9 +7,9 @@ import ImgList from "@/component/imgList/index.tsx"
 import styles from "./index.module.less"
 
 interface CommentProps {
-
+    buttonBgColor?: string
 }
-const Comment: FC<CommentProps> = () => {
+const Comment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe' }) => {
     const [emojiVisible, setEmojiVisible] = useState(false)
     const [comment, setComment] = useState('')
 
@@ -55,7 +55,9 @@ const Comment: FC<CommentProps> = () => {
                     <i className={'iconfont icon-picture-fill'}></i>
                     <span>图片</span>
                 </div>
-                <div className={styles.publish_button}>发布</div>
+                <div
+                    className={styles.publish_button}
+                    style={{ background: `linear-gradient(135deg,${buttonBgColor})` }}>发布</div>
             </div>
             <div className={styles.comment_img}>
                 <ImgList observeImgChange={() => {}}/>

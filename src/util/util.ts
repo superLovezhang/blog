@@ -7,3 +7,5 @@ export const className = (cssObject: { [key: string]: boolean } = {}) => {
     }
     return cssString
 }
+
+export const getFileExtension = (fileName: string = '') => fileName.substring(fileName.lastIndexOf('.'))

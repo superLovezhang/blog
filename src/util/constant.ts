@@ -1,0 +1,1 @@
+export const IMG_EXTENSIONS = ['.jpeg', '.tiff', '.png', '.gif', '.psd', '.svg', '.pdf']

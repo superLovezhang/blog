@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from "react"
+import React, {FC, useEffect, useRef, useState} from "react"
 import { IEmojiData } from "emoji-picker-react"
 
 import EmojiPicker from "@/component/emojiPicker/index.tsx"
@@ -12,6 +12,9 @@ interface CommentProps {
 const Comment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe' }) => {
     const [emojiVisible, setEmojiVisible] = useState(false)
     const [comment, setComment] = useState('')
+    const [imgFile, setImgFile] = useState<undefined | File>()
+    const [, setFiles] = useState([])
+    const fileRef = useRef<null | HTMLInputElement>(null)
 
     const editComment = (comment: string) => {
         setComment(comment)
@@ -51,16 +54,29 @@ const Comment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe' }) => {
                         />
                     </div>
                 </div>
-                <div className={styles.insert_item}>
+                <div
+                    className={styles.insert_item}
+                    onClick={() => fileRef?.current?.click()}
+                >
                     <i className={'iconfont icon-picture-fill'}></i>
                     <span>图片</span>
+                    <input
+                        style={{ display: 'none' }}
+                        type="file"
+                        ref={fileRef}
+                        onChange={(e) => setImgFile(e?.target?.files?.[0])}
+                    />
                 </div>
                 <div
                     className={styles.publish_button}
                     style={{ background: `linear-gradient(135deg,${buttonBgColor})` }}>发布</div>
             </div>
             <div className={styles.comment_img}>
-                <ImgList observeImgChange={() => {}}/>
+                <ImgList
+                    observeImgChange={(files: any) => setFiles(files)}
+                    initialFile={imgFile}
+                    hideWhenFilesEmpty={true}
+                />
             </div>
         </div>
     </div>

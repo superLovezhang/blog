@@ -4,16 +4,17 @@ import { IMG_EXTENSIONS } from '@/util/constant.ts'
 import { getFileExtension } from '@/util/util.ts'
 import styles from "./index.module.less"
 
-interface Img {
+export interface Img {
     base64URL: string
     url: string
 }
 interface ImgListProps {
     observeImgChange?: (imgList: Img[]) => void
     initialFile?: File
+    hideWhenFilesEmpty?: boolean
 }
-const ImgList: FC<ImgListProps> = ({ observeImgChange, initialFile }) => {
-    const fileRef = useRef(null)
+const ImgList: FC<ImgListProps> = ({ observeImgChange, initialFile, hideWhenFilesEmpty }) => {
+    const fileRef = useRef<null | HTMLInputElement>(null)
     const [imgList, setImgList] = useState<Img[]>([])
 
     const verifyImgFiles = (file: File) => IMG_EXTENSIONS.includes(getFileExtension(file.name))
@@ -33,13 +34,22 @@ const ImgList: FC<ImgListProps> = ({ observeImgChange, initialFile }) => {
         }
         uploadFile(file)
     }
+    const removeImg = (index: number) => {
+        const copyImgList = imgList.slice()
+        copyImgList.splice(index, 1)
+        setImgList(copyImgList)
+    }
 
     useEffect(() => {
         initialFile && addImgs(initialFile)
         // eslint-disable-next-line
-    }, [])
+    }, [initialFile])
     // eslint-disable-next-line
     useEffect(() => observeImgChange?.(imgList), [imgList])
+
+    if (hideWhenFilesEmpty && imgList.length === 0) {
+        return null
+    }
 
     return <div className={styles.img_wrap}>
         {imgList.map((img, index) => <div
@@ -47,13 +57,12 @@ const ImgList: FC<ImgListProps> = ({ observeImgChange, initialFile }) => {
             key={index}
         >
             <img src={img.base64URL} alt=""/>
+            <i className='iconfont icon-cancel' onClick={() => removeImg(index)}></i>
         </div>)}
         <div
             className={styles.add_img}
-            onClick={() => {
-                //@ts-ignore
-                fileRef?.current?.click()
-            }}>
+            onClick={() => fileRef?.current?.click()}
+        >
             <i className='iconfont icon-add'></i>
             <input
                 type="file"

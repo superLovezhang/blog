@@ -9,11 +9,22 @@
   }
   .img_item {
     .common_img_style();
+    position: relative;
     border: 1px solid rgba(0, 0, 0, 0.2);
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    i {
+      position: absolute;
+      color: black;
+      right: -1px;
+      cursor: pointer;
+      top: -2px;
+      &:hover {
+        background-color: rgba(0,0,0,.2);
+      }
     }
   }
   .add_img {

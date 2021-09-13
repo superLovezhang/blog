@@ -1,4 +1,5 @@
-import {useEffect, useMemo, useState} from "react"
+import { useEffect, useMemo, useState } from "react"
+import { NavLink, useHistory } from 'react-router-dom'
 
 import { useTheme } from "@/util/hook.ts"
 import { className } from '@/util/util.ts'
@@ -7,6 +8,7 @@ import styles from './index.module.less'
 
 const Header = () => {
     const [dropDownVisible, setDropDownVisible] = useState(false)
+    const history = useHistory()
     const [theme, toggleTheme, setStorageTheme] = useTheme()
     const themeSwitchClass = useMemo(() => className({
         'iconfont': true,
@@ -22,13 +24,13 @@ const Header = () => {
     return <div className={styles.header}>
         <div className={styles.header_wrap}>
             <div className={styles.left_side}>
-                <div className={styles.logo + ' cursor_pointer'}>
+                <div className={styles.logo + ' cursor_pointer'} onClick={() => history.push('/')}>
                     <i className={`iconfont icon-code-box-fill ${styles.logo_icon}`}></i>
                 </div>
-                <div className={`${styles.left_side_item} active cursor_pointer`}>首页</div>
-                <div className={styles.left_side_item + ' cursor_pointer'}>每日必应</div>
-                <div className={styles.left_side_item + ' cursor_pointer'}>随便说说</div>
-                <div className={styles.left_side_item + ' cursor_pointer'}>公共Api</div>
+                <NavLink to={'/'} exact>首页</NavLink>
+                <NavLink to={'/biying'}>每日必应</NavLink>
+                <NavLink to={'/comment'}>随便说说</NavLink>
+                <NavLink to={'/api'}>公共Api</NavLink>
             </div>
             <div className={styles.right_side}>
                 <div className={styles.search_input}>

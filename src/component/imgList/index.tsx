@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useRef, useState } from "react"
+import React, { FC, useEffect, useRef, useState } from "react"
 
 import { IMG_EXTENSIONS } from '@/util/constant.ts'
 import { getFileExtension } from '@/util/util.ts'
@@ -9,28 +9,37 @@ interface Img {
     url: string
 }
 interface ImgListProps {
-    observeImgChange: () => void
+    observeImgChange?: (imgList: Img[]) => void
+    initialFile?: File
 }
-const ImgList: FC<ImgListProps> = () => {
+const ImgList: FC<ImgListProps> = ({ observeImgChange, initialFile }) => {
     const fileRef = useRef(null)
     const [imgList, setImgList] = useState<Img[]>([])
 
-    const verifyImgFiles = (files: FileList) => {
-        for (let key in files) {
-            const file = files[key]
-            if (!IMG_EXTENSIONS.includes(getFileExtension(file.name)) || file.size === 0) {
-                return false
+    const verifyImgFiles = (file: File) => IMG_EXTENSIONS.includes(getFileExtension(file.name))
+    const uploadFile = (file: File) => {
+        let fileReader = new FileReader()
+        fileReader.readAsDataURL(file)
+        fileReader.onload = (e) => {
+            const base64URL = e?.target?.result
+            if (base64URL && typeof base64URL === 'string') {
+                setImgList(imgList.concat([{ base64URL, url: '' }]))
             }
         }
-        return true
     }
-    const addImgs = (event: ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files
-        if (!files || verifyImgFiles(files)) {
+    const addImgs = (file: File | undefined) => {
+        if (!file || !verifyImgFiles(file)) {
             return alert('图片不正确')
         }
-        // correct image files
+        uploadFile(file)
     }
+
+    useEffect(() => {
+        initialFile && addImgs(initialFile)
+        // eslint-disable-next-line
+    }, [])
+    // eslint-disable-next-line
+    useEffect(() => observeImgChange?.(imgList), [imgList])
 
     return <div className={styles.img_wrap}>
         {imgList.map((img, index) => <div
@@ -47,11 +56,10 @@ const ImgList: FC<ImgListProps> = () => {
             }}>
             <i className='iconfont icon-add'></i>
             <input
-                multiple
                 type="file"
                 ref={fileRef}
                 style={{ display: 'none' }}
-                onChange={addImgs}
+                onChange={(e) => addImgs(e?.target?.files?.[0])}
             />
         </div>
     </div>

@@ -1,7 +1,12 @@
+import { useState } from "react"
+
+import MarkdownEditor from '@/component/markdownEditor/index.tsx'
 import Empty from "@/component/empty/index.tsx"
 import styles from './index.module.less'
 
 const Publish = () => {
+    const [content, setContent] = useState('')
+
     return <div className={styles.publish_wrap}>
         <div className={styles.draft_bar}>
             <div className={styles.draft_top}>
@@ -23,7 +28,8 @@ const Publish = () => {
             </div>
         </div>
         <div className={styles.markdown_editor}>
-
+            <div className={styles.editor_top}></div>
+            <MarkdownEditor style={{ height: '80vh', backgroundColor: 'var(--main-bg-color)' }} setMdContent={setContent}/>
         </div>
     </div>
 }

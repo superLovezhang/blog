@@ -3,6 +3,8 @@ import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
 
+import './index.module.less'
+
 const mdParser = new MarkdownIt()
 
 interface MarkdownEditorProps {

@@ -5,9 +5,11 @@ const ToTop = () => {
     const visible = useScroll()
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
+    if (!visible) {
+        return null
+    }
     return <div
         className={styles.top}
-        style={{ opacity: visible ? 1 : 0 }}
         onClick={scrollToTop}
     >
         <i className='iconfont icon-top'></i>

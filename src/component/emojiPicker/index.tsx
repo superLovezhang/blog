@@ -19,14 +19,16 @@ interface EmojiPickerProps {
 }
 const EmojiPicker: FC<EmojiPickerProps> = ({ visible, callback }) => {
     if (visible) {
-        return  <Picker
-            groupNames={GROUP_NAME}
-            disableSkinTonePicker={true}
-            preload={true}
-            disableSearchBar={true}
-            native={true}
-            onEmojiClick={(e, data) => callback(data)}
-        />
+        return  <div onClick={e => e.stopPropagation()}>
+            <Picker
+                groupNames={GROUP_NAME}
+                disableSkinTonePicker
+                preload
+                disableSearchBar
+                native
+                onEmojiClick={(e, data) => callback(data)}
+            />
+        </div>
     }
     return null
 }

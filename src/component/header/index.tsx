@@ -44,7 +44,10 @@ const Header = () => {
                     >
                         <i className={themeSwitchClass}></i>
                     </div>
-                    <div className={`${styles.publish_article} ${styles.setting_button} cursor_pointer`}>
+                    <div
+                        className={`${styles.publish_article} ${styles.setting_button} cursor_pointer`}
+                        onClick={() => history.push('/publish')}
+                    >
                         <i className={'iconfont icon-houtaiguanli-fabuwenzhang'}></i>
                     </div>
                     <div

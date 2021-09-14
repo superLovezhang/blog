@@ -1,5 +1,6 @@
-import React, { FC } from 'react'
-import { renderRoutes, RouteConfig } from 'react-router-config'
+import React, {FC, useMemo} from 'react'
+import { useLocation } from 'react-router-dom'
+import { renderRoutes, RouteConfig, matchRoutes } from 'react-router-config'
 
 import ToTop from "@/component/toTop/index.tsx"
 import Header from '@/component/header/index.tsx'
@@ -10,11 +11,15 @@ interface BaseLayoutProps {
     route : RouteConfig
 }
 const BaseLayout: FC<BaseLayoutProps> = ({ route }) => {
+    const { pathname } = useLocation()
+    const matchRoute = useMemo(() => matchRoutes(route.routes ?? [], pathname)[0], [route, pathname])
+    console.log(matchRoute.route)
+
     return <div className={styles.base_layout_wrap}>
         <Header/>
-        <div className={styles.container}>
+        {matchRoute?.route?.needContainer ? <div className={styles.container}>
             {renderRoutes(route.routes)}
-        </div>
+        </div> : renderRoutes(route.routes)}
         <ToTop/>
     </div>
 }

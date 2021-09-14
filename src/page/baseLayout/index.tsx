@@ -13,7 +13,6 @@ interface BaseLayoutProps {
 const BaseLayout: FC<BaseLayoutProps> = ({ route }) => {
     const { pathname } = useLocation()
     const matchRoute = useMemo(() => matchRoutes(route.routes ?? [], pathname)[0], [route, pathname])
-    console.log(matchRoute.route)
 
     return <div className={styles.base_layout_wrap}>
         <Header/>

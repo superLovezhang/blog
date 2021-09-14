@@ -54,6 +54,7 @@ html.light {
   --input-bg-color: #f0f1f4;
   --border-line-color: #f2f2f2;
   --input-border-color: #05a6f0;
+  --hover-color: rgb(242, 242, 242);
 }
 html.dark {
   --spare-bg-color: #0c0c0c;
@@ -63,6 +64,7 @@ html.dark {
   --input-bg-color: #25252c;
   --border-line-color: #202025;
   --input-border-color: #05a6f0;
+  --hover-color: rgb(37,37,44);
 }
 #root {
   color: var(--font-color);

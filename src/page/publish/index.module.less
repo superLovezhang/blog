@@ -10,6 +10,7 @@
     .draft_top {
       height: 18px;
       display: flex;
+      margin-bottom: 20px;
       justify-content: space-between;
       h3 {
         width: 65px;
@@ -69,7 +70,34 @@
     margin-left: 10px;
     .editor_top {
       height: 43px;
+      display: flex;
+      padding: 0 14px;
+      box-sizing: border-box;
+      align-items: center;
+      justify-content: space-between;
       background-color: var(--main-bg-color);
+      input {
+        width: 50%;
+        height: 18px;
+        font-weight: bold;
+        font-size: 20px;
+        outline: none;
+        border: none;
+      }
+      .publish_button {
+        width: 80px;
+        height: 30px;
+        color: #fff;
+        font-size: 13px;
+        border-radius: 3px;
+        text-align: center;
+        line-height: 30px;
+        background: linear-gradient(135deg,#0084ff,#3fe6fe);
+      }
+      .disable {
+        cursor: not-allowed;
+        background: #a0cfff none;
+      }
     }
   }
 }

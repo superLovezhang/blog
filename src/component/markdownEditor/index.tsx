@@ -11,9 +11,17 @@ interface MarkdownEditorProps {
     setMdContent: (content: string) => void
     setHtmlContent?: (content: string) => void
     style?: { [property: string]: string }
+    placeholder?: string
+    value?: string
 }
-const MarkdownEditor: FC<MarkdownEditorProps> = ({ style, setMdContent, setHtmlContent }) => {
-    const onImageUpload = (file: File) => {}
+const MarkdownEditor: FC<MarkdownEditorProps> = ({
+                                                     style,
+                                                     setMdContent,
+                                                     setHtmlContent,
+                                                     placeholder = '请输入内容',
+                                                     value
+}) => {
+    // const onImageUpload = (file: File) => {}
     const onChange = ({ text, html }:  {
         text: string;
         html: string;
@@ -25,6 +33,8 @@ const MarkdownEditor: FC<MarkdownEditorProps> = ({ style, setMdContent, setHtmlC
     return <MdEditor
         style={style}
         shortcuts
+        placeholder={placeholder}
+        value={value}
         renderHTML={(text) => mdParser.render(text)}
         onChange={onChange}
     />

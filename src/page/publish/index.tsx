@@ -127,7 +127,12 @@ const Publish = () => {
             </div>
             <MarkdownEditor
                 value={draft.content ?? ''}
-                style={{ height: '80vh', backgroundColor: 'var(--main-bg-color)' }}
+                style={{
+                    height: '80vh',
+                    backgroundColor: 'var(--main-bg-color)',
+                    color: 'inherit',
+                    border: '1px solid var(--border-line-color)'
+                }}
                 setMdContent={editArticleContent}
             />
         </div>

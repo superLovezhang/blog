@@ -1,15 +1,21 @@
 .publish_option {
   width: 445px;
-  z-index: 9999;
+  z-index: 4;
   position: absolute;
   min-height: 320px;
   padding: 13px 14px;
   box-sizing: border-box;
   border-radius: 4px;
   font-size: 14px;
-  border: 1px solid #ebeef5;
+  border: 1px solid var(--border-line-color);
   background-color: var(--main-bg-color);
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  .top {
+    position: absolute;
+    top: -12px;
+    right: 45px;
+    color: #d5d5d5;
+  }
   .category {
     .category_title {
       height: 47px;
@@ -24,6 +30,7 @@
         margin-right: 5px;
         border-radius: 3px;
         border: 1px solid #d3d4d6;
+        background-color: #fff;
       }
     }
   }
@@ -59,6 +66,7 @@
       padding-left: 10px;
       margin-bottom: 15px;
       box-sizing: border-box;
+      color: inherit;
       background-color: var(--input-bg-color);
     }
   }

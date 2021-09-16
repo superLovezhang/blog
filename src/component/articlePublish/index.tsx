@@ -9,6 +9,7 @@ interface ArticlePublishProps {
 const ArticlePublish: FC<ArticlePublishProps> = ({ style }) => {
     return <div className={styles.publish_option} style={style}>
         <div className={styles.category}>
+            <div className={styles.top}><i className='iconfont icon-caret-up'></i></div>
             <div className={styles.category_title}>分类</div>
             <div className={styles.category_list}>
                 <div className={styles.category_item}>资讯</div>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import {useEffect, useMemo, useState} from "react"
 import moment from "moment"
 
 import MarkdownEditor from '@/component/markdownEditor/index.tsx'
@@ -16,9 +16,15 @@ interface Draft {
 const Publish = () => {
     const [drafts, setDrafts] = useState<Draft[]>(JSON.parse(window.localStorage.getItem('drafts') ?? '[]') || [])
     const [draftIndex, setDraftIndex] = useState(0)
+    const [showPublishSetting, setShowPublishSetting] = useState(false)
     const isEmpty = useMemo(() => drafts.length === 0, [drafts])
     const draft = useMemo(() => drafts[draftIndex] ?? {}, [draftIndex, drafts])
     const disablePublish = !draft.title || !draft.content
+
+    useEffect(() => {
+        window.onclick = () => setShowPublishSetting(false)
+        return () => { window.onclick = null }
+    }, [])
 
     const defaultTitle = () => {
         const currentMoment = moment(new Date())
@@ -121,9 +127,12 @@ const Publish = () => {
                     <div className={`${styles.publish_button} ${styles.disable}`}>发布</div> :
                     <div
                         className={styles.publish_button}
-                        onClick={() => {}}
+                        onClick={(e) => {
+                            setShowPublishSetting(!showPublishSetting)
+                            e.stopPropagation()
+                        }}
                     >发布</div>}
-                <ArticlePublish style={{ top: '45px', right: '10px' }}/>
+                <ArticlePublish style={{ top: '45px', right: '10px' }} visible={showPublishSetting}/>
             </div>
             <MarkdownEditor
                 value={draft.content ?? ''}

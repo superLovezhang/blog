@@ -28,6 +28,14 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
+input, textarea {
+  outline: none;
+  border: none;
+  resize: none;
+}
+input[type="radio" i] {
+  margin: 0;
+}
 body {
   line-height: 1;
 }

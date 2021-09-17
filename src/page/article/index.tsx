@@ -1,7 +1,6 @@
 import React, { FC } from "react"
 
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
-import Empty from "@/component/empty/index.tsx"
 import Share from "@/component/share/index.tsx"
 import Comment from "@/component/comment/index.tsx"
 import CommentList from "@/component/commentList/index.tsx"
@@ -72,7 +71,6 @@ const Article: FC<ArticleProps> = () => {
                 <Comment/>
             </div>
             <div className={styles.article_comments}>
-                <Empty tip={'赶快写下您的第一条评论吧'}/>
                 <CommentList/>
             </div>
         </div>

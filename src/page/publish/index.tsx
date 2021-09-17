@@ -87,7 +87,7 @@ const Publish = () => {
                     className={styles.operate}
                     onClick={createNewDraft}
                 >
-                    <i className='iconfont icon-add1'></i>
+                    <i className='iconfont icon-add1'/>
                     <span>新建草稿</span>
                 </div>
             </div>

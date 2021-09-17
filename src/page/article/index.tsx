@@ -4,6 +4,7 @@ import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 import Empty from "@/component/empty/index.tsx"
 import Share from "@/component/share/index.tsx"
 import Comment from "@/component/comment/index.tsx"
+import CommentList from "@/component/commentList/index.tsx"
 
 import styles from './index.module.less'
 
@@ -72,6 +73,7 @@ const Article: FC<ArticleProps> = () => {
             </div>
             <div className={styles.article_comments}>
                 <Empty tip={'赶快写下您的第一条评论吧'}/>
+                <CommentList/>
             </div>
         </div>
         <ArticleShortcut/>

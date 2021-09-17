@@ -1,12 +1,20 @@
+import {useState} from "react"
 import { useHistory } from 'react-router-dom'
 
 import Category from "@/component/category/index.tsx"
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 
+import { className } from '@/util/util.ts'
 import styles from './index.module.less'
 
 const Home = () => {
     const history = useHistory()
+    const [plainTextLayout, setPlainTextLayout] = useState(false)
+    const articleItemClassName = className({
+        [styles.article_summary]: true,
+        [styles.article_card]: !plainTextLayout,
+        [styles.article_text]: plainTextLayout
+    })
 
     return <div className={styles.home_wrap}>
         <Category/>
@@ -14,7 +22,11 @@ const Home = () => {
             <div className={styles.sort_top}>
                 <span className={'cursor_pointer active'}>最新</span>
                 <span className={'cursor_pointer'}>最热</span>
-                <i className={'iconfont icon-7xinxifabu cursor_pointer'}></i>
+                <div className={styles.layout_change} onClick={() => setPlainTextLayout(!plainTextLayout)}>
+                    {!plainTextLayout ?
+                        <i className={'iconfont icon-7xinxifabu cursor_pointer'}/> :
+                        <i className={'iconfont icon-ic_format_align_justify_px cursor_pointer'}/>}
+                </div>
             </div>
             <div className={styles.article_list}>
                 {/*@ts-ignore*/}
@@ -24,7 +36,7 @@ const Home = () => {
                     onClick={() => history.push('/article/1')}
                 >
                     <h3 className={styles.article_title}>字符串的新增方法</h3>
-                    <div className={`${styles.article_summary} ${styles.article_card}`}>
+                    <div className={articleItemClassName}>
                         <div className={styles.summary_img}>
                             <img src="https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/images/2021/09/1631063241435.png?x-oss-process=image/resize,limit_0,m_fill,w_170,h_100/quality,q_100" alt=""/>
                         </div>

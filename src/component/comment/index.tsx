@@ -1,82 +1,50 @@
-import React, {FC, useEffect, useRef, useState} from "react"
-import { IEmojiData } from "emoji-picker-react"
-
-import EmojiPicker from "@/component/emojiPicker/index.tsx"
-import ImgList from "@/component/imgList/index.tsx"
+import React, { FC, Fragment } from "react"
 
 import styles from "./index.module.less"
 
-interface CommentProps {
-    buttonBgColor?: string
+export interface CommentType {
+    avatar: string
+    username: string
+    content: string
+    like: number
+    createTime: string
+    replyName?: string
+    children: CommentType[]
 }
-const Comment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe' }) => {
-    const [emojiVisible, setEmojiVisible] = useState(false)
-    const [comment, setComment] = useState('')
-    const [imgFile, setImgFile] = useState<undefined | File>()
-    const [, setFiles] = useState([])
-    const fileRef = useRef<null | HTMLInputElement>(null)
-
-    const editComment = (comment: string) => {
-        setComment(comment)
-    }
-    useEffect(() => {
-        window.onclick= (e) => setEmojiVisible(false)
-        return () => {  window.onclick = null }
-    }, [])
-
-    return <div className={styles.article_publish_comment}>
-        <div className={styles.avatar}>
-            <img src="https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/avatar/default-avatar.png?x-oss-process=image/resize,limit_0,m_fill,w_40,h_40/quality,q_100" alt=""/>
+interface CommentProps {
+    comment: CommentType
+}
+const Comment: FC<CommentProps> = ({ comment }) => {
+    return <div className={styles.comment_item}>
+        <div className={styles.comment_avatar}>
+            <img src={comment.avatar} alt=""/>
         </div>
-        <div className={styles.comment_part}>
-            <div className={styles.username}>superLovezhang</div>
-            <div className={styles.comment_textarea}>
-                        <textarea
-                            placeholder="写下你的想法"
-                            maxLength={200}
-                            value={comment}
-                            onChange={(e) => editComment(e.target.value ?? '')}
-                        />
-            </div>
-            <div className={`${styles.comment_insert} clearfix`}>
-                <div className={styles.insert_item}>
-                    <div className="emotion_symbol" onClick={(e) => {
-                        setEmojiVisible(!emojiVisible)
-                        e.stopPropagation()
-                    }}>
-                        <i className={'iconfont icon-emotion-fill'}></i>
-                        <span>表情</span>
+        <div className={styles.comment_right}>
+            <div className={styles.main_comment}>
+                <div className={styles.comment_main}>
+                    <div className={styles.comment_username}>
+                        {comment.username}
+                        {comment.replyName && <Fragment><span>回复</span>superLovezhang</Fragment>}
                     </div>
-                    <div className={styles.emoji_picker}>
-                        <EmojiPicker
-                            visible={emojiVisible}
-                            callback={(data: IEmojiData) => editComment(comment + data.emoji)}
-                        />
+                    <div className={styles.comment_content}>{comment.content}</div>
+                    <div className={styles.comment_operation}>
+                        <div className={styles.like}>
+                            <i className='iconfont icon-like-fill'/>
+                            <span>{comment.like} 点赞</span>
+                        </div>
+                        <div className={styles.reply}>
+                            <i className='iconfont icon-a-share3-fill'/>
+                            <span>回复</span>
+                        </div>
                     </div>
                 </div>
-                <div
-                    className={styles.insert_item}
-                    onClick={() => fileRef?.current?.click()}
-                >
-                    <i className={'iconfont icon-picture-fill'}></i>
-                    <span>图片</span>
-                    <input
-                        style={{ display: 'none' }}
-                        type="file"
-                        ref={fileRef}
-                        onChange={(e) => setImgFile(e?.target?.files?.[0])}
-                    />
-                </div>
-                <div
-                    className={styles.publish_button}
-                    style={{ background: `linear-gradient(135deg,${buttonBgColor})` }}>发布</div>
+                <div className={styles.comment_date}>{comment.createTime}</div>
             </div>
-            <div className={styles.comment_img}>
-                <ImgList
-                    observeImgChange={(files: any) => setFiles(files)}
-                    initialFile={imgFile}
-                    hideWhenFilesEmpty={true}
-                />
+            <div className="reply_comment">
+
+            </div>
+            <div className={styles.comment_children}>
+                {comment.children.map(child => <Comment comment={child}/>)}
             </div>
         </div>
     </div>

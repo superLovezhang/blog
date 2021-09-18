@@ -2,8 +2,8 @@ import React, { FC } from "react"
 
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 import Share from "@/component/share/index.tsx"
-import Comment from "@/component/comment/index.tsx"
-import CommentList from "@/component/commentList/index.tsx"
+import PublishComment from "@/component/publishComment/index.tsx"
+import ArticleComment from "./articleComment/index.tsx"
 
 import styles from './index.module.less'
 
@@ -68,10 +68,10 @@ const Article: FC<ArticleProps> = () => {
                 IT 之家会继续追踪报道更新消息，迎接科技节 " 春晚 " 的到来。
             </div>
             <div className={styles.article_publish_comment}>
-                <Comment/>
+                <PublishComment/>
             </div>
             <div className={styles.article_comments}>
-                <CommentList/>
+                <ArticleComment/>
             </div>
         </div>
         <ArticleShortcut/>

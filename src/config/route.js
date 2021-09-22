@@ -4,6 +4,7 @@ import Article from '@/page/article'
 import NotFound from '@/page/notfound'
 import Publish from '@/page/publish'
 import MessageBoard from '@/page/messageBoard'
+import BiYing from '@/page/biying'
 
 const routes = [
     {
@@ -31,6 +32,11 @@ const routes = [
                 exact: true,
                 component: MessageBoard,
                 needContainer: true
+            },
+            {
+                path: '/biying',
+                exact: true,
+                component: BiYing,
             },
             {
                 path: '/',

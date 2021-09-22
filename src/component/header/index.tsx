@@ -29,7 +29,7 @@ const Header = () => {
                 </div>
                 <NavLink to={'/'} exact>首页</NavLink>
                 <NavLink to={'/biying'}>每日必应</NavLink>
-                <NavLink to={'/comment'}>随便说说</NavLink>
+                <NavLink to={'/messageBoard'}>随便说说</NavLink>
                 <NavLink to={'/api'}>公共Api</NavLink>
             </div>
             <div className={styles.right_side}>

@@ -9,3 +9,5 @@ export const className = (cssObject: { [key: string]: boolean } = {}) => {
 }
 
 export const getFileExtension = (fileName: string = '') => fileName.substring(fileName.lastIndexOf('.'))
+
+export const objectIsNull = (object: null | undefined | {} | object) => !object || JSON.stringify(object) === '{}'

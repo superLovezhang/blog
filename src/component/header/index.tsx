@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useState } from "react"
 import { NavLink, useHistory } from 'react-router-dom'
 
-import { useTheme } from "@/util/hook.ts"
-import { className } from '@/util/util.ts'
+import Login from "@/component/login/index.tsx"
 
+import { useTheme } from "@/util/hook.ts"
+import { className, objectIsNull } from '@/util/util.ts'
 import styles from './index.module.less'
 
 const Header = () => {
     const [dropDownVisible, setDropDownVisible] = useState(false)
+    const [user] = useState(JSON.parse(localStorage.getItem('user') || '{}'))
+    const [loginVisible, setLoginVisible] = useState(false)
     const history = useHistory()
     const [theme, toggleTheme, setStorageTheme] = useTheme()
     const themeSwitchClass = useMemo(() => className({
@@ -50,7 +53,10 @@ const Header = () => {
                     >
                         <i className={'iconfont icon-houtaiguanli-fabuwenzhang'}></i>
                     </div>
-                    <div
+                    {objectIsNull(user) ? <div
+                        className={styles.login}
+                        onClick={() => setLoginVisible(true)}
+                    >登录/注册</div> : <div
                         className={styles.user_avatar + ' cursor_pointer'}
                         onMouseEnter={() => setDropDownVisible(true)}
                         onMouseLeave={() => setDropDownVisible(false)}
@@ -61,7 +67,7 @@ const Header = () => {
                             alt=""
                         />
                         <div className={styles.username}>superLovezha</div>
-                    </div>
+                    </div>}
                 </div>
             </div>
             {dropDownVisible && <div
@@ -80,6 +86,7 @@ const Header = () => {
                     退出
                 </div>
             </div>}
+            <Login visible={loginVisible} setVisible={setLoginVisible}/>
         </div>
     </div>
 }

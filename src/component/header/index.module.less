@@ -1,3 +1,5 @@
+@import url('@/global.module.less');
+
 .header {
   top: 0;
   width: 100%;
@@ -55,25 +57,15 @@
           font-size: inherit;
           color: #939393;
           padding-left: 30px;
-          border: none;
           outline: none;
           box-sizing: border-box;
           border-radius: 16px;
-          border: 1px solid transparent;
           background-color: var(--input-bg-color);
-          transition: all 0.3s;
-          &:focus{
-            border: 1px solid var(--input-border-color);
-          }
-          &:hover{
-            border: 1px solid var(--input-border-color);;
-          }
+          .common_input_border();
         }
       }
       .setting_panel {
         width: 225px;
-        display: flex;
-        justify-content: space-between;
         .setting_button {
           width: 32px;
           height: 32px;
@@ -82,17 +74,28 @@
           border-radius: 50%;
         }
         .switch_theme {
+          float: left;
           background-color: var(--input-bg-color);
           i {
             transition: all 1s;
           }
         }
         .publish_article {
+          float: left;
           color: white;
+          margin: 0 20px;
           background-color: #05a6f0;
         }
+        .login {
+          width: 120px;
+          line-height: 32px;
+          float: left;
+          cursor: pointer;
+          color: #05a6f0;
+        }
         .user_avatar {
-          width: 124px;
+          float: left;
+          width: 120px;
           display: flex;
           align-items: center;
           justify-content: space-between;

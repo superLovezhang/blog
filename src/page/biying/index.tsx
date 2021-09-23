@@ -1,5 +1,6 @@
 import {useState} from "react"
 
+import LoadMore from "@/component/loadMore/index.tsx"
 import styles from './index.module.less'
 import pics from './biyingPic.json'
 
@@ -23,21 +24,24 @@ const BiYing = () => {
             </div>
         </div>
         <div className={styles.biying_pics}>
-            <div className={`${styles.pic_container} clearfix`}>
-                {renderItems.map(pic => <div className={styles.pic_item}>
-                    <a href="">
-                        <div className={styles.item_top}>
-                            <img src={previewImgURL(pic)} alt=""/>
-                        </div>
-                        <div className={styles.item_bottom}>
-                            <p>{pic.copyright}</p>
-                            <div className={styles.publish_time}>
-                                <i className='iconfont icon-calendar-alt'></i>
-                                <span>{formatDate(pic.startdate)}</span>
+            <div className={`${styles.pic_container}`}>
+                <div className='clearfix'>
+                    {renderItems.map(pic => <div className={styles.pic_item}>
+                        <a href="">
+                            <div className={styles.item_top}>
+                                <img src={previewImgURL(pic)} alt=""/>
                             </div>
-                        </div>
-                    </a>
-                </div>)}
+                            <div className={styles.item_bottom}>
+                                <p>{pic.copyright}</p>
+                                <div className={styles.publish_time}>
+                                    <i className='iconfont icon-calendar-alt'></i>
+                                    <span>{formatDate(pic.startdate)}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>)}
+                </div>
+                <LoadMore hasMore={true}/>
             </div>
         </div>
     </div>

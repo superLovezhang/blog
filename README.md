@@ -16,6 +16,6 @@
 > all right, that's all procedures you need to start the project. then just enjoy it!
 ---
 ## 🌽message board
-todo...
+the project preview address: http://www.tyzz.top
 
 🍏🍐🍑🍓🍒🍅

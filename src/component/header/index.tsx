@@ -30,10 +30,10 @@ const Header = () => {
                 <div className={styles.logo + ' cursor_pointer'} onClick={() => history.push('/')}>
                     <i className={`iconfont icon-code-box-fill ${styles.logo_icon}`}></i>
                 </div>
-                <NavLink to={'/'} exact>首页</NavLink>
-                <NavLink to={'/biying'}>每日必应</NavLink>
-                <NavLink to={'/messageBoard'}>随便说说</NavLink>
-                <NavLink to={'/api'}>公共Api</NavLink>
+                <NavLink className={styles.left_side_item} to={'/'} exact>首页</NavLink>
+                <NavLink className={styles.left_side_item} to={'/biying'}>每日必应</NavLink>
+                <NavLink className={styles.left_side_item} to={'/messageBoard'}>随便说说</NavLink>
+                <NavLink className={styles.left_side_item} to={'/api'}>公共Api</NavLink>
             </div>
             <div className={styles.right_side}>
                 <div className={styles.search_input}>
@@ -53,7 +53,7 @@ const Header = () => {
                     >
                         <i className={'iconfont icon-houtaiguanli-fabuwenzhang'}></i>
                     </div>
-                    {objectIsNull(user) ? <div
+                    {!objectIsNull(user) ? <div
                         className={styles.login}
                         onClick={() => setLoginVisible(true)}
                     >登录/注册</div> : <div

@@ -1,5 +1,10 @@
+@media (max-width: 900px) {
+  .article_shortcut_wrap {
+    display: none;
+  }
+}
 .article_shortcut_wrap {
-  width: 278px;
+  min-width: 278px;
   height: 80vh;
   top: 60px;
   position: sticky;
@@ -7,6 +12,7 @@
   .common_style {
     padding: 20px;
     font-size: 15px;
+    box-sizing: border-box;
     background-color: var(--main-bg-color);
     .title {
       height: 30px;

@@ -7,6 +7,7 @@
 + 🍋emoji-picker-react
 + 🍌react-markdown-editor-lite + markdown-it
 + 🍍moment
++ 🍆react-lazyload
 ---
 ## 🍎start the project
 1. git clone ${the project address}
@@ -17,4 +18,4 @@
 ## 🌽message board
 todo...
 
-🍏🍐🍑🍓🍒🍅🍆
+🍏🍐🍑🍓🍒🍅

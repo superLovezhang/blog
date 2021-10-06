@@ -18,8 +18,8 @@ request.interceptors.request.use(function (config) {
 
 request.interceptors.response.use(function (response) {
     const data = response.data
-    if (data.code !== 200) {
-        if (data.code === 4000) {
+    if (data.code !== 1000) {
+        if (data.code === 2002 || data.code === 2001) {
             window.localStorage.removeItem('token')
             window.location.href = '/login'
         }

@@ -53,7 +53,7 @@ const Header = () => {
                     >
                         <i className={'iconfont icon-houtaiguanli-fabuwenzhang'}></i>
                     </div>
-                    {!objectIsNull(user) ? <div
+                    {objectIsNull(user) ? <div
                         className={styles.login}
                         onClick={() => setLoginVisible(true)}
                     >登录/注册</div> : <div

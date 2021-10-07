@@ -23,7 +23,10 @@ const LOGIN_FIELDS: Field[] = [
         fieldName: 'email',
         placeholder: '请输入邮箱',
         keyword: '邮箱',
-        optional: (fields?: any) => ({})
+        optional: (fields?: any) => ({
+            pattern: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/,
+            required: true
+        })
     },
     {
         className: styles.login_input,
@@ -32,7 +35,7 @@ const LOGIN_FIELDS: Field[] = [
         type: 'password',
         placeholder: '请输入密码',
         keyword: '密码',
-        optional: (fields?: any) => ({})
+        optional: (fields?: any) => ({ required: true, pattern: /^[\d\w.]{9,16}$/ })
     }
 ]
 const REGISTER_FIELDS: Field[] = [
@@ -68,7 +71,7 @@ const REGISTER_FIELDS: Field[] = [
         type: 'text',
         placeholder: '请输入用户昵称',
         keyword: '用户昵称',
-        optional: (fields?: any) => ({ required: true }),
+        optional: (fields?: any) => ({ required: true, pattern: /^[^\s]{6,16}$/ }),
     },
     {
         className: styles.login_input,
@@ -77,7 +80,7 @@ const REGISTER_FIELDS: Field[] = [
         fieldName: 'password',
         placeholder: '请输入密码',
         keyword: '密码',
-        optional: (fields?: any) => ({ required: true })
+        optional: (fields?: any) => ({ required: true, pattern: /^[\d\w.]{9,16}$/ })
     },
     {
         className: styles.login_input,
@@ -88,6 +91,7 @@ const REGISTER_FIELDS: Field[] = [
         keyword: '确认密码',
         optional: (fields?: any) => ({
             required: true,
+            pattern: /^[\d\w.]{9,16}$/,
             validate: fields ? (value: any) => fields?.password === value : null
         })
     }
@@ -124,52 +128,89 @@ const Login: FC<LoginProps> = ({ visible, setVisible }) => {
 }
 
 interface BlogInputProps {
+    keyword: string
+    fieldName: string
     className?: string,
     inputProps?: { [key: string]: any},
     iconClassName?: string,
-    error?: FieldError,
-    children?: ReactElement
+    errors?: { [key: string]: FieldError },
+    children?: ReactElement,
 }
 const BlogInput: FC<BlogInputProps> = ({
                                            className,
                                            inputProps,
-                                           error,
+                                           errors,
                                            iconClassName,
-                                           children
+                                           children,
+                                           keyword,
+                                           fieldName
 }) => {
-    const errorTip = () => {
-        return ''
+    const error = errors && errors[fieldName]
+    const errorTipMap = {
+        'required': '不能为空',
+        'pattern': '格式错误',
+        'maxLength': '长度错误',
+        'validate': '校验不通过'
+    }
+    const errorTip = (error?: FieldError) => {
+        //@ts-ignore
+        const tip = errorTipMap[error?.type]
+        return tip ? keyword + tip : ''
     }
 
     return <div className={className}>
         <input {...inputProps}/>
         {iconClassName && <i className={`iconfont ${iconClassName}`}/>}
-        <p className={styles.error_tip}>{errorTip()}</p>
+        <p className={styles.error_tip}>{errorTip(error)}</p>
         {children}
     </div>
 }
 
 const LoginBox = () => {
+    const { handleSubmit, register, watch, formState: { errors } } = useForm()
+    const login = (data: any) => {
+        console.log(data)
+    }
+
     return <>
-        {LOGIN_FIELDS.map(({ className, type, placeholder, iconClassName, fieldName }) => <BlogInput
+        {LOGIN_FIELDS.map(({
+                               className,
+                               type,
+                               placeholder,
+                               iconClassName,
+                               fieldName,
+                               keyword,
+                               optional = () => undefined
+        }) => <BlogInput
             key={fieldName}
             className={className}
-            inputProps={{ type: type, placeholder: placeholder }}
+            inputProps={{ type: type, placeholder: placeholder, ...register(fieldName, optional(watch())) }}
             iconClassName={iconClassName}
+            errors={errors}
+            fieldName={fieldName}
+            keyword={keyword}
         />)}
-        <button>立即登录</button>
+        <button onClick={handleSubmit(login)}>立即登录</button>
     </>
 }
 
 const RegisterBox = () => {
     const { register, watch, handleSubmit, formState: { errors } } = useForm()
     const registerUser = (data: any) => {
-        console.log('current user info: ', data, ', and errors is: ', errors)
+        console.log('current register user info is: ', data)
     }
-    console.log(errors)
 
     return <>
-        {REGISTER_FIELDS.map(({ keyword, className, type, placeholder, iconClassName, optional = () => undefined, children, fieldName }) => <BlogInput
+        {REGISTER_FIELDS.map(({
+                                  keyword,
+                                  className,
+                                  type,
+                                  placeholder,
+                                  iconClassName,
+                                  optional = () => undefined,
+                                  children,
+                                  fieldName
+        }) => <BlogInput
             key={fieldName}
             className={className}
             inputProps={{
@@ -178,6 +219,9 @@ const RegisterBox = () => {
                 placeholder: placeholder,
                 ...register(fieldName, optional(watch()))
             }}
+            keyword={keyword}
+            errors={errors}
+            fieldName={fieldName}
             iconClassName={iconClassName}
             children={children}
         />)}

@@ -1,6 +1,7 @@
 /// <reference types="react-scripts" />
 declare module '*.tsx'
 declare module '*.ts'
+declare module '*.js'
 declare module '*.svg'
 declare module '*.png'
 declare module "*.module.less" {

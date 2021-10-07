@@ -7,7 +7,7 @@ import styles from './index.module.less'
 import pics from './biyingPic.json'
 
 const BiYing = () => {
-    const [pictures, setPictures] = useState(pics)
+    const [pictures] = useState(pics)
     const topTwo = pictures.slice(0, 2)
     const renderItems = pictures.slice(2)
 
@@ -29,7 +29,7 @@ const BiYing = () => {
             <div className={`${styles.pic_container}`}>
                 <div className='clearfix'>
                     {renderItems.map(pic => <div key={pic._id} className={styles.pic_item}>
-                        <a href="javascript:void(0)">
+                        <a href="https://twitter.com">
                             <div className={styles.item_top}>
                                 <LazyImg url={previewImgURL(pic)}/>
                             </div>

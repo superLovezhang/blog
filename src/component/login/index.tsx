@@ -1,8 +1,9 @@
 import { FC, ReactElement, useState } from "react"
 import { useForm } from 'react-hook-form'
-import styles from './index.module.less'
 import { RegisterOptions } from "react-hook-form/dist/types/validator"
-import {FieldError} from "react-hook-form/dist/types/errors";
+import { FieldError } from "react-hook-form/dist/types/errors"
+
+import styles from './index.module.less'
 
 interface Field {
     className?: string

@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState } from "react"
+import {FC, ReactElement, useEffect, useState} from "react"
 import { useForm } from 'react-hook-form'
 import { RegisterOptions } from "react-hook-form/dist/types/validator"
 import { FieldError } from "react-hook-form/dist/types/errors"
@@ -15,7 +15,6 @@ interface Field {
     optional?: (fields: any) => RegisterOptions
     children?: ReactElement
 }
-
 const LOGIN_FIELDS: Field[] = [
     {
         className: styles.login_input,
@@ -169,8 +168,9 @@ const BlogInput: FC<BlogInputProps> = ({
 
 const LoginBox = () => {
     const { handleSubmit, register, watch, formState: { errors } } = useForm()
-    const login = (data: any) => {
-        console.log(data)
+
+    const login = (params: any) => {
+        console.log(params, 'params is')
     }
 
     return <>

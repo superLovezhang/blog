@@ -1,10 +1,14 @@
 import request from '@/util/request.js'
 
-export const login = (email: string, password: string) => request.get('/user/login', { params: { email, password }})
-interface userDTO {
+export declare type LoginParams = {
+    email: string,
+    password: string
+}
+export const login = (params: LoginParams) => request.get('/user/login', { params })
+export declare type UserDTO = {
     email: string
     username: string
     password: string
     verifyCode: string
 }
-export const register = (data: userDTO) => request.put('/user/login', { data })
+export const register = (data: UserDTO) => request.put('/user/login', { data })

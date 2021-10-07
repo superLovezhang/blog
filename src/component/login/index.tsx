@@ -1,9 +1,11 @@
-import {FC, ReactElement, useEffect, useState} from "react"
+import {ComponentProps, FC, ReactElement, useState} from "react"
 import { useForm } from 'react-hook-form'
 import { RegisterOptions } from "react-hook-form/dist/types/validator"
 import { FieldError } from "react-hook-form/dist/types/errors"
 
+import { login, register } from '../../api/user'
 import styles from './index.module.less'
+import {isSuccessful} from "../../util/util";
 
 interface Field {
     className?: string
@@ -119,7 +121,7 @@ const Login: FC<LoginProps> = ({ visible, setVisible }) => {
                     <i className='iconfont icon-cancel' onClick={() => setVisible?.(false)}/>
                 </div>
                 <div className={styles.modal}>
-                {isLogin ? <LoginBox/> : <RegisterBox/>}
+                {isLogin ? <LoginBox closeLoginModal={() => setVisible?.(false)}/> : <RegisterBox/>}
                 </div>
             </div>
         </div>
@@ -166,11 +168,27 @@ const BlogInput: FC<BlogInputProps> = ({
     </div>
 }
 
-const LoginBox = () => {
+interface LoginBoxProps {
+    closeLoginModal: () => void
+}
+const LoginBox: FC<LoginBoxProps> = ({ closeLoginModal }) => {
     const { handleSubmit, register, watch, formState: { errors } } = useForm()
 
-    const login = (params: any) => {
-        console.log(params, 'params is')
+    const loginUser = (params: any) => {
+        login(params)
+            .then((res: any) => {
+                const { message, data: { token, user } } = res
+                console.log('current res is: ', res)
+                if (isSuccessful(res)) {
+                    window.localStorage.setItem('user', JSON.stringify(user))
+                    window.localStorage.setItem('token', token)
+                    alert('登陆成功')
+                    closeLoginModal?.()
+                } else {
+                    alert(message)
+                }
+            })
+            .catch((err: any) => alert(err))
     }
 
     return <>
@@ -191,7 +209,7 @@ const LoginBox = () => {
             fieldName={fieldName}
             keyword={keyword}
         />)}
-        <button onClick={handleSubmit(login)}>立即登录</button>
+        <button onClick={handleSubmit(loginUser)}>立即登录</button>
     </>
 }
 

@@ -21,3 +21,9 @@ export const currentMomentObj = (): {
         day: date.getDate()
     }
 }
+interface Response {
+    code: number
+    message: string
+    data: { [key: string]: any }
+}
+export const isSuccessful = (res: Partial<Response>) => res.code === 1000

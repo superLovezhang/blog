@@ -9,7 +9,7 @@ import styles from './index.module.less'
 
 const Header = () => {
     const [dropDownVisible, setDropDownVisible] = useState(false)
-    const [user] = useState(JSON.parse(localStorage.getItem('user') || '{}'))
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user') || '{}'))
     const [loginVisible, setLoginVisible] = useState(false)
     const history = useHistory()
     const [theme, toggleTheme, setStorageTheme] = useTheme()
@@ -18,11 +18,23 @@ const Header = () => {
         'icon-sunny-sharp': theme === 'light',
         'icon-Moon': theme !== 'light'
     }), [theme])
+    const logout = () => {
+        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('user')
+        setUser({})
+        alert('登出成功')
+    }
 
     useEffect(() => {
         setStorageTheme()
         // eslint-disable-next-line
     }, [])
+    useEffect(() => {
+        const localStorageUser = localStorage.getItem('user')
+        if (!!localStorageUser && localStorageUser.toString() !== '{}') {
+            setUser(localStorageUser)
+        }
+    })
 
     return <div className={styles.header}>
         <div className={styles.header_wrap}>
@@ -82,7 +94,7 @@ const Header = () => {
                 <div className={styles.setting_item + ' cursor_pointer'}>
                     个人设置
                 </div>
-                <div className={styles.setting_item + ' cursor_pointer'}>
+                <div className={styles.setting_item + ' cursor_pointer'} onClick={logout}>
                     退出
                 </div>
             </div>}

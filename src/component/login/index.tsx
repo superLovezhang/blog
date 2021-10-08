@@ -1,9 +1,9 @@
-import {ComponentProps, FC, ReactElement, useState} from "react"
+import { FC, ReactElement, useState } from "react"
 import { useForm } from 'react-hook-form'
 import { RegisterOptions } from "react-hook-form/dist/types/validator"
 import { FieldError } from "react-hook-form/dist/types/errors"
 
-import { login, register } from '../../api/user'
+import { login, register as registerApi } from '../../api/user'
 import styles from './index.module.less'
 import {isSuccessful} from "../../util/util";
 
@@ -121,7 +121,7 @@ const Login: FC<LoginProps> = ({ visible, setVisible }) => {
                     <i className='iconfont icon-cancel' onClick={() => setVisible?.(false)}/>
                 </div>
                 <div className={styles.modal}>
-                {isLogin ? <LoginBox closeLoginModal={() => setVisible?.(false)}/> : <RegisterBox/>}
+                {isLogin ? <LoginBox/> : <RegisterBox switchBox={() => setIsLogin(true)}/>}
                 </div>
             </div>
         </div>
@@ -169,9 +169,8 @@ const BlogInput: FC<BlogInputProps> = ({
 }
 
 interface LoginBoxProps {
-    closeLoginModal: () => void
 }
-const LoginBox: FC<LoginBoxProps> = ({ closeLoginModal }) => {
+const LoginBox: FC<LoginBoxProps> = () => {
     const { handleSubmit, register, watch, formState: { errors } } = useForm()
 
     const loginUser = (params: any) => {
@@ -183,7 +182,7 @@ const LoginBox: FC<LoginBoxProps> = ({ closeLoginModal }) => {
                     window.localStorage.setItem('user', JSON.stringify(user))
                     window.localStorage.setItem('token', token)
                     alert('登陆成功')
-                    closeLoginModal?.()
+                    window.location.reload()
                 } else {
                     alert(message)
                 }
@@ -213,10 +212,24 @@ const LoginBox: FC<LoginBoxProps> = ({ closeLoginModal }) => {
     </>
 }
 
-const RegisterBox = () => {
-    const { register, watch, handleSubmit, formState: { errors } } = useForm()
+interface RegisterBoxProps {
+    switchBox: () => void
+}
+const RegisterBox: FC<RegisterBoxProps> = ({ switchBox }) => {
+    const { register, watch, handleSubmit, reset, formState: { errors } } = useForm()
     const registerUser = (data: any) => {
         console.log('current register user info is: ', data)
+        registerApi(data)
+            .then((res: any) => {
+                if (isSuccessful(res)) {
+                    alert('注册成功')
+                    reset()
+                    switchBox()
+                } else {
+                    alert(res.message)
+                }
+            })
+            .catch((err: any) => console.log(err))
     }
 
     return <>

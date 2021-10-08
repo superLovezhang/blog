@@ -11,4 +11,4 @@ export declare type UserDTO = {
     password: string
     verifyCode: string
 }
-export const register = (data: UserDTO) => request.put('/user/login', { data })
+export const register = (data: UserDTO) => request.put('/user/register', data)

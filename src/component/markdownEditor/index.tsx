@@ -4,6 +4,7 @@ import MdEditor from 'react-markdown-editor-lite'
 import hljs from 'highlight.js'
 import 'react-markdown-editor-lite/lib/index.css'
 
+import { uploadFile } from '../../api/ossService'
 import './index.module.less'
 
 const md: MarkdownIt = new MarkdownIt({
@@ -36,12 +37,13 @@ const MarkdownEditor: FC<MarkdownEditorProps> = ({
                                                      value
 }) => {
     const onImageUpload = (file: File) => new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = (data: any) => {
-            resolve(data.target.result);
-        };
-        reader.readAsDataURL(file);
-    });
+        uploadFile(file)
+            .then(url => resolve(url))
+            .catch(err => {
+                console.log(err)
+                alert(err)
+            })
+    })
     const onChange = ({ text, html }:  {
         text: string;
         html: string;

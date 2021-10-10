@@ -21,8 +21,6 @@ const md: MarkdownIt = new MarkdownIt({
     }
 })
 
-console.log(md.parse('<h1>我们是冠军</h1>', ''))
-
 interface MarkdownEditorProps {
     setMdContent: (content: string) => void
     setHtmlContent?: (content: string) => void

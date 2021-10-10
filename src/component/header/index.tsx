@@ -32,13 +32,6 @@ const Header = () => {
         // eslint-disable-next-line
     }, [])
 
-    /*
-    * const localStorageUser = localStorage.getItem('user')
-        if (!!localStorageUser && localStorageUser !== '{}') {
-            setUser(localStorageUser)
-        }
-    * */
-
     return <div className={styles.header}>
         <div className={styles.header_wrap}>
             <div className={styles.left_side}>

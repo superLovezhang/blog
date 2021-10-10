@@ -105,3 +105,21 @@ a {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.hljs,
+.hljs code {
+  color: #fff!important;
+  background-color: #282c34!important;
+}
+.hljs {
+  padding: 16px!important;
+}
+.hljs::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  display: block;
+  border-radius: 50%;
+  background-color: #ec6a5e;
+  margin: 5px;
+  box-shadow: 20px 0 0 0 #f4be4f, 40px 0 0 0 #61c454;
+}

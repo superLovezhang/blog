@@ -1,11 +1,27 @@
 import React, { FC } from 'react'
 import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
+import hljs from 'highlight.js'
 import 'react-markdown-editor-lite/lib/index.css'
 
 import './index.module.less'
 
-const mdParser = new MarkdownIt()
+const md: MarkdownIt = new MarkdownIt({
+    highlight: function (str: string, lang: string) {
+        if (lang && hljs.getLanguage(lang)) {
+            console.log('current language is: ' + lang, '\nand the content is: ', str, '\nthe compiled content is: ', hljs.highlight(str, { language: lang, ignoreIllegals: true }).value)
+            try {
+                return '<pre class="hljs"><code>' +
+                    hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+                    '</code></pre>';
+            } catch (__) {}
+        }
+
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+    }
+})
+
+console.log(md.parse('<h1>我们是冠军</h1>', ''))
 
 interface MarkdownEditorProps {
     setMdContent: (content: string) => void
@@ -21,7 +37,13 @@ const MarkdownEditor: FC<MarkdownEditorProps> = ({
                                                      placeholder = '请输入内容',
                                                      value
 }) => {
-    // const onImageUpload = (file: File) => {}
+    const onImageUpload = (file: File) => new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = (data: any) => {
+            resolve(data.target.result);
+        };
+        reader.readAsDataURL(file);
+    });
     const onChange = ({ text, html }:  {
         text: string;
         html: string;
@@ -35,7 +57,8 @@ const MarkdownEditor: FC<MarkdownEditorProps> = ({
         shortcuts
         placeholder={placeholder}
         value={value}
-        renderHTML={(text) => mdParser.render(text)}
+        onImageUpload={onImageUpload}
+        renderHTML={(text) => md.render(text)}
         onChange={onChange}
     />
 }

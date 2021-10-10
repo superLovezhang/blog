@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import 'highlight.js/styles/atom-one-dark.css'
 
 import App from './App'
 import './momentLocale'

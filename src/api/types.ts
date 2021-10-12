@@ -52,3 +52,20 @@ export interface ArticleVO {
     createTime: string
     updateTime: string
 }
+export interface Category {
+    categoryId: number
+    categoryName: string
+    iconClass: string
+    show: boolean
+    state: boolean
+    updateTime: string
+    createTime: string
+}
+export interface Label {
+    labelId: number
+    labelName: string
+    iconClass: string
+    state: boolean
+    updateTime: string
+    createTime: string
+}

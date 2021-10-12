@@ -6,7 +6,7 @@ import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 
 import { articleList } from '../../api/article'
 import { className } from '@/util/util.ts'
-import {ArticlePage, ArticleVO} from "../../api/types"
+import { ArticlePage, ArticleVO } from "../../api/types"
 
 import styles from './index.module.less'
 
@@ -23,13 +23,13 @@ const Home = () => {
 
     useEffect(() => {
         articleList(queryParams)
-            .then(({ data }) => {
-                setArticles(data ?? [])
+            .then(({ data: { records } }) => {
+                setArticles(records ?? [])
             })
     }, [queryParams])
 
     return <div className={styles.home_wrap}>
-        <Category/>
+        <Category changeQueryParams={(params: Partial<ArticlePage>) => setQueryParams({ ...queryParams, ...params })}/>
         <div className={styles.article_box}>
             <div className={styles.sort_top}>
                 <span className={'cursor_pointer active'}>最新</span>
@@ -48,9 +48,9 @@ const Home = () => {
                 >
                     <h3 className={styles.article_title}>{article.articleName}</h3>
                     <div className={articleItemClassName}>
-                        <div className={styles.summary_img}>
+                        {article.cover && <div className={styles.summary_img}>
                             <img src={article.cover} alt={article.articleName}/>
-                        </div>
+                        </div>}
                         <div className={styles.summary_text}>
                             <span>{article.previewContent}</span>
                         </div>

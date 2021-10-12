@@ -1,13 +1,18 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import { useHistory } from 'react-router-dom'
 
 import Category from "@/component/category/index.tsx"
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 
+import { articleList } from '../../api/article'
 import { className } from '@/util/util.ts'
+import {ArticlePage, ArticleVO} from "../../api/types"
+
 import styles from './index.module.less'
 
 const Home = () => {
+    const [articles, setArticles] = useState([])
+    const [queryParams, setQueryParams] = useState<ArticlePage | undefined>()
     const history = useHistory()
     const [plainTextLayout, setPlainTextLayout] = useState(false)
     const articleItemClassName = className({
@@ -15,6 +20,13 @@ const Home = () => {
         [styles.article_card]: !plainTextLayout,
         [styles.article_text]: plainTextLayout
     })
+
+    useEffect(() => {
+        articleList(queryParams)
+            .then(({ data }) => {
+                setArticles(data ?? [])
+            })
+    }, [queryParams])
 
     return <div className={styles.home_wrap}>
         <Category/>
@@ -29,40 +41,35 @@ const Home = () => {
                 </div>
             </div>
             <div className={styles.article_list}>
-                {/*@ts-ignore*/}
-                {[...new Array(5).keys()].map(index => <div
+                {articles.map((article: ArticleVO) => <div
                     className={styles.article_item}
-                    key={index}
-                    onClick={() => history.push('/article/1')}
+                    key={article.articleId}
+                    onClick={() => history.push(`/article/${article.articleId}`)}
                 >
-                    <h3 className={styles.article_title}>字符串的新增方法</h3>
+                    <h3 className={styles.article_title}>{article.articleName}</h3>
                     <div className={articleItemClassName}>
                         <div className={styles.summary_img}>
-                            <img src="https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/images/2021/09/1631063241435.png?x-oss-process=image/resize,limit_0,m_fill,w_170,h_100/quality,q_100" alt=""/>
+                            <img src={article.cover} alt={article.articleName}/>
                         </div>
                         <div className={styles.summary_text}>
-                            <span>uxt作为vue生态系统里最著名的后端渲染框架，在vue3正式发布已经大半年了还没有发布测试版，最近看到uxt的作
-                            者们在Twitter上宣传uxt3即将发布。我已经迫不及待的找到了uxt3的m包，下载下来发现已经可以运行起
-                            uxt作为vue生态系统里最著名的后端渲染框架，在vue3正式发布已经大半年了还没有发布测试版，最近看到uxt的作者们在Twitter上宣传uxt3即将发布。
-                            我已经迫不及待的找到了uxt3的m包，下载下来发现已经可以运行起
-                        </span>
+                            <span>{article.previewContent}</span>
                         </div>
                     </div>
                     <div className={styles.article_info}>
                         <div className={styles.info_item}>
                             <i className="iconfont icon-like-fill"></i>
-                            <span>0 点赞</span>
+                            <span>{article.like} 点赞</span>
                         </div>
                         <div className={styles.info_item}>
                             <i className="iconfont icon-comment_fill_light"></i>
-                            <span>0 条留言</span>
+                            <span>{article.like} 条留言</span>
                         </div>
                         <div className={styles.info_item}>
                             <i className="iconfont icon-yueduliang"></i>
-                            <span>23 人阅读</span>
+                            <span>{article.viewCount} 人阅读</span>
                         </div>
                         <div className={styles.info_item}>
-                            <span>1天前</span>
+                            <span>{article.createTime}</span>
                         </div>
                     </div>
                 </div>)}

@@ -8,27 +8,27 @@ const Category: FC = () => {
         </div>
         <div className={`${styles.category_list} ${styles.list}`}>
             <div className={`${styles.category_item} ${styles.item}`}>
-                <i className={'iconfont icon-biaoqiankuozhan_tuijian-126'}></i>
+                <i className={'iconfont icon-biaoqiankuozhan_tuijian-126'}/>
                 <span>推荐</span>
             </div>
             <div className={`${styles.category_item} ${styles.item}`}>
-                <i className={'iconfont icon-zixunzhongxin'}></i>
+                <i className={'iconfont icon-zixunzhongxin'}/>
                 <span>资讯</span>
             </div>
             <div className={`${styles.category_item} ${styles.item}`}>
-                <i className={'iconfont icon-_qianduankaifa'}></i>
+                <i className={'iconfont icon-_qianduankaifa'}/>
                 <span>前端</span>
             </div>
             <div className={`${styles.category_item} ${styles.item}`}>
-                <i className={'iconfont icon-code'}></i>
+                <i className={'iconfont icon-code'}/>
                 <span>后端</span>
             </div>
             <div className={`${styles.category_item} ${styles.item}`}>
-                <i className={'iconfont icon-dengpao'}></i>
+                <i className={'iconfont icon-dengpao'}/>
                 <span>人生感悟</span>
             </div>
             <div className={`${styles.category_item} ${styles.item}`}>
-                <i className={'iconfont icon-wodewenzhang'}></i>
+                <i className={'iconfont icon-wodewenzhang'}/>
                 <span>阅读</span>
             </div>
         </div>

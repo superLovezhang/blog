@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react"
 import { useHistory } from 'react-router-dom'
+import moment from "moment"
 
 import Category from "@/component/category/index.tsx"
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
@@ -21,6 +22,10 @@ const Home = () => {
         [styles.article_text]: plainTextLayout
     })
 
+    const changeQueryParams = (params: Partial<ArticlePage>) => {
+        console.log({ ...queryParams, ...params })
+        setQueryParams({ ...queryParams, ...params })
+    }
     useEffect(() => {
         articleList(queryParams)
             .then(({ data: { records } }) => {
@@ -29,7 +34,7 @@ const Home = () => {
     }, [queryParams])
 
     return <div className={styles.home_wrap}>
-        <Category changeQueryParams={(params: Partial<ArticlePage>) => setQueryParams({ ...queryParams, ...params })}/>
+        <Category changeQueryParams={changeQueryParams}/>
         <div className={styles.article_box}>
             <div className={styles.sort_top}>
                 <span className={'cursor_pointer active'}>最新</span>
@@ -57,19 +62,19 @@ const Home = () => {
                     </div>
                     <div className={styles.article_info}>
                         <div className={styles.info_item}>
-                            <i className="iconfont icon-like-fill"></i>
-                            <span>{article.like} 点赞</span>
+                            <i className="iconfont icon-like-fill"/>
+                            <span>{article.likes} 点赞</span>
                         </div>
                         <div className={styles.info_item}>
-                            <i className="iconfont icon-comment_fill_light"></i>
-                            <span>{article.like} 条留言</span>
+                            <i className="iconfont icon-comment_fill_light"/>
+                            <span>{article.commentCount} 条留言</span>
                         </div>
                         <div className={styles.info_item}>
-                            <i className="iconfont icon-yueduliang"></i>
+                            <i className="iconfont icon-yueduliang"/>
                             <span>{article.viewCount} 人阅读</span>
                         </div>
                         <div className={styles.info_item}>
-                            <span>{article.createTime}</span>
+                            <span>{moment(article.createTime).fromNow()}</span>
                         </div>
                     </div>
                 </div>)}

@@ -32,7 +32,7 @@ export interface Article {
     articleType: string
     categoryId: number
     viewCount: number
-    like: number
+    likes: number
     state: boolean
     createTime: string
     updateTime: string
@@ -48,7 +48,8 @@ export interface ArticleVO {
     articleType: string
     categoryId: number
     viewCount: number
-    like: number
+    commentCount: number
+    likes: number
     createTime: string
     updateTime: string
 }

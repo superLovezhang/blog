@@ -1,26 +1,12 @@
 import React, { FC } from 'react'
-import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
-import hljs from 'highlight.js'
 import 'react-markdown-editor-lite/lib/index.css'
 
+import { MarkdownParser } from "../../util/util"
 import { uploadFile } from '../../api/ossService'
 import './index.module.less'
 
-const md: MarkdownIt = new MarkdownIt({
-    highlight: function (str: string, lang: string) {
-        if (lang && hljs.getLanguage(lang)) {
-            console.log('current language is: ' + lang, '\nand the content is: ', str, '\nthe compiled content is: ', hljs.highlight(str, { language: lang, ignoreIllegals: true }).value)
-            try {
-                return '<pre class="hljs"><code>' +
-                    hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
-                    '</code></pre>';
-            } catch (__) {}
-        }
 
-        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
-    }
-})
 
 interface MarkdownEditorProps {
     setMdContent: (content: string) => void
@@ -58,7 +44,7 @@ const MarkdownEditor: FC<MarkdownEditorProps> = ({
         placeholder={placeholder}
         value={value}
         onImageUpload={onImageUpload}
-        renderHTML={(text) => md.render(text)}
+        renderHTML={(text) => MarkdownParser.render(text)}
         onChange={onChange}
     />
 }

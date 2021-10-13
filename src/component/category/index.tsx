@@ -30,7 +30,7 @@ const Category: FC<CategoryProps> = ({ changeQueryParams }) => {
         </div>
         <div className={`${styles.category_list} ${styles.list}`}>
             <div
-                onClick={() => changeQueryParams({ labelId: undefined })}
+                onClick={() => changeQueryParams({ categoryId: undefined })}
                 className={`${styles.category_item} ${styles.item}`}
             >
                 <i className={'iconfont icon-biaoqiankuozhan_tuijian-126'}/>
@@ -47,6 +47,7 @@ const Category: FC<CategoryProps> = ({ changeQueryParams }) => {
         </div>
         <div className={`${styles.tag_list} ${styles.list}`}>
             {labels.map((label: Label) => <div
+                key={label.labelId}
                 onClick={() => changeQueryParams({ labelId: label.labelId })}
                 className={`${styles.tag_item} ${styles.item}`}
             >

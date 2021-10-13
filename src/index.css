@@ -112,6 +112,7 @@ a {
 }
 .hljs {
   padding: 16px!important;
+  border-radius: 5px!important;
 }
 .hljs::before {
   content: "";

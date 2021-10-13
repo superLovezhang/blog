@@ -26,8 +26,8 @@ export const uploadFile = (file) => {
    return new Promise((resolve, reject) => ossClient()
        .then(client => {
            let moment = currentMomentObj()
-           const previewUrl = `https://${ALIYUN_DOMAIN}/${moment.year}/${moment.month}/${moment.day}/${file.name}`
-           client.put(`${moment.year}/${moment.month}/${moment.day}/${file.name}`, file)
+           const previewUrl = `https://${ALIYUN_DOMAIN}/${moment.year}/${moment.month}/${moment.day}/${moment.timestamp}${file.name}`
+           client.put(`${moment.year}/${moment.month}/${moment.day}/${moment.timestamp}${file.name}`, file)
                .then(r => resolve(previewUrl))
                .catch(e => reject(e));
        })

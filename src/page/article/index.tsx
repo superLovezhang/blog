@@ -37,8 +37,8 @@ const Article: FC<ArticleProps> = () => {
                     <div className={styles.article_info_bottom}>
                         <div className={styles.article_data}>
                             <div className={styles.author}>
-                                <img src="https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/avatar/60497771cc5eb351949ed4d8-1630921219218.jpg?x-oss-process=image/resize,limit_0,m_fill,w_30,h_30/quality,q_100" alt=""/>
-                                <span>管理员</span>
+                                <img src={article.user.avatar} alt=""/>
+                                <span>{article.user.username}</span>
                             </div>
                             <div className={styles.detail_info}>
                                 <div className={styles.info_item}>{article.viewCount}阅读</div>
@@ -51,7 +51,7 @@ const Article: FC<ArticleProps> = () => {
                 </div>
                 <div className={styles.article_content} dangerouslySetInnerHTML={{ __html: article.content }}>
                 </div>
-            </> : <Loading/>}
+            </> : <div className={styles.loading_wrap}><Loading/></div>}
             <div className={styles.article_publish_comment}>
                 <PublishComment/>
             </div>

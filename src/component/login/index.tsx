@@ -1,11 +1,12 @@
-import { FC, ReactElement, useState } from "react"
+import {FC, ReactElement, useContext, useState} from "react"
 import { useForm } from 'react-hook-form'
 import { RegisterOptions } from "react-hook-form/dist/types/validator"
 import { FieldError } from "react-hook-form/dist/types/errors"
 
-import { login, register as registerApi } from '../../api/user'
+import { login as loginApi, register as registerApi } from '../../api/user'
+import { blogContext } from "../../store"
+import { isSuccessful } from "../../util/util"
 import styles from './index.module.less'
-import {isSuccessful} from "../../util/util";
 
 interface Field {
     className?: string
@@ -100,13 +101,12 @@ const REGISTER_FIELDS: Field[] = [
 ]
 
 interface LoginProps {
-    visible?: boolean
-    setVisible?: (visible: boolean) => void
 }
-const Login: FC<LoginProps> = ({ visible, setVisible }) => {
+const Login: FC<LoginProps> = () => {
     const [isLogin, setIsLogin] = useState(true)
+    const { state: { loginVisible }, dispatch } = useContext(blogContext)
 
-    if (visible) {
+    if (loginVisible) {
         return <div className={styles.login_wrap}>
             <div className={styles.login_box}>
                 <div className={`${styles.switch_modal} clearfix`}>
@@ -118,7 +118,7 @@ const Login: FC<LoginProps> = ({ visible, setVisible }) => {
                         className={`${styles.switch_item} ${!isLogin && styles.active}`}
                         onClick={() => setIsLogin(false)}
                     >新用户注册</div>
-                    <i className='iconfont icon-cancel' onClick={() => setVisible?.(false)}/>
+                    <i className='iconfont icon-cancel' onClick={() => dispatch({ type: 'CLOSE_LOGIN'})}/>
                 </div>
                 <div className={styles.modal}>
                 {isLogin ? <LoginBox/> : <RegisterBox switchBox={() => setIsLogin(true)}/>}
@@ -171,18 +171,16 @@ const BlogInput: FC<BlogInputProps> = ({
 interface LoginBoxProps {
 }
 const LoginBox: FC<LoginBoxProps> = () => {
+    const { dispatch } = useContext(blogContext)
     const { handleSubmit, register, watch, formState: { errors } } = useForm()
 
     const loginUser = (params: any) => {
-        login(params)
+        loginApi(params)
             .then((res: any) => {
                 const { message, data: { token, user } } = res
                 console.log('current res is: ', res)
                 if (isSuccessful(res)) {
-                    window.localStorage.setItem('user', JSON.stringify(user))
-                    window.localStorage.setItem('token', token)
-                    alert('登陆成功')
-                    window.location.reload()
+                    dispatch({ type: 'LOGIN', payload: { user, token } })
                 } else {
                     alert(message)
                 }

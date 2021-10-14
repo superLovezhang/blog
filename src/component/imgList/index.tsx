@@ -2,18 +2,22 @@ import React, { FC, useEffect, useRef, useState } from "react"
 
 import { IMG_EXTENSIONS } from '@/util/constant.ts'
 import { getFileExtension } from '@/util/util.ts'
+import { Img } from "../../api/types"
 import styles from "./index.module.less"
 
-export interface Img {
-    base64URL: string
-    url: string
-}
+
 interface ImgListProps {
     observeImgChange?: (imgList: Img[]) => void
     initialFile?: File
     hideWhenFilesEmpty?: boolean
+    maxLength?: number
 }
-const ImgList: FC<ImgListProps> = ({ observeImgChange, initialFile, hideWhenFilesEmpty }) => {
+const ImgList: FC<ImgListProps> = ({
+                                       observeImgChange,
+                                       initialFile,
+                                       hideWhenFilesEmpty ,
+                                       maxLength
+}) => {
     const fileRef = useRef<null | HTMLInputElement>(null)
     const [imgList, setImgList] = useState<Img[]>([])
 
@@ -31,6 +35,9 @@ const ImgList: FC<ImgListProps> = ({ observeImgChange, initialFile, hideWhenFile
     const addImgs = (file: File | undefined) => {
         if (!file || !verifyImgFiles(file)) {
             return alert('图片不正确')
+        }
+        if (maxLength && imgList.length > maxLength) {
+            return alert(`抱歉，评论最多一次只能上传${maxLength}张图片`)
         }
         uploadFile(file)
     }

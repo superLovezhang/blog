@@ -21,6 +21,7 @@ request.interceptors.response.use(function (response) {
     if (data.code !== 1000) {
         if (data.code === 2002 || data.code === 2001) {
             window.localStorage.removeItem('token')
+            window.localStorage.removeItem('user')
             window.location.href = '/login'
         }
         return Promise.reject(data.message)

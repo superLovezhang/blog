@@ -70,3 +70,23 @@ export interface Label {
     updateTime: string
     createTime: string
 }
+export interface CommentDTO {
+    content: string
+    pics?: string
+    parentId?: number
+    replyId?: number
+    articleId?: number
+}
+export interface CommentVO {
+    content: string
+    pics: string[]
+    user: UserVO
+    replyComment: CommentVO
+    like: number
+    createTime: string
+    updateTime: string
+}
+export interface Img {
+    base64URL: string
+    url: string
+}

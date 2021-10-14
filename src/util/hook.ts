@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
+import { objectIsNull } from "./util"
 
 export const useTheme: () => [string, () => void, () => void] = () => {
     const [theme, setTheme] = useState<string>(window.localStorage.getItem("theme") ?? 'light')
@@ -31,4 +32,20 @@ export const useScroll = () => {
     }, [])
 
     return visible
+}
+export const useUser = () => {
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user') || '{}'))
+    const logout = () => {
+        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('user')
+        setUser({})
+        alert('登出成功')
+    }
+    const login = (user: any = {}, token: string) => {
+        window.localStorage.setItem('user', JSON.stringify(user))
+        window.localStorage.setItem('token', token)
+        alert('登陆成功')
+        window.location.reload()
+    }
+    return [user, login, logout, !objectIsNull(user)]
 }

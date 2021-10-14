@@ -15,11 +15,12 @@ import styles from './index.module.less'
 
 interface ArticleProps {}
 const Article: FC<ArticleProps> = () => {
-    const params = useParams<{ id: string}>()
+    const { id } = useParams<{ id: string}>()
     const [article, setArticle] = useState<ArticleVO>()
+    const articleId = parseInt(id)
     useEffect(() => {
-        if (params.id) {
-            detail(parseInt(params.id))
+        if (articleId) {
+            detail(articleId)
                 .then(({ data }) => {
                     setArticle(data)
                 })
@@ -29,7 +30,7 @@ const Article: FC<ArticleProps> = () => {
 
 
     return <div className={styles.article_detail_wrap}>
-        <Share/>
+        <Share articleId={articleId}/>
         <div className={styles.article_detail}>
             {article ? <>
                 <div className={styles.article_info}>
@@ -53,7 +54,7 @@ const Article: FC<ArticleProps> = () => {
                 </div>
             </> : <div className={styles.loading_wrap}><Loading/></div>}
             <div className={styles.article_publish_comment}>
-                <PublishComment/>
+                <PublishComment articleId={id}/>
             </div>
             <div className={styles.article_comments}>
                 <ArticleComment/>

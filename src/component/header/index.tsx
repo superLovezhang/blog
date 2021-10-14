@@ -11,7 +11,6 @@ import styles from './index.module.less'
 const Header = () => {
     const { state, dispatch } = useContext(blogContext)
     const [dropDownVisible, setDropDownVisible] = useState(false)
-    const [loginVisible, setLoginVisible] = useState(false)
     const history = useHistory()
     const [theme, toggleTheme, setStorageTheme] = useTheme()
     const { user }: { user: any } = state
@@ -58,7 +57,7 @@ const Header = () => {
                     </div>
                     {objectIsNull(user) ? <div
                         className={styles.login}
-                        onClick={() => setLoginVisible(true)}
+                        onClick={() => dispatch({ type: 'OPEN_LOGIN'})}
                     >登录/注册</div> : <div
                         className={styles.user_avatar + ' cursor_pointer'}
                         onMouseEnter={() => setDropDownVisible(true)}
@@ -89,7 +88,7 @@ const Header = () => {
                     退出
                 </div>
             </div>}
-            <Login visible={loginVisible} setVisible={setLoginVisible}/>
+            <Login/>
         </div>
     </div>
 }

@@ -6,21 +6,20 @@ import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 import Share from "@/component/share/index.tsx"
 import PublishComment from "@/component/publishComment/index.tsx"
 import Loading from "@/component/loading/index.tsx"
-import ArticleComment from "./articleComment/index.tsx"
 
 import { detail } from '../../api/article'
 import { ArticleVO } from '../../api/types'
 
 import styles from './index.module.less'
+import CommentList from "../../component/commentList";
 
 interface ArticleProps {}
 const Article: FC<ArticleProps> = () => {
     const { id } = useParams<{ id: string}>()
     const [article, setArticle] = useState<ArticleVO>()
-    const articleId = parseInt(id)
     useEffect(() => {
-        if (articleId) {
-            detail(articleId)
+        if (id) {
+            detail(id)
                 .then(({ data }) => {
                     setArticle(data)
                 })
@@ -30,7 +29,7 @@ const Article: FC<ArticleProps> = () => {
 
 
     return <div className={styles.article_detail_wrap}>
-        <Share articleId={articleId}/>
+        <Share articleId={id}/>
         <div className={styles.article_detail}>
             {article ? <>
                 <div className={styles.article_info}>
@@ -57,7 +56,7 @@ const Article: FC<ArticleProps> = () => {
                 <PublishComment articleId={id}/>
             </div>
             <div className={styles.article_comments}>
-                <ArticleComment/>
+                <CommentList articleId={id}/>
             </div>
         </div>
         <ArticleShortcut/>

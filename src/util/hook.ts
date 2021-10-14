@@ -1,5 +1,8 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
+import { blogContext } from "../store"
 import { objectIsNull } from "./util"
+import { CommentDTO } from "../api/types"
+import { comment as commentAPI, like as likeAPI } from "../api/comment"
 
 export const useTheme: () => [string, () => void, () => void] = () => {
     const [theme, setTheme] = useState<string>(window.localStorage.getItem("theme") ?? 'light')
@@ -32,4 +35,36 @@ export const useScroll = () => {
     }, [])
 
     return visible
+}
+export const usePagination = (size: number = 10) => {
+    const [pagination, setPagination] = useState({ page: 1, size })
+    const nextPage = () => setPagination({ ...pagination, page: pagination.page + 1 })
+    return [pagination, nextPage]
+}
+export const useComment: () => [string, (s: string) => void, (params: Partial<CommentDTO>, ) => void, (commentId: string) => void] =
+    () => {
+    const [comment, setComment] = useState('')
+    const { state: { user }, dispatch } = useContext(blogContext)
+
+    const publishComment = (params: Partial<CommentDTO>) => {
+        if (objectIsNull(user)) {
+            dispatch({ type: 'OPEN_LOGIN' })
+            return
+        }
+        if (comment.length === 0) {
+            alert('请输入评论内容')
+            return
+        }
+        commentAPI({ ...params, content: comment})
+            .then(res => {
+                alert('刷新一下')
+                setComment('')
+            })
+            .catch(err => alert(err))
+    }
+    const likeComment = (commentId: string) => {
+        likeAPI(commentId)
+            .catch(err => alert(err))
+    }
+    return [comment, setComment, publishComment, likeComment]
 }

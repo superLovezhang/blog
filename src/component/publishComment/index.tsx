@@ -4,23 +4,23 @@ import { IEmojiData } from "emoji-picker-react"
 import EmojiPicker from "@/component/emojiPicker/index.tsx"
 import ImgList from "@/component/imgList/index.tsx"
 
-import { CommentDTO, Img } from "../../api/types"
-import { comment as commentAPI } from "../../api/comment"
+import { useComment } from "../../util/hook"
+import { Img } from "../../api/types"
 import { blogContext } from "../../store"
 import { objectIsNull } from "../../util/util"
 import styles from "./index.module.less"
 
 interface CommentProps {
     buttonBgColor?: string
-    articleId?: number
+    articleId?: string
 }
 const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', articleId }) => {
-    const { state: { user }, dispatch } = useContext(blogContext)
+    const { state: { user } } = useContext(blogContext)
     const [emojiVisible, setEmojiVisible] = useState(false)
-    const [comment, setComment] = useState('')
     const [imgFile, setImgFile] = useState<undefined | File>()
     const [files, setFiles] = useState<Img[] | []>([])
     const fileRef = useRef<null | HTMLInputElement>(null)
+    const [comment, setComment, publishComment] = useComment()
     const hasLogin = !objectIsNull(user)
     const { publishButtonBg, avatar, username } = useMemo(() => ({
         publishButtonBg: hasLogin ? `linear-gradient(135deg,${buttonBgColor})` : '#ccc',
@@ -28,24 +28,8 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
         username: hasLogin ? user.username : '游客'
     }), [user, buttonBgColor, hasLogin])
 
-    const editComment = (comment: string) => {
-        setComment(comment)
-    }
-    const publishComment = () => {
-        if (!hasLogin) {
-            dispatch({ type: 'OPEN_LOGIN' })
-            return
-        }
-        if (comment.length === 0) {
-            alert('请输入评论内容')
-            return
-        }
-        commentAPI({ articleId, content: comment, pics: files.map(file => file.url).join(',') })
-            .then(res => {
-                alert('刷新一下')
-                setComment('')
-            })
-            .catch(err => alert(err))
+    const publish = () => {
+        publishComment({ articleId, pics: files.map(file => file.url).join(',') })
     }
     useEffect(() => {
         window.onclick= (e) => setEmojiVisible(false)
@@ -63,7 +47,7 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
                             placeholder="写下你的想法"
                             maxLength={200}
                             value={comment}
-                            onChange={(e) => editComment(e.target.value ?? '')}
+                            onChange={(e) => setComment(e.target.value ?? '')}
                         />
             </div>
             <div className={`${styles.comment_insert} clearfix`}>
@@ -78,7 +62,7 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
                     <div className={styles.emoji_picker}>
                         <EmojiPicker
                             visible={emojiVisible}
-                            callback={(data: IEmojiData) => editComment(comment + data.emoji)}
+                            callback={(data: IEmojiData) => setComment(comment + data.emoji)}
                         />
                     </div>
                 </div>
@@ -98,7 +82,7 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
                 <div
                     className={styles.publish_button}
                     style={{ background: publishButtonBg }}
-                    onClick={publishComment}
+                    onClick={publish}
                 >发布</div>
             </div>
             <div className={styles.comment_img}>

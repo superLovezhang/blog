@@ -1,5 +1,6 @@
 import request from '../util/request'
-import { CommentDTO } from './types'
+import { CommentDTO, CommentPageDTO } from './types'
 
-export const comment = (data: CommentDTO) => request.put('/comment', data)
-export const list = () => request('/comment/list')
+export const comment = (data: Partial<CommentDTO>) => request.put('/comment', data)
+export const list = (params: Partial<CommentPageDTO>) => request('/comment/list', { params })
+export const like = (commentId: string) => request.post('/comment/like/' + commentId )

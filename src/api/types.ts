@@ -1,3 +1,19 @@
+export interface Result {
+    message: string
+    code: number
+    data: any
+}
+export interface PageResult extends Result {
+    data: {
+        records: any[]
+        next: boolean
+    }
+}
+export interface BasePageDTO {
+    page: number
+    size: number
+    sortColumn: string
+}
 export interface UserDTO {
     email: string
     username: string
@@ -5,7 +21,7 @@ export interface UserDTO {
     verifyCode: string
 }
 export interface UserVO {
-    userId: number
+    userId: string
     username: string
     avatar: string
     email: string
@@ -17,13 +33,13 @@ export interface LoginParams {
     password: string
 }
 export interface ArticlePage {
-    labelId?: number
-    categoryId?: number
+    labelId?: string
+    categoryId?: string
     searchValue?: string
     sortColumn?: string
 }
 export interface Article {
-    articleId: number
+    articleId: string
     articleName: string
     userId: number
     content: string
@@ -38,7 +54,7 @@ export interface Article {
     updateTime: string
 }
 export interface ArticleVO {
-    articleId: number
+    articleId: string
     articleName: string
     user: UserVO
     content: string
@@ -54,7 +70,7 @@ export interface ArticleVO {
     updateTime: string
 }
 export interface Category {
-    categoryId: number
+    categoryId: string
     categoryName: string
     iconClass: string
     show: boolean
@@ -63,7 +79,7 @@ export interface Category {
     createTime: string
 }
 export interface Label {
-    labelId: number
+    labelId: string
     labelName: string
     iconClass: string
     state: boolean
@@ -73,20 +89,36 @@ export interface Label {
 export interface CommentDTO {
     content: string
     pics?: string
-    parentId?: number
-    replyId?: number
-    articleId?: number
+    parentId?: string
+    replyId?: string
+    articleId?: string
 }
 export interface CommentVO {
+    commentId: string
     content: string
     pics: string[]
     user: UserVO
     replyComment: CommentVO
-    like: number
+    likes: number
+    articleId: string
+    createTime: string
+    updateTime: string
+}
+export interface CommentTreeVO {
+    commentId: string
+    content: string
+    pics: string[]
+    user: UserVO
+    articleId: string
+    children: CommentVO[]
+    likes: number
     createTime: string
     updateTime: string
 }
 export interface Img {
     base64URL: string
     url: string
+}
+export interface CommentPageDTO extends BasePageDTO {
+    articleId?: string
 }

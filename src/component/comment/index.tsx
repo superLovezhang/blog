@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext, useState } from "react"
+import React, {FC, Fragment, useContext, useEffect, useState} from "react"
 
 import EmojiPicker from '@/component/emojiPicker/index.tsx'
 
@@ -12,12 +12,15 @@ import styles from "./index.module.less"
 interface CommentProps {
     comment: CommentVO | CommentTreeVO
     parentId: string
+    refreshComments: () => void
 }
-const Comment: FC<CommentProps> = ({ comment, parentId }) => {
+const Comment: FC<CommentProps> = ({ comment, parentId, refreshComments }) => {
     const [commentContent, setComment, publishComment, likeComment] = useComment()
+    const [collected, setCollected] = useState(false)
     const { state: { user }, dispatch } = useContext(blogContext)
     const [showReply, setShowReply] = useState(false)
     const [showEmoji, setShowEmoji] = useState(false)
+    const [likes, setLikes] = useState(comment.likes ?? 0)
     const { avatar, username } = comment?.user ?? {}
     const { username: replyUsername } = comment?.replyComment?.user ?? {}
     const replyComment = () => {
@@ -28,8 +31,23 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
         setShowReply(!showReply)
     }
     const publish = () => {
-        publishComment({ articleId: comment.articleId, replyId: comment.commentId, parentId })
+        publishComment(
+            { articleId: comment.articleId, replyId: comment.commentId, parentId },
+            () => {
+                refreshComments()
+                setShowReply(!showReply)
+            }
+        )
     }
+    const clickLikeComment = () => {
+        setCollected(!collected)
+        setLikes(!collected ? likes + 1 : likes - 1)
+        likeComment(comment.commentId)
+    }
+    useEffect(() => {
+        setCollected(comment.selfLike)
+        setLikes(comment.likes)
+    }, [comment])
 
     return <div className={styles.comment_item}>
         <div className={styles.comment_avatar}>
@@ -44,9 +62,12 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
                     </div>
                     <div className={styles.comment_content}>{comment.content}</div>
                     <div className={styles.comment_operation}>
-                        <div className={styles.like} onClick={() => likeComment(comment.commentId)}>
+                        <div
+                            className={`${styles.like} ${collected && styles.collected}`}
+                            onClick={clickLikeComment}
+                        >
                             <i className='iconfont icon-like-fill'/>
-                            <span>{comment.likes} 点赞</span>
+                            <span>{likes} 点赞</span>
                         </div>
                         <div className={styles.reply} onClick={() => replyComment()}>
                             <i className='iconfont icon-a-share3-fill'/>
@@ -60,6 +81,7 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
                 <div className={styles.reply_input}>
                     <input
                         type="text"
+                        placeholder={`回复 ${comment.user.username}`}
                         value={commentContent}
                         onChange={(e) => setComment(e.target.value)}
                     />
@@ -76,7 +98,12 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
                 >发布</div>
             </div>}
             <div className={styles.comment_children}>
-                {"children" in comment && comment?.children.map(child => <Comment comment={child} parentId={parentId} key={child.commentId}/>)}
+                {"children" in comment && comment?.children.map(child => <Comment
+                    comment={child}
+                    parentId={parentId}
+                    key={child.commentId}
+                    refreshComments={refreshComments}
+                />)}
             </div>
         </div>
     </div>

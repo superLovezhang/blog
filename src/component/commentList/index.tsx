@@ -15,13 +15,16 @@ const CommentList: FC<CommentListProps> = ({ articleId }) => {
     const [commentList, setCommentList] = useState<CommentTreeVO[]>([])
     const [pagination, nextPagination] = usePagination()
 
+    const getCommentList = () => {
+        list({ ...pagination, articleId })
+            .then(res => {
+                setCommentList(res?.data?.records ?? [])
+            })
+            .catch(err => alert(err))
+    }
     useEffect(() => {
         if (articleId) {
-            list({ ...pagination, articleId })
-                .then(res => {
-                    setCommentList(res?.data?.records ?? [])
-                })
-                .catch(err => alert(err))
+            getCommentList()
         }
     }, [pagination, articleId])
 
@@ -30,7 +33,12 @@ const CommentList: FC<CommentListProps> = ({ articleId }) => {
     }
 
     return <div className={styles.comment_list_wrap}>
-        {commentList.map(comment => <Comment comment={comment} parentId={comment.commentId} key={comment.commentId}/>)}
+        {commentList.map(comment => <Comment
+            comment={comment}
+            parentId={comment.commentId}
+            key={comment.commentId}
+            refreshComments={getCommentList}
+        />)}
     </div>
 }
 

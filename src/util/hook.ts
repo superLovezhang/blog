@@ -41,30 +41,32 @@ export const usePagination = (size: number = 10) => {
     const nextPage = () => setPagination({ ...pagination, page: pagination.page + 1 })
     return [pagination, nextPage]
 }
-export const useComment: () => [string, (s: string) => void, (params: Partial<CommentDTO>, ) => void, (commentId: string) => void] =
-    () => {
-    const [comment, setComment] = useState('')
-    const { state: { user }, dispatch } = useContext(blogContext)
+export const useComment:
+    () => [string, (s: string) => void, (params: Partial<CommentDTO>, callback?: () => void) => void, (commentId: string, callback?: () => void) => void]
+    = () => {
+        const [comment, setComment] = useState('')
+        const { state: { user }, dispatch } = useContext(blogContext)
 
-    const publishComment = (params: Partial<CommentDTO>) => {
-        if (objectIsNull(user)) {
-            dispatch({ type: 'OPEN_LOGIN' })
-            return
+        const publishComment = (params: Partial<CommentDTO>, callback?: () => void) => {
+            if (objectIsNull(user)) {
+                dispatch({ type: 'OPEN_LOGIN' })
+                return
+            }
+            if (comment.length === 0) {
+                alert('请输入评论内容')
+                return
+            }
+            commentAPI({ ...params, content: comment})
+                .then(res => {
+                    setComment('')
+                    callback?.()
+                })
+                .catch(err => alert(err))
         }
-        if (comment.length === 0) {
-            alert('请输入评论内容')
-            return
+        const likeComment = (commentId: string, callback?: () => void) => {
+            likeAPI(commentId)
+                .then(() => callback?.())
+                .catch(err => alert(err))
         }
-        commentAPI({ ...params, content: comment})
-            .then(res => {
-                alert('刷新一下')
-                setComment('')
-            })
-            .catch(err => alert(err))
-    }
-    const likeComment = (commentId: string) => {
-        likeAPI(commentId)
-            .catch(err => alert(err))
-    }
-    return [comment, setComment, publishComment, likeComment]
+        return [comment, setComment, publishComment, likeComment]
 }

@@ -1,4 +1,4 @@
-import {FC, useState} from "react"
+import {FC, useEffect, useState} from "react"
 
 import { collect } from '../../api/collection'
 import styles from './index.module.less'
@@ -8,7 +8,7 @@ interface ShareProps {
     collected: boolean
 }
 const Share: FC<ShareProps> = ({ articleId, collected }) => {
-    const [isCollected, setIsCollected] = useState(collected)
+    const [isCollected, setIsCollected] = useState(false)
     const scrollToBottom = () => {
         window.scrollTo({ top: document?.querySelector('#root')?.clientHeight ?? 0, behavior: 'smooth' })
     }
@@ -19,12 +19,13 @@ const Share: FC<ShareProps> = ({ articleId, collected }) => {
             })
             .catch(err => alert(err))
     }
+    useEffect(() => setIsCollected(collected), [collected])
 
     return <div className={styles.share_wrap}>
         <div
             className={`${styles.share_item} ${isCollected ? styles.collected : ''}`}
             title='收藏'
-            onClick={collectArticles}
+                onClick={collectArticles}
         >
             <i className="iconfont icon-collected"/>
         </div>

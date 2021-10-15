@@ -30,7 +30,7 @@ const CommentList: FC<CommentListProps> = ({ articleId }) => {
     }
 
     return <div className={styles.comment_list_wrap}>
-        {commentList.map(comment => <Comment comment={comment} parentId={comment.commentId}/>)}
+        {commentList.map(comment => <Comment comment={comment} parentId={comment.commentId} key={comment.commentId}/>)}
     </div>
 }
 

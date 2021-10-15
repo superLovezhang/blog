@@ -65,6 +65,7 @@ export interface ArticleVO {
     categoryId: number
     viewCount: number
     commentCount: number
+    collected: boolean
     likes: number
     createTime: string
     updateTime: string
@@ -100,20 +101,13 @@ export interface CommentVO {
     user: UserVO
     replyComment: CommentVO
     likes: number
+    selfLike: boolean
     articleId: string
     createTime: string
     updateTime: string
 }
-export interface CommentTreeVO {
-    commentId: string
-    content: string
-    pics: string[]
-    user: UserVO
-    articleId: string
+export interface CommentTreeVO extends  CommentVO{
     children: CommentVO[]
-    likes: number
-    createTime: string
-    updateTime: string
 }
 export interface Img {
     base64URL: string

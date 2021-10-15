@@ -19,8 +19,7 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
     const [showReply, setShowReply] = useState(false)
     const [showEmoji, setShowEmoji] = useState(false)
     const { avatar, username } = comment?.user ?? {}
-    // @ts-ignore
-    const { username: replyUsername } = "replyComment" in comment ? comment?.replyComment?.user : {}
+    const { username: replyUsername } = comment?.replyComment?.user ?? {}
     const replyComment = () => {
         if (objectIsNull(user)) {
             dispatch({ type: 'OPEN_LOGIN'})
@@ -77,7 +76,7 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
                 >发布</div>
             </div>}
             <div className={styles.comment_children}>
-                {"children" in comment && comment?.children.map(child => <Comment comment={child} parentId={parentId}/>)}
+                {"children" in comment && comment?.children.map(child => <Comment comment={child} parentId={parentId} key={child.commentId}/>)}
             </div>
         </div>
     </div>

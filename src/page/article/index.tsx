@@ -29,7 +29,7 @@ const Article: FC<ArticleProps> = () => {
 
 
     return <div className={styles.article_detail_wrap}>
-        <Share articleId={id}/>
+        <Share articleId={id} collected={article?.collected}/>
         <div className={styles.article_detail}>
             {article ? <>
                 <div className={styles.article_info}>

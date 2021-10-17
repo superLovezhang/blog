@@ -10,7 +10,9 @@ const LazyImg: FC<LazyImgProps> = ({ url }) => {
     return <LazyLoad
         placeholder={<Loading/>}
         style={{ height: '100%' }}
-        once
+        // overflow
+        // debounce={3000}
+        // once
     >
         <img src={url} alt=""/>
     </LazyLoad>

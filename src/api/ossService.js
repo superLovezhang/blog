@@ -2,7 +2,7 @@ import OSS from 'ali-oss'
 import request from '../util/request'
 import { currentMomentObj } from "../util/util"
 
-const ALIYUN_DOMAIN = 'zz--blog.oss-accelerate.aliyuncs.com'
+const ALIYUN_DOMAIN = 'tyzzblog.oss-cn-beijing.aliyuncs.com'
 export const credential = () => request('/oss/credential')
 export const ossClient = () => new Promise((resolve, reject) => {
     credential()
@@ -14,9 +14,9 @@ export const ossClient = () => new Promise((resolve, reject) => {
                 // 从STS服务获取的安全令牌（SecurityToken）。
                 stsToken: securityToken,
                 // 填写Bucket所在地域。以华东1（杭州）为例，设置region为oss-cn-hangzhou。
-                region: 'oss-cn-guangzhou',
+                region: 'oss-cn-beijing',
                 // 填写Bucket名称，例如examplebucket。
-                bucket: 'zz--blog'
+                bucket: 'tyzzblog'
             })
             resolve(client)
         })

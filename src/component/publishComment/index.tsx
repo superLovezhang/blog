@@ -1,12 +1,12 @@
-import React, {FC, useContext, useEffect, useMemo, useRef, useState} from "react"
+import React, { FC, useEffect, useMemo, useRef, useState } from "react"
 import { IEmojiData } from "emoji-picker-react"
 
 import EmojiPicker from "@/component/emojiPicker/index.tsx"
 import ImgList from "@/component/imgList/index.tsx"
 
-import { useComment } from "../../util/hook"
+import { useUserInfo } from "../../query/userQuery"
+import { useComment } from "../../query/commentQuery"
 import { Img } from "../../api/types"
-import { blogContext } from "../../store"
 import { objectIsNull } from "../../util/util"
 import styles from "./index.module.less"
 
@@ -15,12 +15,14 @@ interface CommentProps {
     articleId?: string
 }
 const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', articleId }) => {
-    const { state: { user } } = useContext(blogContext)
+    const { data } = useUserInfo()
+    const user = data?.data
+    const { mutateAsync, error, isError } = useComment()
+    const [comment, setComment] = useState('')
     const [emojiVisible, setEmojiVisible] = useState(false)
     const [imgFile, setImgFile] = useState<undefined | File>()
     const [files, setFiles] = useState<Img[] | []>([])
     const fileRef = useRef<null | HTMLInputElement>(null)
-    const [comment, setComment, publishComment] = useComment()
     const hasLogin = !objectIsNull(user)
     const { publishButtonBg, avatar, username } = useMemo(() => ({
         publishButtonBg: hasLogin ? `linear-gradient(135deg,${buttonBgColor})` : '#ccc',
@@ -28,13 +30,23 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
         username: hasLogin ? user.username : '游客'
     }), [user, buttonBgColor, hasLogin])
 
-    const publish = () => {
-        publishComment({ articleId, pics: files.map(file => file.url).join(',') })
+    const publish = async () => {
+        await mutateAsync({
+            articleId,
+            content: comment,
+            pics: files.map(file => file.url).join(',')
+        })
+        setComment('')
     }
     useEffect(() => {
         window.onclick= (e) => setEmojiVisible(false)
         return () => {  window.onclick = null }
     }, [])
+    useEffect(() => {
+        if (isError) {
+            alert(error)
+        }
+    }, [isError, error])
 
     return <div className={styles.article_publish_comment}>
         <div className={styles.avatar}>
@@ -43,12 +55,13 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
         <div className={styles.comment_part}>
             <div className={styles.username}>{username}</div>
             <div className={styles.comment_textarea}>
-                        <textarea
-                            placeholder="写下你的想法"
-                            maxLength={200}
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value ?? '')}
-                        />
+                <textarea
+                    placeholder="写下你的想法"
+                    maxLength={200}
+                    value={comment}
+                    autoFocus
+                    onChange={(e) => setComment(e.target.value ?? '')}
+                />
             </div>
             <div className={`${styles.comment_insert} clearfix`}>
                 <div className={styles.insert_item}>

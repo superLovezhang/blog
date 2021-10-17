@@ -1,37 +1,26 @@
-import React, {FC, useEffect, useState} from "react"
+import React, { FC } from "react"
 import { useParams } from 'react-router-dom'
 import moment from "moment"
 
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
-import Share from "@/component/share/index.tsx"
+import Share from "./share/index.tsx"
 import PublishComment from "@/component/publishComment/index.tsx"
 import Loading from "@/component/loading/index.tsx"
+import CommentList from "../../component/commentList"
 
-import { detail } from '../../api/article'
-import { ArticleVO } from '../../api/types'
-
+import { useArticleDetail } from "../../query/articleQuery"
 import styles from './index.module.less'
-import CommentList from "../../component/commentList";
 
 interface ArticleProps {}
 const Article: FC<ArticleProps> = () => {
     const { id } = useParams<{ id: string}>()
-    const [article, setArticle] = useState<ArticleVO>()
-    useEffect(() => {
-        if (id) {
-            detail(id)
-                .then(({ data }) => {
-                    setArticle(data)
-                })
-        }
-    // eslint-disable-next-line
-    }, [])
-
+    const { data, isLoading } = useArticleDetail(id)
+    const article = data?.data
 
     return <div className={styles.article_detail_wrap}>
         <Share articleId={id} collected={article?.collected}/>
         <div className={styles.article_detail}>
-            {article ? <>
+            {!isLoading ? <>
                 <div className={styles.article_info}>
                     <div className={styles.article_title}>{article.articleName}</div>
                     <div className={styles.article_info_bottom}>

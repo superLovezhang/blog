@@ -3,24 +3,30 @@ import { NavLink, useHistory } from 'react-router-dom'
 
 import Login from "@/component/login/index.tsx"
 
+import { useUserInfo } from "../../query/userQuery"
 import { blogContext } from "../../store"
 import { useTheme } from "@/util/hook.ts"
 import { className, objectIsNull } from '@/util/util.ts'
 import styles from './index.module.less'
 
 const Header = () => {
-    const { state, dispatch } = useContext(blogContext)
+    const { data, refetch } = useUserInfo()
+    const { dispatch } = useContext(blogContext)
     const [dropDownVisible, setDropDownVisible] = useState(false)
     const history = useHistory()
     const [theme, toggleTheme, setStorageTheme] = useTheme()
-    const { user }: { user: any } = state
     const themeSwitchClass = useMemo(() => className({
         'iconfont': true,
         'icon-sunny-sharp': theme === 'light',
         'icon-Moon': theme !== 'light'
     }), [theme])
+    const user = data?.data
     const avatar = user?.avatar || 'https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/avatar/default-avatar.png?x-oss-process=image/resize,limit_0,m_fill,w_40,h_40/quality,q_100'
 
+    const logout = () => {
+        window.localStorage.removeItem('token')
+        refetch()
+    }
     useEffect(() => {
         setStorageTheme()
         // eslint-disable-next-line
@@ -84,7 +90,7 @@ const Header = () => {
                 <div className={styles.setting_item + ' cursor_pointer'}>
                     个人设置
                 </div>
-                <div className={styles.setting_item + ' cursor_pointer'} onClick={() => dispatch({ type: 'LOGOUT' })}>
+                <div className={styles.setting_item + ' cursor_pointer'} onClick={logout}>
                     退出
                 </div>
             </div>}

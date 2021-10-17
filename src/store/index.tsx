@@ -20,17 +20,8 @@ export const blogContext = React.createContext<{ state: State, dispatch: Dispatc
     dispatch: () => {}
 })
 const blogReducer = (state: State, action: Action) => {
-    const { type, payload } = action
+    const { type } = action
     switch (type) {
-        case 'LOGIN':
-            window.localStorage.setItem('user', JSON.stringify(payload.user))
-            window.localStorage.setItem('token', payload.token)
-            alert('登陆成功')
-            return { ...state, user: payload.user, loginVisible: false }
-        case 'LOGOUT':
-            window.localStorage.removeItem('token')
-            window.localStorage.removeItem('user')
-            return { ...state, user: {} }
         case 'OPEN_LOGIN':
             return { ...state, loginVisible: true }
         case 'CLOSE_LOGIN':

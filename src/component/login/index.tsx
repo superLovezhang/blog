@@ -1,11 +1,10 @@
-import {FC, ReactElement, useContext, useState} from "react"
+import {FC, ReactElement, useContext, useEffect, useState} from "react"
 import { useForm } from 'react-hook-form'
 import { RegisterOptions } from "react-hook-form/dist/types/validator"
 import { FieldError } from "react-hook-form/dist/types/errors"
 
-import { login as loginApi, register as registerApi } from '../../api/user'
+import { useRegister, useLogin } from "../../query/userQuery"
 import { blogContext } from "../../store"
-import { isSuccessful } from "../../util/util"
 import styles from './index.module.less'
 
 interface Field {
@@ -171,21 +170,12 @@ const BlogInput: FC<BlogInputProps> = ({
 interface LoginBoxProps {
 }
 const LoginBox: FC<LoginBoxProps> = () => {
-    const { dispatch } = useContext(blogContext)
+    const { mutate, isError, error } = useLogin()
     const { handleSubmit, register, watch, formState: { errors } } = useForm()
 
-    const loginUser = (params: any) => {
-        loginApi(params)
-            .then((res: any) => {
-                const { message, data: { token, user } } = res
-                console.log('current res is: ', res)
-                if (isSuccessful(res)) {
-                    dispatch({ type: 'LOGIN', payload: { user, token } })
-                } else {
-                    alert(message)
-                }
-            })
-            .catch((err: any) => alert(err))
+    useEffect(() => { isError && alert(error) }, [isError])
+    const loginUser = async (params: any) => {
+        mutate(params)
     }
 
     return <>
@@ -214,20 +204,15 @@ interface RegisterBoxProps {
     switchBox: () => void
 }
 const RegisterBox: FC<RegisterBoxProps> = ({ switchBox }) => {
+    const { mutate, isSuccess, error } = useRegister()
     const { register, watch, handleSubmit, reset, formState: { errors } } = useForm()
     const registerUser = (data: any) => {
-        console.log('current register user info is: ', data)
-        registerApi(data)
-            .then((res: any) => {
-                if (isSuccessful(res)) {
-                    alert('注册成功')
-                    reset()
-                    switchBox()
-                } else {
-                    alert(res.message)
-                }
-            })
-            .catch((err: any) => console.log(err))
+        mutate(data)
+        if (!isSuccess) {
+            return alert(error)
+        }
+        reset()
+        switchBox()
     }
 
     return <>

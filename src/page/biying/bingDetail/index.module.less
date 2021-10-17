@@ -1,0 +1,110 @@
+.bing_detail_wrap {
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  position: fixed;
+  overflow: hidden;
+  background-color: var(--spare-bg-color);
+  .scroll_container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    .top_part {
+      width: 100%;
+      height: 92vh;
+      margin-bottom: 20px;
+      background-size: cover;
+      background-position: 50%;
+      &:-webkit-full-screen > .pic_mask {
+        opacity: 0;
+      }
+      .pic_mask {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        transition: all 0.2s;
+        background-color: rgba(0,0,0,.2);
+        .right_top_operations {
+          position: absolute;
+          right: 20px;
+          top: 15px;
+          color: #fff;
+          i {
+            cursor: pointer;
+            font-size: 18px;
+            display: inline-block;
+            margin-right: 10px;
+            transition: all .5s;
+            &:first-of-type:hover {
+              transform: rotate(180deg);
+            }
+          }
+        }
+        .picture_info {
+          width: 500px;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          text-align: center;
+          color: #fff;
+          transform: translate(-50%, -50%);
+          h3 {
+            font-size: 25px;
+            font-weight: bolder;
+            margin-bottom: 20px;
+          }
+          .second_info {
+            font-weight: normal;
+            font-size: 14px;
+            i {
+              margin: 0 5px;
+            }
+          }
+        }
+      }
+    }
+    .bottom_part {
+      width: 1200px;
+      margin: 0 auto;
+      height: 420px;
+      font-size: 14px;
+      border-radius: 5px;
+      box-sizing: border-box;
+      background-color: var(--main-bg-color);
+      .pic_introduce {
+        padding: 20px;
+        display: block;
+        margin-bottom: 20px;
+      }
+      .download_part {
+        padding: 20px;
+        .download_item {
+          padding: 20px;
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 1px solid var(--border-line-color);
+          .download_left {
+            i {
+              margin-right: 10px;
+            }
+          }
+          .download_right {
+            cursor: pointer;
+            color: var(--primary-color);
+            i {
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+      .tips {
+        font-size: 12px;
+        padding: 20px;
+        margin-top: 20px;
+      }
+    }
+  }
+}

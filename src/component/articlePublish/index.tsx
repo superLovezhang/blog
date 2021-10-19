@@ -1,5 +1,7 @@
-import styles from "./index.module.less";
-import {FC, useState} from "react";
+import { FC, useState } from "react"
+import Multiselect from 'multiselect-react-dropdown'
+
+import styles from "./index.module.less"
 
 const categories = [
     {
@@ -92,24 +94,39 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
         onClick={(e) => e.stopPropagation()}
     >
         <div className={styles.category}>
-            <div className={styles.top}><i className='iconfont icon-caret-up'></i></div>
+            <div className={styles.top}><i className='iconfont icon-caret-up'/></div>
             <div className={styles.category_title}>分类</div>
             <div className={styles.category_list}>
-                {categories.map((category => <div
-                    className={styles.category_item}
-                    key={category.id}
-                    onClick={() => setExtraParameters({...extraParameters, category: category.id})}
-                >{category.name}</div>))}
+                <Multiselect
+                    placeholder={'请选择分类'}
+                    options={categories}
+                    onSelect={() => {}}
+                    onRemove={() => {}}
+                    displayValue="name"
+                />
+                {/*{categories.map((category => <div*/}
+                {/*    className={styles.category_item}*/}
+                {/*    key={category.id}*/}
+                {/*    onClick={() => setExtraParameters({...extraParameters, category: category.id})}*/}
+                {/*>{category.name}</div>))}*/}
             </div>
         </div>
         <div className={styles.label}>
             <div className={styles.label_title}>添加标签</div>
             <div className={styles.label_list}>
-                {labels.map(label => <div
-                    className={styles.label_item}
-                    key={label.id}
-                    onClick={() => setExtraParameters({...extraParameters, labels: (extraParameters?.labels ?? []).concat([label.id])})}
-                >{label.name}</div>)}
+                <Multiselect
+                    placeholder={'请选择标签'}
+                    options={labels}
+                    onSelect={() => {}}
+                    onRemove={() => {}}
+                    displayValue="name"
+                    singleSelect
+                />
+                {/*{labels.map(label => <div*/}
+                {/*    className={styles.label_item}*/}
+                {/*    key={label.id}*/}
+                {/*    onClick={() => setExtraParameters({...extraParameters, labels: (extraParameters?.labels ?? []).concat([label.id])})}*/}
+                {/*>{label.name}</div>)}*/}
             </div>
         </div>
         <div className={styles.type}>
@@ -135,7 +152,7 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
             />
         </div>}
         <div className={styles.confirm_button} onClick={publishArticle}>
-            <i className="iconfont"></i>
+            <i className="iconfont"/>
             <span>确认并发布</span>
         </div>
     </div>

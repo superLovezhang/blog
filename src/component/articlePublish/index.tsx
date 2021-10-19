@@ -1,52 +1,10 @@
 import { FC, useState } from "react"
 import Multiselect from 'multiselect-react-dropdown'
 
+import { useCategoryList } from "../../query/categoryQuery"
+import { useLabelList } from "../../query/labelQuery"
 import styles from "./index.module.less"
 
-const categories = [
-    {
-        id: 1,
-        name: '资讯'
-    },
-    {
-        id: 2,
-        name: '前端'
-    },
-    {
-        id: 3,
-        name: '后端'
-    },
-    {
-        id: 4,
-        name: '人生感悟'
-    },
-    {
-        id: 5,
-        name: '阅读'
-    }
-]
-const labels = [
-    {
-        id: 1,
-        name: 'vue'
-    },
-    {
-        id: 2,
-        name: 'react'
-    },
-    {
-        id: 3,
-        name: 'nginx'
-    },
-    {
-        id: 4,
-        name: 'vue3'
-    },
-    {
-        id: 5,
-        name: 'webpack'
-    },
-]
 const types: { name: string, type: ArticleType }[] = [
     {
         name: '原创',
@@ -63,26 +21,36 @@ const types: { name: string, type: ArticleType }[] = [
 ]
 
 type ArticleType = 'ORIGINAL' | 'REPRINT' | 'TRANSLATE'
-export interface ExtraParameters {
-    category?: number
-    labels?: number[]
+export interface PublishParameters {
+    category?: string
+    labels?: string[]
     type?: ArticleType
     reprintLink?: string
 }
 interface ArticlePublishProps {
     style?: { [property: string]: string}
-    onPublish?: (extraParameters: ExtraParameters) => void
+    onPublish?: (extraParameters: PublishParameters) => void
     visible?: boolean
 }
 const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) => {
-    const [extraParameters, setExtraParameters] = useState<ExtraParameters>({})
-    const reprintLinkVisible = ['REPRINT', 'TRANSLATE'].includes(extraParameters?.type ?? '')
+    const { data: categoryData } = useCategoryList()
+    const { data: labelData } = useLabelList()
+    const [publishParameters, setPublishParameters] = useState<PublishParameters>({})
+    const reprintLinkVisible = ['REPRINT', 'TRANSLATE'].includes(publishParameters?.type ?? '')
+    const categories = categoryData?.data ?? []
+    const labels = labelData?.data ?? []
 
     const publishArticle = () => {
-        console.log(extraParameters)
-        onPublish?.(extraParameters)
+        console.log(publishParameters)
+        onPublish?.(publishParameters)
     }
-    const setType = (type: ArticleType) => setExtraParameters({ ...extraParameters, type })
+    const setCategory = (categoryId: string) => {
+        setPublishParameters({ ...publishParameters, category: categoryId })
+    }
+    const setLabels = (labelIds: string[]) => {
+        setPublishParameters({ ...publishParameters, labels: labelIds })
+    }
+    const setType = (type: ArticleType) => setPublishParameters({ ...publishParameters, type })
 
     if (!visible) {
         return null
@@ -100,15 +68,10 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
                 <Multiselect
                     placeholder={'请选择分类'}
                     options={categories}
-                    onSelect={() => {}}
-                    onRemove={() => {}}
-                    displayValue="name"
+                    onSelect={(_, category) => setCategory(category.categoryId)}
+                    displayValue="categoryName"
+                    singleSelect
                 />
-                {/*{categories.map((category => <div*/}
-                {/*    className={styles.category_item}*/}
-                {/*    key={category.id}*/}
-                {/*    onClick={() => setExtraParameters({...extraParameters, category: category.id})}*/}
-                {/*>{category.name}</div>))}*/}
             </div>
         </div>
         <div className={styles.label}>
@@ -117,16 +80,10 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
                 <Multiselect
                     placeholder={'请选择标签'}
                     options={labels}
-                    onSelect={() => {}}
-                    onRemove={() => {}}
-                    displayValue="name"
-                    singleSelect
+                    onSelect={(_) => setLabels(_.map((item: any) => item.labelId))}
+                    onRemove={(_) => setLabels(_.map((item: any) => item.labelId))}
+                    displayValue="labelName"
                 />
-                {/*{labels.map(label => <div*/}
-                {/*    className={styles.label_item}*/}
-                {/*    key={label.id}*/}
-                {/*    onClick={() => setExtraParameters({...extraParameters, labels: (extraParameters?.labels ?? []).concat([label.id])})}*/}
-                {/*>{label.name}</div>)}*/}
             </div>
         </div>
         <div className={styles.type}>
@@ -138,17 +95,17 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
                 <input
                     type="radio"
                     name="type"
-                    checked={extraParameters.type === type.type}
+                    checked={publishParameters.type === type.type}
                 />
                 {type.name}
             </label>)}
         </div>
         {reprintLinkVisible && <div className={styles.link}>
             <input
-                value={extraParameters.reprintLink ?? ''}
+                value={publishParameters.reprintLink ?? ''}
                 type="text"
                 placeholder={'请输入原文链接'}
-                onChange={(e) => setExtraParameters({...extraParameters, reprintLink: e.target.value})}
+                onChange={(e) => setPublishParameters({...publishParameters, reprintLink: e.target.value})}
             />
         </div>}
         <div className={styles.confirm_button} onClick={publishArticle}>

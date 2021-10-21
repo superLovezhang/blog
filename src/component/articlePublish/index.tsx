@@ -22,35 +22,58 @@ const types: { name: string, type: ArticleType }[] = [
 
 type ArticleType = 'ORIGINAL' | 'REPRINT' | 'TRANSLATE'
 export interface PublishParameters {
-    category?: string
-    labels?: string[]
-    type?: ArticleType
-    reprintLink?: string
+    categoryId?: string
+    labelIds?: string[]
+    articleType?: ArticleType
+    linkAddress?: string
 }
 interface ArticlePublishProps {
-    style?: { [property: string]: string}
+    style?: { [property: string]: string }
     onPublish?: (extraParameters: PublishParameters) => void
     visible?: boolean
 }
 const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) => {
     const { data: categoryData } = useCategoryList()
     const { data: labelData } = useLabelList()
-    const [publishParameters, setPublishParameters] = useState<PublishParameters>({})
-    const reprintLinkVisible = ['REPRINT', 'TRANSLATE'].includes(publishParameters?.type ?? '')
+    const [publishParameters, setPublishParameters] = useState<PublishParameters>({
+        categoryId: undefined,
+        labelIds: undefined,
+        articleType: 'ORIGINAL',
+        linkAddress: undefined
+    })
+    const reprintLinkVisible = ['REPRINT', 'TRANSLATE'].includes(publishParameters?.articleType ?? '')
     const categories = categoryData?.data ?? []
     const labels = labelData?.data ?? []
 
+    const validateParameters = () => {
+        for (let key in publishParameters) {
+            //@ts-ignore
+            const value = publishParameters[key]
+            if (!value) {
+                if (key !== 'linkAddress') {
+                    return false
+                }
+                if (publishParameters.articleType !== 'ORIGINAL') {
+                    return false
+                }
+            }
+
+        }
+        return true
+    }
     const publishArticle = () => {
-        console.log(publishParameters)
+        if (!validateParameters()) {
+            return alert('发布选项不完整')
+        }
         onPublish?.(publishParameters)
     }
     const setCategory = (categoryId: string) => {
-        setPublishParameters({ ...publishParameters, category: categoryId })
+        setPublishParameters({ ...publishParameters, categoryId: categoryId })
     }
     const setLabels = (labelIds: string[]) => {
-        setPublishParameters({ ...publishParameters, labels: labelIds })
+        setPublishParameters({ ...publishParameters, labelIds: labelIds })
     }
-    const setType = (type: ArticleType) => setPublishParameters({ ...publishParameters, type })
+    const setType = (type: ArticleType) => setPublishParameters({ ...publishParameters, articleType: type })
 
     if (!visible) {
         return null
@@ -67,7 +90,7 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
             <div className={styles.category_list}>
                 <Multiselect
                     placeholder={'请选择分类'}
-                    selectedValues={categories.filter((category: any) => publishParameters.category === category.categoryId)}
+                    selectedValues={categories.filter((category: any) => publishParameters.categoryId === category.categoryId)}
                     options={categories}
                     onSelect={(_, category) => setCategory(category.categoryId)}
                     displayValue="categoryName"
@@ -81,7 +104,7 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
                 <Multiselect
                     placeholder={'请选择标签'}
                     options={labels}
-                    selectedValues={labels.filter((label: any) => publishParameters.labels?.includes(label.labelId))}
+                    selectedValues={labels.filter((label: any) => publishParameters.labelIds?.includes(label.labelId))}
                     onSelect={(_) => setLabels(_.map((item: any) => item.labelId))}
                     onRemove={(_) => setLabels(_.map((item: any) => item.labelId))}
                     displayValue="labelName"
@@ -97,17 +120,17 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
                 <input
                     type="radio"
                     name="type"
-                    checked={publishParameters.type === type.type}
+                    checked={publishParameters.articleType === type.type}
                 />
                 {type.name}
             </label>)}
         </div>
         {reprintLinkVisible && <div className={styles.link}>
             <input
-                value={publishParameters.reprintLink ?? ''}
+                value={publishParameters.linkAddress ?? ''}
                 type="text"
                 placeholder={'请输入原文链接'}
-                onChange={(e) => setPublishParameters({...publishParameters, reprintLink: e.target.value})}
+                onChange={(e) => setPublishParameters({...publishParameters, linkAddress: e.target.value})}
             />
         </div>}
         <div className={styles.confirm_button} onClick={publishArticle}>

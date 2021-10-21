@@ -5,6 +5,7 @@ import MarkdownEditor from '@/component/markdownEditor/index.tsx'
 import Empty from "@/component/empty/index.tsx"
 import ArticlePublish from "@/component/articlePublish/index.tsx"
 
+import { useSaveArticle } from "../../query/articleQuery"
 import { className } from '@/util/util.ts'
 import styles from './index.module.less'
 
@@ -14,6 +15,7 @@ interface Draft {
     editTime: number
 }
 const Publish = () => {
+    const { mutate, isError, error } = useSaveArticle()
     const [drafts, setDrafts] = useState<Draft[]>(JSON.parse(window.localStorage.getItem('drafts') ?? '[]') || [])
     const [draftIndex, setDraftIndex] = useState(0)
     const [showPublishSetting, setShowPublishSetting] = useState(false)
@@ -25,6 +27,8 @@ const Publish = () => {
         window.onclick = () => setShowPublishSetting(false)
         return () => { window.onclick = null }
     }, [])
+    //@ts-ignore
+    useEffect(() => isError && alert(error), [isError, error])
 
     const defaultTitle = () => {
         const currentMoment = moment(new Date())
@@ -77,6 +81,9 @@ const Publish = () => {
     }
     const createNewDraft = () => {
         createPreserveDrafts(newDrafts())
+    }
+    const publishArticle = (publishParameters: any) => {
+        mutate({ articleName: draft.title, content: draft.content, ...publishParameters })
     }
 
     return <div className={styles.publish_wrap}>
@@ -135,7 +142,7 @@ const Publish = () => {
                 <ArticlePublish
                     style={{ top: '45px', right: '10px' }}
                     visible={showPublishSetting}
-                    onPublish={(params: any) => { console.log(params) }}
+                    onPublish={(params: any) => publishArticle(params)}
                 />
             </div>
             <MarkdownEditor

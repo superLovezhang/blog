@@ -53,6 +53,15 @@ export interface Article {
     createTime: string
     updateTime: string
 }
+export interface ArticleDTO {
+    articleId: string
+    articleName: string
+    content: string
+    linkAddress: string
+    articleType: string
+    categoryId: number
+    labelIds: string[]
+}
 export interface ArticleVO {
     articleId: string
     articleName: string

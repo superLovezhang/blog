@@ -1,4 +1,5 @@
 import { useQuery, useMutation } from 'react-query'
+import { useHistory } from "react-router-dom"
 import { articleList, detail, hotList, save } from '../api/article'
 import { ArticlePage } from "../api/types"
 
@@ -18,7 +19,14 @@ export const useArticleList = (params?: ArticlePage) => {
     return useQuery(ARTICLE_LIST_KEY, () => articleList(params))
 }
 export const useSaveArticle = () => {
+    const history = useHistory()
     return useMutation(save, {
-        onSuccess() {}
+        onSuccess(_, params: any) {
+            alert('发布成功')
+            history.push('/')
+            const processedDrafts = JSON.parse(window.localStorage.getItem('drafts') ?? '[]')
+                .filter((item: any) => item.title !== params.articleName)
+            window.localStorage.setItem('drafts', JSON.stringify(processedDrafts))
+        }
     })
 }

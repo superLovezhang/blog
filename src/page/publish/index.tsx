@@ -132,7 +132,11 @@ const Publish = () => {
                             e.stopPropagation()
                         }}
                     >发布</div>}
-                <ArticlePublish style={{ top: '45px', right: '10px' }} visible={showPublishSetting}/>
+                <ArticlePublish
+                    style={{ top: '45px', right: '10px' }}
+                    visible={showPublishSetting}
+                    onPublish={(params: any) => { console.log(params) }}
+                />
             </div>
             <MarkdownEditor
                 value={draft.content ?? ''}

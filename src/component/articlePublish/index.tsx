@@ -67,6 +67,7 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
             <div className={styles.category_list}>
                 <Multiselect
                     placeholder={'请选择分类'}
+                    selectedValues={categories.filter((category: any) => publishParameters.category === category.categoryId)}
                     options={categories}
                     onSelect={(_, category) => setCategory(category.categoryId)}
                     displayValue="categoryName"
@@ -80,6 +81,7 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
                 <Multiselect
                     placeholder={'请选择标签'}
                     options={labels}
+                    selectedValues={labels.filter((label: any) => publishParameters.labels?.includes(label.labelId))}
                     onSelect={(_) => setLabels(_.map((item: any) => item.labelId))}
                     onRemove={(_) => setLabels(_.map((item: any) => item.labelId))}
                     displayValue="labelName"

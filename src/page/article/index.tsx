@@ -1,6 +1,8 @@
 import React, { FC } from "react"
 import { useParams } from 'react-router-dom'
 import moment from "moment"
+import 'react-markdown-editor-lite/lib/index.css'
+
 
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 import Share from "./share/index.tsx"
@@ -8,6 +10,7 @@ import PublishComment from "@/component/publishComment/index.tsx"
 import Loading from "@/component/loading/index.tsx"
 import CommentList from "../../component/commentList"
 
+import { MarkdownParser } from '../../util/util'
 import { useArticleDetail } from "../../query/articleQuery"
 import styles from './index.module.less'
 
@@ -38,7 +41,7 @@ const Article: FC<ArticleProps> = () => {
                         <div className={styles.publish_time}>发布于:{moment(article.createTime).fromNow()}</div>
                     </div>
                 </div>
-                <div className={styles.article_content} dangerouslySetInnerHTML={{ __html: article.content }}>
+                <div className={styles.article_content + ' custom-html-style'} dangerouslySetInnerHTML={{ __html: MarkdownParser.render(article.content) }}>
                 </div>
             </> : <div className={styles.loading_wrap}><Loading/></div>}
             <div className={styles.article_publish_comment}>

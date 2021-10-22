@@ -35,7 +35,6 @@ export const isSuccessful = (res: Partial<Response>) => res.code === 1000
 export const MarkdownParser: MarkdownIt = new MarkdownIt({
     highlight: function (str: string, lang: string) {
         if (lang && hljs.getLanguage(lang)) {
-            console.log('current language is: ' + lang, '\nand the content is: ', str, '\nthe compiled content is: ', hljs.highlight(str, { language: lang, ignoreIllegals: true }).value)
             try {
                 return '<pre class="hljs"><code>' +
                     hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +

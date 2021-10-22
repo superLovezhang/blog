@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, ReactElement, useReducer } from 'react'
+import React, { Dispatch, FC, ReactElement, useReducer } from 'react'
 
 interface BlogProviderProps {
     children?: ReactElement

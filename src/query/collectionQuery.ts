@@ -13,6 +13,3 @@ export const useCollectArticle = () => {
         }
     })
 }
-export const useArticleList = () => {
-    return useQuery(COLLECTION_LIST_KEY, list)
-}

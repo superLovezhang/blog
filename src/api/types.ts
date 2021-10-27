@@ -43,6 +43,7 @@ export interface Article {
     articleName: string
     userId: number
     content: string
+    htmlContent: string
     cover: string
     linkAddress: string
     articleType: string
@@ -57,6 +58,7 @@ export interface ArticleDTO {
     articleId: string
     articleName: string
     content: string
+    htmlContent: string
     linkAddress: string
     articleType: string
     categoryId: number
@@ -124,4 +126,12 @@ export interface Img {
 }
 export interface CommentPageDTO extends BasePageDTO {
     articleId?: string
+}
+export interface ArticleQueryParams {
+    sortColumn?: 'createTime' | 'viewCount'
+    categoryId?: string
+    labelId?: string
+    searchValue?: string
+    page?: number
+    size?: number
 }

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
 
@@ -37,6 +37,7 @@ const MarkdownEditor: FC<MarkdownEditorProps> = ({
         setMdContent(text)
         setHtmlContent?.(html)
     }
+    useEffect(() => { !!value && setHtmlContent?.(MarkdownParser.render(value)) }, [value])
 
     return <MdEditor
         style={style}

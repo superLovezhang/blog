@@ -16,6 +16,7 @@ interface Draft {
 }
 const Publish = () => {
     const { mutate, isError, error } = useSaveArticle()
+    const [htmlContent, setHtmlContent] = useState('')
     const [drafts, setDrafts] = useState<Draft[]>(JSON.parse(window.localStorage.getItem('drafts') ?? '[]') || [])
     const [draftIndex, setDraftIndex] = useState(0)
     const [showPublishSetting, setShowPublishSetting] = useState(false)
@@ -49,7 +50,7 @@ const Publish = () => {
         })
     }
     const pickADraft = (text?: string, title?: string) => {
-        return isEmpty ? createDefaultDraft(text, defaultTitle()) : editDraft(text, title)
+        return (isEmpty && !title) ? createDefaultDraft(text, defaultTitle()) : editDraft(text, title)
     }
     const preserveDrafts = (drafts: Draft[]) => {
         window.localStorage.setItem('drafts', JSON.stringify(drafts))
@@ -83,7 +84,7 @@ const Publish = () => {
         createPreserveDrafts(newDrafts())
     }
     const publishArticle = (publishParameters: any) => {
-        mutate({ articleName: draft.title, content: draft.content, ...publishParameters })
+        mutate({ articleName: draft.title, content: draft.content, htmlContent, ...publishParameters })
     }
 
     return <div className={styles.publish_wrap}>
@@ -154,6 +155,7 @@ const Publish = () => {
                     border: '1px solid var(--border-line-color)'
                 }}
                 setMdContent={editArticleContent}
+                setHtmlContent={(html: string) => setHtmlContent(html)}
             />
         </div>
     </div>

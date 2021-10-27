@@ -1,28 +1,22 @@
 import { FC, useEffect, useState } from "react"
 
-import { categoryHot } from '../../api/category'
-import { hot } from '../../api/label'
-import { ArticlePage, Category as CategoryType, Label } from '../../api/types'
+import {ArticlePage, ArticleQueryParams, Category as CategoryType, Label} from '../../api/types'
+import { useArticleList } from "../../query/articleQuery"
+import { useCategoryList } from "../../query/categoryQuery"
+import { useLabelList } from "../../query/labelQuery"
 
 import styles from './index.module.less'
 
 interface CategoryProps {
-    changeQueryParams: (params: Partial<ArticlePage>) => void
+    queryParams: ArticleQueryParams
+    changeQueryParams: (params: { labelId: string, categoryId: string } | {}) => void
 }
-const Category: FC<CategoryProps> = ({ changeQueryParams }) => {
-    const [categories, setCategories] = useState([])
-    const [labels, setLabels] = useState([])
-
-    useEffect(() => {
-        categoryHot()
-            .then(({ data }) => {
-                setCategories(data)
-            })
-        hot()
-            .then(({ data }) => {
-                setLabels(data)
-            })
-    }, [])
+const Category: FC<CategoryProps> = ({ changeQueryParams, queryParams }) => {
+    const { data: categoryData } = useCategoryList()
+    const { data: labelData } = useLabelList()
+    const { categoryId, labelId } = queryParams
+    const categories = categoryData?.data ?? []
+    const labels = labelData?.data ?? []
 
     return <div className={styles.category_wrap}>
         <div className={styles.category_top}>
@@ -30,15 +24,15 @@ const Category: FC<CategoryProps> = ({ changeQueryParams }) => {
         </div>
         <div className={`${styles.category_list} ${styles.list}`}>
             <div
-                onClick={() => changeQueryParams({ categoryId: undefined })}
-                className={`${styles.category_item} ${styles.item}`}
+                onClick={() => changeQueryParams({ categoryId: undefined, labelId: undefined })}
+                className={`${styles.category_item} ${styles.item} ${!categoryId && !labelId && 'active'}`}
             >
                 <i className={'iconfont icon-biaoqiankuozhan_tuijian-126'}/>
                 <span>推荐</span>
             </div>
             {categories.map((category: CategoryType) => <div
                 key={category.categoryId}
-                className={`${styles.category_item} ${styles.item}`}
+                className={`${styles.category_item} ${styles.item} ${categoryId === category.categoryId && 'active'}`}
                 onClick={() => changeQueryParams({ categoryId: category.categoryId })}
             >
                 <i className={`iconfont ${category.iconClass}`}/>
@@ -49,7 +43,7 @@ const Category: FC<CategoryProps> = ({ changeQueryParams }) => {
             {labels.map((label: Label) => <div
                 key={label.labelId}
                 onClick={() => changeQueryParams({ labelId: label.labelId })}
-                className={`${styles.tag_item} ${styles.item}`}
+                className={`${styles.tag_item} ${styles.item} ${labelId === label.labelId && 'active'}`}
             >
                 <i>#</i>
                 <span>{label.labelName}</span>

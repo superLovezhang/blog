@@ -15,8 +15,11 @@ export const useArticleDetail = (articleId: string) => {
         enabled: !!articleId
     })
 }
-export const useArticleList = (params?: ArticlePage) => {
-    return useQuery(ARTICLE_LIST_KEY, () => articleList(params))
+export const useArticleList = (params?: ArticlePage, enabled: boolean = true) => {
+    return useQuery([ARTICLE_LIST_KEY, params],
+        (context) => articleList(context.queryKey[1] as ArticlePage | undefined),
+        { enabled }
+        )
 }
 export const useSaveArticle = () => {
     const history = useHistory()

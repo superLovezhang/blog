@@ -1,44 +1,56 @@
-import {useEffect, useState} from "react"
+import { useContext, useEffect, useState } from "react"
 import { useHistory } from 'react-router-dom'
 import moment from "moment"
 
 import Category from "@/component/category/index.tsx"
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 
-import { articleList } from '../../api/article'
+import { useArticleList } from "../../query/articleQuery"
 import { className } from '@/util/util.ts'
-import { ArticlePage, ArticleVO } from "../../api/types"
+import { ArticleQueryParams, ArticleVO } from "../../api/types"
+import { blogContext } from "../../store"
 
 import styles from './index.module.less'
 
 const Home = () => {
-    const [articles, setArticles] = useState([])
-    const [queryParams, setQueryParams] = useState<ArticlePage | undefined>()
     const history = useHistory()
+    const { state: { searchValue } } = useContext(blogContext)
     const [plainTextLayout, setPlainTextLayout] = useState(false)
-    const articleItemClassName = className({
+    const [articleQueryParams, setArticleQueryParams] = useState<ArticleQueryParams>({ })
+    const { data: articleData, isError, error } = useArticleList(articleQueryParams)
+    const { sortColumn } = articleQueryParams
+    const articleItemClassName = (hasCover: boolean) => className({
         [styles.article_summary]: true,
-        [styles.article_card]: !plainTextLayout,
-        [styles.article_text]: plainTextLayout
+        [styles.article_card]: hasCover && !plainTextLayout,
+        [styles.article_text]: !hasCover || plainTextLayout
     })
+    const articles = articleData?.data?.records ?? []
 
-    const changeQueryParams = (params: Partial<ArticlePage>) => {
-        console.log({ ...queryParams, ...params })
-        setQueryParams({ ...queryParams, ...params })
+    const changeArticleSort = () => {
+        setArticleQueryParams({
+            ...articleQueryParams,
+            sortColumn: sortColumn === 'viewCount' ? 'createTime' : 'viewCount'
+        })
     }
-    useEffect(() => {
-        articleList(queryParams)
-            .then(({ data: { records } }) => {
-                setArticles(records ?? [])
-            })
-    }, [queryParams])
+    //@ts-ignore
+    useEffect(() => isError && alert(error), [isError, error])
+    useEffect(() => setArticleQueryParams({ searchValue }), [searchValue])
 
     return <div className={styles.home_wrap}>
-        <Category changeQueryParams={changeQueryParams}/>
+        <Category
+            queryParams={articleQueryParams}
+            changeQueryParams={(params: any = {}) => setArticleQueryParams({ ...articleQueryParams, ...params })}
+        />
         <div className={styles.article_box}>
             <div className={styles.sort_top}>
-                <span className={'cursor_pointer active'}>最新</span>
-                <span className={'cursor_pointer'}>最热</span>
+                <span
+                    className={`cursor_pointer ${(sortColumn === 'createTime' || !sortColumn) && 'active'}`}
+                    onClick={changeArticleSort}
+                >最新</span>
+                <span
+                    className={`cursor_pointer ${sortColumn === 'viewCount' && 'active'}`}
+                    onClick={changeArticleSort}
+                >最热</span>
                 <div className={styles.layout_change} onClick={() => setPlainTextLayout(!plainTextLayout)}>
                     {!plainTextLayout ?
                         <i className={'iconfont icon-7xinxifabu cursor_pointer'}/> :
@@ -52,7 +64,7 @@ const Home = () => {
                     onClick={() => history.push(`/article/${article.articleId}`)}
                 >
                     <h3 className={styles.article_title}>{article.articleName}</h3>
-                    <div className={articleItemClassName}>
+                    <div className={articleItemClassName(!!article.cover)}>
                         {article.cover && <div className={styles.summary_img}>
                             <img src={article.cover} alt={article.articleName}/>
                         </div>}

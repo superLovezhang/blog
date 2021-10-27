@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from "react"
+import { useHistory } from 'react-router-dom'
 import { blogContext } from "../store"
 import { objectIsNull } from "./util"
 import { CommentDTO } from "../api/types"
@@ -69,4 +70,27 @@ export const useComment:
                 .catch(err => alert(err))
         }
         return [comment, setComment, publishComment, likeComment]
+}
+export const useParams = () => {
+    const history = useHistory()
+    const search = history.location.search
+    const [params, setParams] = useState<{ [key: string]: string}>({})
+
+    const buildParamsObj = () => {
+        if (search.length === 0 || !search.startsWith('?')) {
+            return {}
+        }
+        const result: { [key:string]: string } = {}
+        search.substring(1, search.length)
+            .split("&")
+            .forEach(param => {
+                const paramArr: string[] = param.split('=')
+                result[paramArr[0]] = paramArr[1]
+            })
+        return result
+    }
+    useEffect(() => {
+        setParams(buildParamsObj())
+    }, [search])
+    return params
 }

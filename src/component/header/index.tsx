@@ -12,6 +12,7 @@ import styles from './index.module.less'
 const Header = () => {
     const { data, refetch } = useUserInfo()
     const { dispatch } = useContext(blogContext)
+    const [searchValue, setSearchValue] = useState<string>('')
     const [dropDownVisible, setDropDownVisible] = useState(false)
     const history = useHistory()
     const [theme, toggleTheme, setStorageTheme] = useTheme()
@@ -23,6 +24,11 @@ const Header = () => {
     const user = data?.data
     const avatar = user?.avatar || 'https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/avatar/default-avatar.png?x-oss-process=image/resize,limit_0,m_fill,w_40,h_40/quality,q_100'
 
+    const search = (e: any) => {
+        if (e.keyCode === 13) {
+            dispatch({ type: 'SEARCH_ARTICLE', payload: searchValue })
+        }
+    }
     const logout = () => {
         window.localStorage.removeItem('token')
         refetch()
@@ -46,7 +52,14 @@ const Header = () => {
             <div className={styles.right_side}>
                 <div className={styles.search_input}>
                     <i className={`iconfont icon-fenxiang`}/>
-                    <input type="text" placeholder="搜索内容" maxLength={32}/>
+                    <input
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        onKeyDown={search}
+                        type="text"
+                        value={searchValue}
+                        placeholder="搜索内容"
+                        maxLength={32}
+                    />
                 </div>
                 <div className={styles.setting_panel}>
                     <div

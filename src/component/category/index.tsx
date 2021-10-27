@@ -33,7 +33,7 @@ const Category: FC<CategoryProps> = ({ changeQueryParams, queryParams }) => {
             {categories.map((category: CategoryType) => <div
                 key={category.categoryId}
                 className={`${styles.category_item} ${styles.item} ${categoryId === category.categoryId && 'active'}`}
-                onClick={() => changeQueryParams({ categoryId: category.categoryId })}
+                onClick={() => changeQueryParams({ categoryId: category.categoryId, labelId: undefined })}
             >
                 <i className={`iconfont ${category.iconClass}`}/>
                 <span>{category.categoryName}</span>
@@ -42,7 +42,7 @@ const Category: FC<CategoryProps> = ({ changeQueryParams, queryParams }) => {
         <div className={`${styles.tag_list} ${styles.list}`}>
             {labels.map((label: Label) => <div
                 key={label.labelId}
-                onClick={() => changeQueryParams({ labelId: label.labelId })}
+                onClick={() => changeQueryParams({ labelId: label.labelId, categoryId: undefined })}
                 className={`${styles.tag_item} ${styles.item} ${labelId === label.labelId && 'active'}`}
             >
                 <i>#</i>

@@ -10,9 +10,9 @@ export interface PageResult extends Result {
     }
 }
 export interface BasePageDTO {
-    page: number
-    size: number
-    sortColumn: string
+    page?: number
+    size?: number
+    sortColumn?: string
 }
 export interface UserDTO {
     email: string
@@ -134,4 +134,9 @@ export interface ArticleQueryParams {
     searchValue?: string
     page?: number
     size?: number
+}
+export interface CollectionVO {
+    collectionId: string
+    article: ArticleVO
+    user: UserVO
 }

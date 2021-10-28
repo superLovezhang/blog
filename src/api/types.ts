@@ -69,13 +69,15 @@ export interface ArticleVO {
     articleName: string
     user: UserVO
     content: string
+    htmlContent: string
     previewContent: string
     cover: string
     linkAddress: string
     articleType: string
-    categoryId: number
-    viewCount: number
+    category: CategoryVO
+    labels: LabelVO[]
     commentCount: number
+    viewCount: number
     collected: boolean
     likes: number
     createTime: string
@@ -90,11 +92,24 @@ export interface Category {
     updateTime: string
     createTime: string
 }
+export interface CategoryVO {
+    categoryId: string
+    categoryName: string
+    iconClass: string
+    show: boolean
+}
 export interface Label {
     labelId: string
     labelName: string
     iconClass: string
     state: boolean
+    updateTime: string
+    createTime: string
+}
+export interface LabelVO {
+    labelId: string
+    labelName: string
+    iconClass: string
     updateTime: string
     createTime: string
 }

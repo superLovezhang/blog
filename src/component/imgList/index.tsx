@@ -2,37 +2,29 @@ import React, { FC, useEffect, useRef, useState } from "react"
 
 import { IMG_EXTENSIONS } from '@/util/constant.ts'
 import { getFileExtension } from '@/util/util.ts'
-import { Img } from "../../api/types"
+import { uploadFile } from "../../api/ossService"
+
 import styles from "./index.module.less"
 
 
 interface ImgListProps {
-    observeImgChange?: (imgList: Img[]) => void
-    initialFile?: File
+    observeImgChange?: (imgList: string[]) => void
+    currentUploadFile?: File
     hideWhenFilesEmpty?: boolean
     maxLength?: number
 }
 const ImgList: FC<ImgListProps> = ({
                                        observeImgChange,
-                                       initialFile,
+                                       currentUploadFile,
                                        hideWhenFilesEmpty ,
                                        maxLength
 }) => {
     const fileRef = useRef<null | HTMLInputElement>(null)
-    const [imgList, setImgList] = useState<Img[]>([])
+    const [imgList, setImgList] = useState<string[]>([])
 
     const verifyImgFiles = (file: File) => IMG_EXTENSIONS.includes(getFileExtension(file.name))
-    const uploadFile = (file: File) => {
-        let fileReader = new FileReader()
-        fileReader.readAsDataURL(file)
-        fileReader.onload = (e) => {
-            const base64URL = e?.target?.result
-            if (base64URL && typeof base64URL === 'string') {
-                setImgList(imgList.concat([{ base64URL, url: '' }]))
-            }
-        }
-    }
     const addImgs = (file: File | undefined) => {
+        console.log(file, IMG_EXTENSIONS, getFileExtension(file?.name ?? ''))
         if (!file || !verifyImgFiles(file)) {
             return alert('图片不正确')
         }
@@ -40,6 +32,8 @@ const ImgList: FC<ImgListProps> = ({
             return alert(`抱歉，评论最多一次只能上传${maxLength}张图片`)
         }
         uploadFile(file)
+            .then(url => setImgList(imgList.concat(url)))
+            .catch(err => alert(err))
     }
     const removeImg = (index: number) => {
         const copyImgList = imgList.slice()
@@ -48,9 +42,13 @@ const ImgList: FC<ImgListProps> = ({
     }
 
     useEffect(() => {
-        initialFile && addImgs(initialFile)
+        if (currentUploadFile) {
+            currentUploadFile && addImgs(currentUploadFile)
+        } else {
+            setImgList([])
+        }
         // eslint-disable-next-line
-    }, [initialFile])
+    }, [currentUploadFile])
     // eslint-disable-next-line
     useEffect(() => observeImgChange?.(imgList), [imgList])
 
@@ -63,14 +61,14 @@ const ImgList: FC<ImgListProps> = ({
             className={styles.img_item}
             key={index}
         >
-            <img src={img.base64URL} alt=""/>
-            <i className='iconfont icon-cancel' onClick={() => removeImg(index)}></i>
+            <img src={img} alt=""/>
+            <i className='iconfont icon-cancel' onClick={() => removeImg(index)}/>
         </div>)}
         <div
             className={styles.add_img}
             onClick={() => fileRef?.current?.click()}
         >
-            <i className='iconfont icon-add'></i>
+            <i className='iconfont icon-add'/>
             <input
                 type="file"
                 ref={fileRef}

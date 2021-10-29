@@ -1,6 +1,7 @@
 import React, {FC, Fragment, useContext, useEffect, useState} from "react"
 
 import EmojiPicker from '@/component/emojiPicker/index.tsx'
+import ImageView from "../imageView"
 
 import { useComment, useLikeComment } from "../../query/commentQuery"
 import { useUserInfo } from "../../query/userQuery"
@@ -62,6 +63,9 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
                         {replyUsername && <Fragment><span>回复</span>{replyUsername}</Fragment>}
                     </div>
                     <div className={styles.comment_content}>{comment.content}</div>
+                    {!!comment.pics && <div className={styles.comment_img}>
+                        <ImageView images={comment.pics}/>
+                    </div>}
                     <div className={styles.comment_operation}>
                         <div
                             className={`${styles.like} ${comment.selfLike && styles.collected}`}

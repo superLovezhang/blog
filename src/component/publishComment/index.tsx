@@ -6,7 +6,6 @@ import ImgList from "@/component/imgList/index.tsx"
 
 import { useUserInfo } from "../../query/userQuery"
 import { useComment } from "../../query/commentQuery"
-import { Img } from "../../api/types"
 import { objectIsNull } from "../../util/util"
 import styles from "./index.module.less"
 
@@ -21,7 +20,7 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
     const [comment, setComment] = useState('')
     const [emojiVisible, setEmojiVisible] = useState(false)
     const [imgFile, setImgFile] = useState<undefined | File>()
-    const [files, setFiles] = useState<Img[] | []>([])
+    const [files, setFiles] = useState<string[]>([])
     const fileRef = useRef<null | HTMLInputElement>(null)
     const hasLogin = !objectIsNull(user)
     const { publishButtonBg, avatar, username } = useMemo(() => ({
@@ -34,9 +33,11 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
         await mutateAsync({
             articleId,
             content: comment,
-            pics: files.map(file => file.url).join(',')
+            pics: files.join(',')
         })
         setComment('')
+        setImgFile(undefined)
+        setFiles([])
     }
     useEffect(() => {
         window.onclick= (e) => setEmojiVisible(false)
@@ -101,7 +102,7 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
             <div className={styles.comment_img}>
                 <ImgList
                     observeImgChange={(files: any) => setFiles(files)}
-                    initialFile={imgFile}
+                    currentUploadFile={imgFile}
                     maxLength={5}
                     hideWhenFilesEmpty={true}
                 />

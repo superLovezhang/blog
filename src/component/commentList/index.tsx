@@ -1,10 +1,10 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC } from "react"
 
 import Comment from '@/component/comment/index.tsx'
 import Empty from "@/component/empty/index.tsx"
+import LoadMore from "../loadMore"
 
 import { useCommentList } from "../../query/commentQuery"
-import { list } from '../../api/comment'
 import { usePagination } from "../../util/hook"
 import { CommentTreeVO } from "../../api/types"
 import styles from "./index.module.less"
@@ -27,6 +27,7 @@ const CommentList: FC<CommentListProps> = ({ articleId }) => {
             parentId={comment.commentId}
             key={comment.commentId}
         />)}
+        <LoadMore hasMore={!!data?.data?.next} loadMore={nextPagination}/>
     </div>
 }
 

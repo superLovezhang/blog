@@ -22,11 +22,13 @@ const CommentList: FC<CommentListProps> = ({ articleId }) => {
     }
 
     return <div className={styles.comment_list_wrap}>
-        {commentList.map(comment => <Comment
-            comment={comment}
-            parentId={comment.commentId}
-            key={comment.commentId}
-        />)}
+        <div className={styles.comment_container}>
+            {commentList.map(comment => <Comment
+                comment={comment}
+                parentId={comment.commentId}
+                key={comment.commentId}
+            />)}
+        </div>
         <LoadMore hasMore={!!data?.data?.next} loadMore={nextPagination}/>
     </div>
 }

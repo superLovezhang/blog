@@ -37,10 +37,13 @@ export const useScroll = () => {
 
     return visible
 }
-export const usePagination: (size?: number) => [{ size: number, page: number}, () => void] = (size: number = 10) => {
-    const [pagination, setPagination] = useState({ page: 1, size })
-    const nextPage = () => setPagination({ ...pagination, page: pagination.page + 1 })
-    return [pagination, nextPage]
+export const usePagination: (size?: number) => [{ size: number, page: number}, () => void, () => void] =
+    (size: number = 10) => {
+    const defaultPagination = { page: 1, size }
+    const [pagination, setPagination] = useState(defaultPagination)
+    const nextPage = () => setPagination({ ...pagination, size: pagination.size + size })
+    const resetPagination = () => setPagination(defaultPagination)
+    return [pagination, nextPage, resetPagination]
 }
 export const useComment:
     () => [string, (s: string) => void, (params: Partial<CommentDTO>, callback?: () => void) => void, (commentId: string, callback?: () => void) => void]

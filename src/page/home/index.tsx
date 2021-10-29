@@ -17,7 +17,7 @@ import Empty from "../../component/empty";
 
 const Home = () => {
     const history = useHistory()
-    const [pagination, nextPage, resetPagination] = usePagination(1)
+    const [pagination, nextPage, resetPagination] = usePagination()
     const { state: { searchValue } } = useContext(blogContext)
     const [plainTextLayout, setPlainTextLayout] = useState(false)
     const [articleQueryParams, setArticleQueryParams] = useState<ArticleQueryParams>({ })

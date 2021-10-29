@@ -6,8 +6,9 @@
 + 🍊react-query + axios 
 + 🍋emoji-picker-react
 + 🍌react-markdown-editor-lite + markdown-it
-+ 🍍moment
++ 🍍moment.js
 + 🍆react-lazyload
++ 🍅react-photo-view
 ---
 ## 🍎start the project
 1. git clone ${the project address}
@@ -18,4 +19,4 @@
 ## 🌽message board
 the project preview address: http://www.tyzz.top
 
-🍏🍐🍑🍓🍒🍅
+🍏🍐🍑🍓🍒

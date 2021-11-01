@@ -1,4 +1,4 @@
-import { useState } from "react"
+import {useEffect, useState} from "react"
 
 import LazyImg from "@/component/lazyImg/index.tsx"
 import LoadMore from "@/component/loadMore/index.tsx"
@@ -10,14 +10,17 @@ import { bingDateFormat, bingPicURL } from "../../util/util"
 import styles from './index.module.less'
 
 const BiYing = () => {
-    const [pagination, nextPage] = usePagination(30)
+    const [pagination, nextPage] = usePagination(30, false)
     const { data } = useBingList({ ...pagination })
     //@ts-ignore
-    const { data: pictures, page, pages } = data ?? {}
+    const { data: picData, page, pages } = data ?? {}
+    const [pictures, setPictures] = useState([])
     const [picture, setPicture] = useState()
     const [detailVisible, setDetailVisible] = useState(false)
-    const topTwo = (pictures ?? []).slice(0, 2)
-    const renderItems = (pictures ?? []).slice(2)
+    const topTwo = pictures.slice(0, 2)
+    const renderItems = pictures.slice(2)
+
+    useEffect(() => setPictures(pictures.concat(picData ?? [])), [data])
 
     return <div className={styles.biying_wrap}>
         <div className={styles.biying_top}>

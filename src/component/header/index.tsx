@@ -100,7 +100,7 @@ const Header = () => {
                 <div className={styles.setting_item + ' cursor_pointer'}>
                     个人主页
                 </div>
-                <div className={styles.setting_item + ' cursor_pointer'}>
+                <div className={styles.setting_item + ' cursor_pointer'} onClick={() => history.push('/setting')}>
                     个人设置
                 </div>
                 <div className={styles.setting_item + ' cursor_pointer'} onClick={logout}>

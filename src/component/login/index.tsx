@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { RegisterOptions } from "react-hook-form/dist/types/validator"
 import { FieldError } from "react-hook-form/dist/types/errors"
 
-import { useRegister, useLogin } from "../../query/userQuery"
+import { useRegister, useLogin, useVerifyCode } from "../../query/userQuery"
 import { blogContext } from "../../store"
 import styles from './index.module.less'
 
@@ -15,7 +15,7 @@ interface Field {
     placeholder: string
     keyword: string
     optional?: (fields: any) => RegisterOptions
-    children?: ReactElement
+    children?: (fields: { [key: string]: any }) => ReactElement
 }
 const LOGIN_FIELDS: Field[] = [
     {
@@ -65,7 +65,7 @@ const REGISTER_FIELDS: Field[] = [
             pattern: /^\d+$/,
             required: true
         }),
-        children: <button>获取验证码</button>
+        children: (fields) => <VerifyCodeButton fields={fields}/>
     },
     {
         className: `${styles.login_input}`,
@@ -135,7 +135,7 @@ interface BlogInputProps {
     inputProps?: { [key: string]: any},
     iconClassName?: string,
     errors?: { [key: string]: FieldError },
-    children?: ReactElement,
+    children?: (fields: { [key: string]: any }) => ReactElement,
 }
 const BlogInput: FC<BlogInputProps> = ({
                                            className,
@@ -170,10 +170,18 @@ const BlogInput: FC<BlogInputProps> = ({
 interface LoginBoxProps {
 }
 const LoginBox: FC<LoginBoxProps> = () => {
-    const { mutate, isError, error } = useLogin()
+    const { mutate } = useLogin()
     const { handleSubmit, register, watch, formState: { errors } } = useForm()
 
-    useEffect(() => { isError && alert(error) }, [isError])
+    useEffect(() => {
+        window.onkeydown = (e) => {
+            if (e.keyCode === 13) {
+                handleSubmit(loginUser)()
+            }
+        }
+        return () => { window.onkeydown = null }
+        //eslint-disable-next-line
+    }, [])
     const loginUser = async (params: any) => {
         mutate(params)
     }
@@ -204,15 +212,15 @@ interface RegisterBoxProps {
     switchBox: () => void
 }
 const RegisterBox: FC<RegisterBoxProps> = ({ switchBox }) => {
-    const { mutate, isSuccess, error } = useRegister()
+    const { mutateAsync } = useRegister()
     const { register, watch, handleSubmit, reset, formState: { errors } } = useForm()
     const registerUser = (data: any) => {
-        mutate(data)
-        if (!isSuccess) {
-            return alert(error)
-        }
-        reset()
-        switchBox()
+        mutateAsync(data)
+            .then(res => {
+                alert('注册成功')
+                reset()
+                switchBox()
+            })
     }
 
     return <>
@@ -238,10 +246,54 @@ const RegisterBox: FC<RegisterBoxProps> = ({ switchBox }) => {
             errors={errors}
             fieldName={fieldName}
             iconClassName={iconClassName}
-            children={children}
+            //@ts-ignore
+            children={children?.(watch())}
         />)}
         <button onClick={handleSubmit(registerUser)}>立即注册</button>
     </>
+}
+
+interface VerifyCodeButtonProps {
+    fields: { [key: string]: any }
+}
+const VerifyCodeButton: FC<VerifyCodeButtonProps> = ({ fields }) => {
+    const [wait, setWait] = useState(false)
+    const [buttonText, setButtonText] = useState('获取验证码')
+    const { mutateAsync } = useVerifyCode()
+    const validateBeforeSend = () => {
+        if (wait) {
+            return false
+        }
+        if (!fields.email) {
+            alert('请输入邮箱')
+            return false
+        }
+        return true
+    }
+    const getVerifyCode = async () => {
+        if (!validateBeforeSend()) {
+            return
+        }
+        mutateAsync(fields.email)
+            //@ts-ignore
+            .then(data => { data?.code === 1000 && setWait(!wait)} )
+
+    }
+    const buttonTextInterval = () => {
+        let initTime = 30
+        const intervalName = setInterval(() => {
+            if (initTime > 0) {
+                setButtonText(`已发送（${initTime--}s）`)
+            } else {
+                setButtonText('获取验证码')
+                setWait(false)
+                clearInterval(intervalName)
+            }
+        }, 1000)
+    }
+    useEffect(() => {  wait && buttonTextInterval() }, [wait])
+
+    return <button onClick={getVerifyCode} style={{ cursor: `${wait ? 'not-allowed' : 'pointer'}` }}>{ buttonText }</button>
 }
 
 export default Login

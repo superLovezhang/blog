@@ -1,7 +1,6 @@
-import { FC, useEffect, useState } from "react"
+import { FC } from "react"
 
-import {ArticlePage, ArticleQueryParams, Category as CategoryType, Label} from '../../api/types'
-import { useArticleList } from "../../query/articleQuery"
+import { ArticleQueryParams, Category as CategoryType, Label } from '../../api/types'
 import { useCategoryList } from "../../query/categoryQuery"
 import { useLabelList } from "../../query/labelQuery"
 

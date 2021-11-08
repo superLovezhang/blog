@@ -9,6 +9,7 @@
 + 🍍moment.js
 + 🍆react-lazyload
 + 🍅react-photo-view
++ 🍒react-datepicker
 ---
 ## 🍎start the project
 1. git clone ${the project address}
@@ -19,4 +20,4 @@
 ## 🌽message board
 the project preview address: http://www.tyzz.top
 
-🍏🍐🍑🍓🍒
+🍏🍐🍑🍓

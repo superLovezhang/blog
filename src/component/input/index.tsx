@@ -1,23 +1,30 @@
 import styles from './index.module.less'
-import {ChangeEvent, FC, useState} from "react";
+import {ChangeEvent, FC, useEffect, useState} from "react"
 
 interface InputProps {
     placeholder?: string
+    value?: string
     onChange?: (value: any) => void
     onEnter?: () => void
+    onClick?: () => void
     iconClass?: string
     maxLength?: number
     style?: { [key: string]: string }
+    ref?: any
 }
 const Input: FC<InputProps> = ({
                                    onChange,
                                    placeholder,
                                    iconClass,
                                    onEnter,
+                                   onClick,
                                    maxLength,
-                                   style
+                                   style,
+                                   value : externalValue
 }) => {
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState(externalValue)
+    useEffect(() => setValue(externalValue), [externalValue])
+
     const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value)
         onChange?.(e.target.value)
@@ -30,6 +37,7 @@ const Input: FC<InputProps> = ({
             type="text"
             style={style}
             value={value}
+            onClick={() => onClick?.()}
             placeholder={placeholder ?? '请输入'}
             maxLength={maxLength ?? 16}
         />

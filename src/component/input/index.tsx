@@ -6,6 +6,7 @@ interface InputProps {
     onChange?: (value: any) => void
     onEnter?: () => void
     iconClass?: string
+    maxLength?: number
     style?: { [key: string]: string }
 }
 const Input: FC<InputProps> = ({
@@ -13,6 +14,7 @@ const Input: FC<InputProps> = ({
                                    placeholder,
                                    iconClass,
                                    onEnter,
+                                   maxLength,
                                    style
 }) => {
     const [value, setValue] = useState('')
@@ -29,7 +31,7 @@ const Input: FC<InputProps> = ({
             style={style}
             value={value}
             placeholder={placeholder ?? '请输入'}
-            maxLength={32}
+            maxLength={maxLength ?? 16}
         />
     </div>
 }

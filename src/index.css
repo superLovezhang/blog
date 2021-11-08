@@ -68,6 +68,7 @@ html.light {
   --border-line-color: #f2f2f2;
   --input-border-color: #05a6f0;
   --hover-color: rgb(242, 242, 242);
+  --alpha-color: 0,0,0;
   --common-linear-bg: linear-gradient(135deg,#0084ff,#3fe6fe);
 }
 html.dark {
@@ -79,6 +80,7 @@ html.dark {
   --border-line-color: #202025;
   --input-border-color: #05a6f0;
   --hover-color: rgb(37,37,44);
+  --alpha-color: 255, 255, 255;
   --common-linear-bg: linear-gradient(135deg,#0084ff,#3fe6fe);
 }
 #root {

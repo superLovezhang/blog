@@ -1,11 +1,15 @@
-import { forwardRef, useState } from "react"
+import { FC, forwardRef, useState } from "react"
+import moment from "moment"
 import DatePicker, { registerLocale } from "react-datepicker"
 import cn from 'date-fns/locale/zh-CN'
 import "react-datepicker/dist/react-datepicker.css"
 import Input from "../input"
 
 registerLocale('cn', cn)
-const MyDatePicker = () => {
+interface MyDatePickerProps {
+    onChange?: (date?: string) => void
+}
+const MyDatePicker: FC<MyDatePickerProps> = ({ onChange }) => {
     const [startDate, setStartDate] = useState<any>()
     //@ts-ignore
     const CustomInput = forwardRef(({ value, onClick }, ref) => <Input
@@ -22,7 +26,11 @@ const MyDatePicker = () => {
         dateFormat="yyyy-MM-dd"
         customInput={<CustomInput/>}
         isClearable={true}
-        onChange={(v) => setStartDate(v)}
+        onChange={(v) => {
+            //@ts-ignore
+            onChange?.(v ? moment(v).format('yyyy-MM-DD') : undefined)
+            setStartDate(v)
+        }}
     />
 }
 

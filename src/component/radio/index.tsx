@@ -19,7 +19,7 @@ const Radio: FC<RadioProps> = ({ data, onChange, selected, formProps }) => {
             <label>
                 <span>{item.name}</span>
                 <input
-                    defaultChecked={item.value === selected}
+                    checked={item.value === selected}
                     type="radio"
                     value={item.value}
                     name={radioName}

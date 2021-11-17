@@ -1,5 +1,5 @@
 import styles from './index.module.less'
-import {ChangeEvent, FC, useEffect, useState} from "react"
+import { ChangeEvent, FC } from "react"
 
 interface InputProps {
     placeholder?: string

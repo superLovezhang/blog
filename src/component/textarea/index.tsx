@@ -16,11 +16,9 @@ const TextArea: FC<TextAreaProps> = ({
                                          value,
                                          formProps
 }) => {
-    const [content, setContent] = useState(value ?? '')
     const [textNum, setTextNum] = useState(0)
     const textareaTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let currentContent = e.target.value ?? ''
-        setContent(currentContent)
         onChange?.(currentContent)
         setTextNum(currentContent.length)
     }
@@ -28,7 +26,6 @@ const TextArea: FC<TextAreaProps> = ({
     return <div className={styles.textarea_wrap}>
         <textarea
             {...formProps}
-            value={content}
             placeholder={placeholder ?? '请输入'}
             maxLength={maxLength ?? 300}
             onChange={textareaTextChange}

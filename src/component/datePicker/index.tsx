@@ -1,4 +1,4 @@
-import { FC, forwardRef, useState } from "react"
+import {FC, forwardRef, useEffect, useState} from "react"
 import moment from "moment"
 import DatePicker, { registerLocale } from "react-datepicker"
 import cn from 'date-fns/locale/zh-CN'
@@ -13,6 +13,7 @@ interface MyDatePickerProps {
 }
 const MyDatePicker: FC<MyDatePickerProps> = ({ onChange, value, formProps }) => {
     const [startDate, setStartDate] = useState<any>(value && new Date(value))
+    useEffect(() => { value && setStartDate(new Date(value)) }, [value])
     //@ts-ignore
     const CustomInput = forwardRef(({ value, onClick }, ref) => <Input
         {...formProps}

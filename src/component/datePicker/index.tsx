@@ -7,15 +7,17 @@ import Input from "../input"
 
 registerLocale('cn', cn)
 interface MyDatePickerProps {
+    value?: string
     onChange?: (date?: string) => void
+    formProps?: { [key: string]: any }
 }
-const MyDatePicker: FC<MyDatePickerProps> = ({ onChange }) => {
-    const [startDate, setStartDate] = useState<any>()
+const MyDatePicker: FC<MyDatePickerProps> = ({ onChange, value, formProps }) => {
+    const [startDate, setStartDate] = useState<any>(value && new Date(value))
     //@ts-ignore
     const CustomInput = forwardRef(({ value, onClick }, ref) => <Input
+        {...formProps}
         placeholder={'请选择生日'}
         onClick={onClick}
-        ref={ref}
         value={value}
         iconClass={'icon-calendar-alt'}
     />)

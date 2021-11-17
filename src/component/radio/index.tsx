@@ -4,11 +4,14 @@ import { RadioItem } from "../../api/types"
 import styles from './index.module.less'
 
 
+
 interface RadioProps {
+    selected?: string | number
     data: RadioItem[]
     onChange?: (item: RadioItem) => void
+    formProps?: { [key:string]: any }
 }
-const Radio: FC<RadioProps> = ({ data, onChange }) => {
+const Radio: FC<RadioProps> = ({ data, onChange, selected, formProps }) => {
     const radioName = 'SIGNATURE'
 
     return <div className={styles.radio_wrap}>
@@ -16,9 +19,12 @@ const Radio: FC<RadioProps> = ({ data, onChange }) => {
             <label>
                 <span>{item.name}</span>
                 <input
+                    defaultChecked={item.value === selected}
                     type="radio"
+                    value={item.value}
                     name={radioName}
                     onChange={() => onChange?.(item)}
+                    {...formProps}
                 />
             </label>
         </div>)}

@@ -19,12 +19,21 @@ export interface UserDTO {
     username: string
     password: string
     verifyCode: string
+    gender: number
+    birthday: string
+    description: string
+    city: string
+    avatar: string
 }
 export interface UserVO {
     userId: string
     username: string
     avatar: string
     email: string
+    gender: number
+    birthday: string
+    description: string
+    city: string
     createTime: string
     updateTime: string
 }
@@ -154,4 +163,8 @@ export interface CollectionVO {
     collectionId: string
     article: ArticleVO
     user: UserVO
+}
+export interface RadioItem {
+    name: string
+    value: string | number
 }

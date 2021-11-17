@@ -25,6 +25,7 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
     const { avatar, username } = comment?.user ?? {}
     const { username: replyUsername } = comment?.replyComment?.user ?? {}
     const user = userData?.data
+    const isMyComment = user?.userId === comment?.user.userId
 
     const replyComment = () => {
         if (user === null) {
@@ -39,6 +40,9 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
     }
     const clickLikeComment = async () => {
         await likeMutate(comment.commentId)
+    }
+    const removeComment = () => {
+
     }
     useEffect(() => {
         if (isCommentError) {
@@ -74,6 +78,13 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
                             <i className='iconfont icon-like-fill'/>
                             <span>{comment.likes} 点赞</span>
                         </div>
+                        {isMyComment && <div
+                            className={`${styles.like}`}
+                            onClick={removeComment}
+                        >
+                            <i className='iconfont icon-rubbish-icon'/>
+                            <span>删除</span>
+                        </div>}
                         <div className={styles.reply} onClick={() => replyComment()}>
                             <i className='iconfont icon-a-share3-fill'/>
                             <span>{showReply ? '取消回复' : '回复'}</span>

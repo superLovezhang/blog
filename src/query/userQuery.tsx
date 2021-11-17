@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-import { login, userInfo, register, sendVerifyCode } from '../api/user'
+import { login, userInfo, register, sendVerifyCode, saveUser } from '../api/user'
 import { blogContext } from "../store"
 
 const USER_PREFIX_KEY = 'USER_'
@@ -34,5 +34,12 @@ export const useUserInfo = () => {
 export const useVerifyCode = () => {
     return useMutation(sendVerifyCode, {
         onError: (err) => alert(err)
+    })
+}
+export const useSaveUser = () => {
+    return useMutation(saveUser, {
+        onError(err) {
+            alert(err)
+        }
     })
 }

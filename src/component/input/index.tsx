@@ -11,6 +11,7 @@ interface InputProps {
     maxLength?: number
     style?: { [key: string]: string }
     ref?: any
+    formProps?: { [key: string]: any }
 }
 const Input: FC<InputProps> = ({
                                    onChange,
@@ -20,18 +21,17 @@ const Input: FC<InputProps> = ({
                                    onClick,
                                    maxLength,
                                    style,
-                                   value : externalValue
+                                   value,
+                                   formProps
 }) => {
-    const [value, setValue] = useState(externalValue)
-    useEffect(() => setValue(externalValue), [externalValue])
 
     const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value)
         onChange?.(e.target.value)
     }
     return <div className={`${styles.input_wrap} ${!iconClass && styles.no_icon}`}>
         {iconClass && <i className={`iconfont ${iconClass}`}/>}
         <input
+            {...formProps}
             onChange={changeInputValue}
             onKeyDown={(e) => e.keyCode === 13 && onEnter?.()}
             type="text"
@@ -41,6 +41,7 @@ const Input: FC<InputProps> = ({
             placeholder={placeholder ?? '请输入'}
             maxLength={maxLength ?? 16}
         />
+        {formProps?.error && <span className={styles.warn_tip}>校验不通过</span>}
     </div>
 }
 

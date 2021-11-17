@@ -26,12 +26,7 @@ export const currentMomentObj = (): {
         timestamp: date.getTime()
     }
 }
-interface Response {
-    code: number
-    message: string
-    data: { [key: string]: any }
-}
-export const isSuccessful = (res: Partial<Response>) => res.code === 1000
+export const isSuccessful = (res: any) => res?.code === 1000
 export const MarkdownParser: MarkdownIt = new MarkdownIt({
     highlight: function (str: string, lang: string) {
         if (lang && hljs.getLanguage(lang)) {

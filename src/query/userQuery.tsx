@@ -37,7 +37,12 @@ export const useVerifyCode = () => {
     })
 }
 export const useSaveUser = () => {
+    const client = useQueryClient()
     return useMutation(saveUser, {
+        onSuccess() {
+            client.invalidateQueries(USER_INFO_KEY)
+            alert('保存成功')
+        },
         onError(err) {
             alert(err)
         }

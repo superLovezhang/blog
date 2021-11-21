@@ -31,6 +31,7 @@ const Header = () => {
     }
     const logout = () => {
         window.localStorage.removeItem('token')
+        history.push('/')
         refetch()
     }
     useEffect(() => {

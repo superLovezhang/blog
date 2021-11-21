@@ -37,6 +37,10 @@ export interface UserVO {
     createTime: string
     updateTime: string
 }
+export interface UserPasswordDTO {
+    verifyCode: string
+    password: string
+}
 export interface LoginParams {
     email: string,
     password: string

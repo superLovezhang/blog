@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-import { login, userInfo, register, sendVerifyCode, saveUser } from '../api/user'
+import {login, userInfo, register, sendVerifyCode, saveUser, updatePassword} from '../api/user'
 import { blogContext } from "../store"
 
 const USER_PREFIX_KEY = 'USER_'
@@ -43,6 +43,13 @@ export const useSaveUser = () => {
             client.invalidateQueries(USER_INFO_KEY)
             alert('保存成功')
         },
+        onError(err) {
+            alert(err)
+        }
+    })
+}
+export const useUserPassword = () => {
+    return useMutation(updatePassword, {
         onError(err) {
             alert(err)
         }

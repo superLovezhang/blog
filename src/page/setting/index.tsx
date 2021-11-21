@@ -4,6 +4,8 @@ import PersonalSetting from './personalSetting/index'
 import AccountSetting from './accountSetting/index'
 
 import styles from './index.module.less'
+import {useUserInfo} from "../../query/userQuery";
+import {UserVO} from "../../api/types";
 
 type MenuType = 'Personal' | 'Account'
 type MenuItem = {
@@ -25,6 +27,8 @@ const SETTING_MENUS: MenuItem[] = [
 ]
 const Setting = () => {
     const [settingType, setSettingType] = useState<MenuType>('Personal')
+    const { data: userData } = useUserInfo()
+    const userInfo = (userData?.data ?? {}) as Partial<UserVO>
 
     return <div className={styles.setting_wrap}>
         <div className={styles.setting_menu}>
@@ -43,7 +47,7 @@ const Setting = () => {
             </div>
         </div>
         <div className={styles.setting_content}>
-            {settingType === 'Personal' ? <PersonalSetting/> : <AccountSetting/>}
+            {settingType === 'Personal' ? <PersonalSetting userInfo={userInfo}/> : <AccountSetting email={userInfo.email}/>}
         </div>
     </div>
 }

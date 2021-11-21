@@ -65,7 +65,7 @@ const REGISTER_FIELDS: Field[] = [
             pattern: /^\d+$/,
             required: true
         }),
-        children: (fields) => <VerifyCodeButton fields={fields}/>
+        children: (fields) => <VerifyCodeButton email={fields?.email}/>
     },
     {
         className: `${styles.login_input}`,
@@ -120,7 +120,7 @@ const Login: FC<LoginProps> = () => {
                     <i className='iconfont icon-cancel' onClick={() => dispatch({ type: 'CLOSE_LOGIN'})}/>
                 </div>
                 <div className={styles.modal}>
-                {isLogin ? <LoginBox/> : <RegisterBox switchBox={() => setIsLogin(true)}/>}
+                    {isLogin ? <LoginBox/> : <RegisterBox switchBox={() => setIsLogin(true)}/>}
                 </div>
             </div>
         </div>
@@ -145,7 +145,7 @@ const BlogInput: FC<BlogInputProps> = ({
                                            children,
                                            keyword,
                                            fieldName
-}) => {
+                                       }) => {
     const error = errors && errors[fieldName]
     const errorTipMap = {
         'required': '不能为空',
@@ -195,7 +195,7 @@ const LoginBox: FC<LoginBoxProps> = () => {
                                fieldName,
                                keyword,
                                optional = () => undefined
-        }) => <BlogInput
+                           }) => <BlogInput
             key={fieldName}
             className={className}
             inputProps={{ type: type, placeholder: placeholder, ...register(fieldName, optional(watch())) }}
@@ -233,7 +233,7 @@ const RegisterBox: FC<RegisterBoxProps> = ({ switchBox }) => {
                                   optional = () => undefined,
                                   children,
                                   fieldName
-        }) => <BlogInput
+                              }) => <BlogInput
             key={fieldName}
             className={className}
             inputProps={{
@@ -254,9 +254,10 @@ const RegisterBox: FC<RegisterBoxProps> = ({ switchBox }) => {
 }
 
 interface VerifyCodeButtonProps {
-    fields: { [key: string]: any }
+    email?: string
+    codeType?: number
 }
-const VerifyCodeButton: FC<VerifyCodeButtonProps> = ({ fields }) => {
+export const VerifyCodeButton: FC<VerifyCodeButtonProps> = ({ email, codeType }) => {
     const [wait, setWait] = useState(false)
     const [buttonText, setButtonText] = useState('获取验证码')
     const { mutateAsync } = useVerifyCode()
@@ -264,7 +265,7 @@ const VerifyCodeButton: FC<VerifyCodeButtonProps> = ({ fields }) => {
         if (wait) {
             return false
         }
-        if (!fields.email) {
+        if (!email) {
             alert('请输入邮箱')
             return false
         }
@@ -274,7 +275,7 @@ const VerifyCodeButton: FC<VerifyCodeButtonProps> = ({ fields }) => {
         if (!validateBeforeSend()) {
             return
         }
-        mutateAsync(fields.email)
+        mutateAsync({ email: email as string, codeType })
             //@ts-ignore
             .then(data => { data?.code === 1000 && setWait(!wait)} )
 

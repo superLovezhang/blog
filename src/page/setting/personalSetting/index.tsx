@@ -1,4 +1,4 @@
-import { createRef, useEffect } from "react"
+import {createRef, FC, useEffect} from "react"
 import { useForm } from "react-hook-form"
 
 import Input from "../../../component/input"
@@ -11,12 +11,13 @@ import { UserVO } from "../../../api/types"
 import { uploadFile } from "../../../api/ossService"
 import styles from "./index.module.less"
 
-const PersonalSetting = () => {
+interface PersonalSettingProps {
+    userInfo: Partial<UserVO>
+}
+const PersonalSetting: FC<PersonalSettingProps> = ({ userInfo }) => {
     const avatarRef = createRef<HTMLInputElement>()
     const { register, getValues, handleSubmit, watch, setValue, formState: { errors } }  = useForm()
     const { mutate } = useSaveUser()
-    const { data: userData } = useUserInfo()
-    const userInfo = (userData?.data ?? {}) as Partial<UserVO>
     const genderData = [{ name: '男', value: 0 }, { name: '女', value: 1 }, { name: '保密', value: 3 }]
 
     useEffect(() => {

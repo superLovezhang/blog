@@ -1,22 +1,25 @@
 import { FC } from "react"
 import { useForm } from "react-hook-form"
+import { useHistory } from "react-router-dom"
+
 import Input from "../../../component/input"
 import Password from "../../../component/password"
-import { useUserPassword } from "../../../query/userQuery"
 
+import { useUserPassword } from "../../../query/userQuery"
 import styles from './index.module.less'
 
 interface AccountSettingProps {
     email?: string
 }
 const AccountSetting: FC<AccountSettingProps> = ({ email }) => {
-    const { register, handleSubmit, getValues, formState: { errors }, reset } = useForm()
+    const history = useHistory()
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm()
     const { mutateAsync } = useUserPassword()
     const updatePwd = (params: any) => {
         mutateAsync({ password: params.password, verifyCode: params.verifyCode })
             .then(res => {
                 alert('修改成功')
-                reset()
+                history.go(-1)
             })
     }
 

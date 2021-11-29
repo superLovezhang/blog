@@ -6,7 +6,7 @@ import styles from './index.module.less'
 
 
 interface RadioProps {
-    selected?: string | number
+    selected?: number
     data: RadioItem[]
     onChange?: (item: RadioItem) => void
     formProps?: { [key:string]: any }

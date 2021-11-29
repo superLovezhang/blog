@@ -1,4 +1,4 @@
-import {createRef, FC, useEffect} from "react"
+import { createRef, FC, useEffect } from "react"
 import { useForm } from "react-hook-form"
 
 import Input from "../../../component/input"
@@ -6,7 +6,7 @@ import Radio from "../../../component/radio"
 import MyDatePicker from "../../../component/datePicker"
 import TextArea from "../../../component/textarea"
 
-import { useSaveUser, useUserInfo } from "../../../query/userQuery"
+import { useSaveUser } from "../../../query/userQuery"
 import { UserVO } from "../../../api/types"
 import { uploadFile } from "../../../api/ossService"
 import styles from "./index.module.less"
@@ -24,7 +24,7 @@ const PersonalSetting: FC<PersonalSettingProps> = ({ userInfo }) => {
         setValue('avatar', userInfo.avatar)
         setValue('username', userInfo.username)
         setValue('gender', userInfo.gender)
-        setValue('birthday', userInfo.birthday)
+        setValue('birthday', userInfo.birthday) 
         setValue('city', userInfo.city)
         setValue('description', userInfo.description)
         watch()
@@ -33,13 +33,13 @@ const PersonalSetting: FC<PersonalSettingProps> = ({ userInfo }) => {
         console.log(data)
         mutate(data)
     }
-
+    console.log(getValues())
     return <div className={styles.setting_box}>
         <div className={styles.setting_item}>
             <div className={styles.left_label}>头像:</div>
             <div className={styles.right_content}>
                 <div className={styles.avatar} onClick={() => avatarRef?.current?.click?.()}>
-                    <img src={getValues()?.avatar} alt=""/>
+                    <img src={userInfo?.avatar} alt=""/>
                     <div className={styles.mask}>
                         <i className="iconfont icon-camera"/>
                     </div>
@@ -62,9 +62,9 @@ const PersonalSetting: FC<PersonalSettingProps> = ({ userInfo }) => {
             <div className={styles.left_label}>性别:</div>
             <div className={styles.right_content}>
                 <Radio
-                    selected={getValues()?.gender}
+                    selected={parseInt(getValues('gender') ?? -1)}
                     data={genderData}
-                    formProps={{ ...register('gender')}}
+                    formProps={{ ...register('gender', { setValueAs: v => parseInt(v) })}}
                 />
             </div>
         </div>

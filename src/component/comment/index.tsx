@@ -3,7 +3,7 @@ import React, {FC, Fragment, useContext, useEffect, useState} from "react"
 import EmojiPicker from '@/component/emojiPicker/index.tsx'
 import ImageView from "../imageView"
 
-import { useComment, useLikeComment } from "../../query/commentQuery"
+import { useComment, useLikeComment, useRemoveComment } from "../../query/commentQuery"
 import { useUserInfo } from "../../query/userQuery"
 import { blogContext } from "../../store"
 import { CommentTreeVO, CommentVO } from "../../api/types"
@@ -18,6 +18,7 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
     const { data: userData } = useUserInfo()
     const { mutateAsync: commentMutate, isError: isCommentError, error: commentError } = useComment()
     const { mutateAsync: likeMutate, isError: isLikeError, error: likeError } = useLikeComment()
+    const { mutate: removeCommentApi } = useRemoveComment()
     const [commentContent, setComment] = useState('')
     const { dispatch } = useContext(blogContext)
     const [showReply, setShowReply] = useState(false)
@@ -42,7 +43,9 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
         await likeMutate(comment.commentId)
     }
     const removeComment = () => {
-
+        if (window.confirm('确定删除这条评论吗')) {
+            removeCommentApi(comment.commentId)
+        }
     }
     useEffect(() => {
         if (isCommentError) {

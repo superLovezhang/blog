@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-import { comment, like, list } from '../api/comment'
+import { comment, like, list, remove } from '../api/comment'
 import { CommentPageDTO } from "../api/types"
 import { ARTICLE_DETAIL_KEY } from "./articleQuery"
 
@@ -25,4 +25,15 @@ export const useLikeComment = () => {
 }
 export const useCommentList = (params: Partial<CommentPageDTO>) => {
     return useQuery(COMMENT_LIST_KEY, () => list(params))
+}
+export const useRemoveComment = () => {
+    const client = useQueryClient()
+    return useMutation(remove, {
+        onSuccess() {
+            client.invalidateQueries(COMMENT_LIST_KEY)
+        },
+        onError(err) {
+            alert(err)
+        }
+    })
 }

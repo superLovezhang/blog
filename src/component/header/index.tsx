@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState, useContext } from "react"
 import { NavLink, useHistory } from 'react-router-dom'
 
-import Login from "@/component/login/index.tsx"
-
 import { useUserInfo } from "../../query/userQuery"
 import { blogContext } from "../../store"
 import { useTheme } from "@/util/hook.ts"

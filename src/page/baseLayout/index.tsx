@@ -20,6 +20,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ route }) => {
         if (pathname === '/login') {
             dispatch({ type: 'OPEN_LOGIN'})
         }
+        window.scrollTo({ top: 0 })
     }, [pathname])
 
     return <div className={styles.base_layout_wrap}>

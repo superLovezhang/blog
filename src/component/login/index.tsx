@@ -263,6 +263,7 @@ export const VerifyCodeButton: FC<VerifyCodeButtonProps> = ({ email, codeType })
     const { mutateAsync } = useVerifyCode()
     const validateBeforeSend = () => {
         if (wait) {
+            alert('请休息几秒吧')
             return false
         }
         if (!email) {
@@ -275,9 +276,8 @@ export const VerifyCodeButton: FC<VerifyCodeButtonProps> = ({ email, codeType })
         if (!validateBeforeSend()) {
             return
         }
+        setWait(true)
         mutateAsync({ email: email as string, codeType })
-            //@ts-ignore
-            .then(data => { data?.code === 1000 && setWait(!wait)} )
 
     }
     const buttonTextInterval = () => {

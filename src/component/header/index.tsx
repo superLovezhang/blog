@@ -97,7 +97,9 @@ const Header = () => {
                 onMouseEnter={() => setDropDownVisible(true)}
                 onMouseLeave={() => setDropDownVisible(false)}
             >
-                <i className={'iconfont icon-caret-up'}/>
+                <div className={styles.arrow_top}>
+                    <i className={'iconfont icon-caret-up'}/>
+                </div>
                 <div className={styles.setting_item + ' cursor_pointer'}>
                     个人主页
                 </div>

@@ -6,6 +6,7 @@ import Publish from '@/page/publish'
 import MessageBoard from '@/page/messageBoard'
 import BiYing from '@/page/biying'
 import Setting from '@/page/setting'
+import PersonalPage from '@/page/personalPage'
 
 const routes = [
     {
@@ -43,6 +44,12 @@ const routes = [
                 path: '/setting',
                 exact: true,
                 component: Setting,
+                needContainer: true
+            },
+            {
+                path: '/personalPage',
+                exact: true,
+                component: PersonalPage,
                 needContainer: true
             },
             {

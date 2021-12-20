@@ -3,12 +3,19 @@ import { useHistory } from 'react-router-dom'
 import moment from "moment"
 import { ArticleVO } from "../../api/types"
 import styles from "./index.module.less"
+import {className} from '../../util/util'
 
 interface ArticleItemProps {
-   article: ArticleVO
+    article: ArticleVO
+    plainTextLayout?: boolean
 }
-const ArticleItem: FC<ArticleItemProps> = ({ article }) => {
+const ArticleItem: FC<ArticleItemProps> = ({ article, plainTextLayout }) => {
     const history = useHistory()
+    const articleItemClassName = (hasCover: boolean) => className({
+        [styles.article_summary]: true,
+        [styles.article_card]: hasCover && !plainTextLayout,
+        [styles.article_text]: !hasCover || !!plainTextLayout
+    })
 
     return <div
         className={styles.article_item}
@@ -16,7 +23,7 @@ const ArticleItem: FC<ArticleItemProps> = ({ article }) => {
         onClick={() => history.push(`/article/${article.articleId}`)}
     >
         <h3 className={styles.article_title}>{article.articleName}</h3>
-        <div className={`${styles.article_summary} ${styles.article_card}`}>
+        <div className={articleItemClassName(!!article.cover)}>
             {article.cover && <div className={styles.summary_img}>
                 <img src={article.cover} alt={article.articleName}/>
             </div>}

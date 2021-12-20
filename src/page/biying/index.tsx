@@ -55,7 +55,7 @@ const BiYing = () => {
                             setDetailVisible(true)
                         }}
                     >
-                        <a href="javscript:;">
+                        <a href="javascript:;">
                             <div className={styles.item_top}>
                                 <LazyImg url={bingPicURL(pic)}/>
                             </div>

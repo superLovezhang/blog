@@ -1,0 +1,85 @@
+.global_radius {
+  border-radius: 3px;
+  overflow: hidden;
+}
+.personal_page_wrap {
+  display: flex;
+  .left_side {
+    width: 70%;
+    margin-right: 15px;
+    .user_info {
+      .global_radius();
+      .user_background {
+        height: 220px;
+      }
+      .user_detail {
+        height: 110px;
+        background-color: var(--main-bg-color);
+        position: relative;
+        padding-top: 12px;
+        box-sizing: border-box;
+        .user_avatar {
+          top: -55px;
+          left: 25px;
+          position: absolute;
+          img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+          }
+        }
+        .user_detail_box {
+          margin-left: 155px;
+          h4 {
+            font-size: 18px;
+            font-weight: bold;
+          }
+          p {
+            color: var(--sub-font-color);
+            margin-top: 12px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    .user_article {
+      margin-top: 8px;
+      .global_radius();
+      .article_type {
+        margin-bottom: 8px;
+        display: flex;
+        padding: 16px 20px 8px;
+        background-color: var(--main-bg-color);
+        .type_item {
+          margin-right: 20px;
+          cursor: pointer;
+          box-sizing: border-box;
+          padding-bottom: 10px;
+          &.active {
+            border-bottom: 2px solid var(--primary-color);
+          }
+        }
+      }
+      .article_list {
+        background-color: var(--main-bg-color);
+        .article_item {
+
+        }
+      }
+    }
+  }
+  .right_side {
+    width: 25%;
+    background-color: var(--main-bg-color);
+    font-size: 24px;
+    border-radius: 3px;
+    height: calc(100vh - 70px);
+    padding: 15px 7px;
+    box-sizing: border-box;
+    h3 {
+      padding-bottom: 12px;
+      padding-left: 20px;
+      border-bottom: 1px solid var(--border-line-color);
+    }
+  }
+}

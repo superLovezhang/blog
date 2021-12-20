@@ -48,6 +48,7 @@ export interface LoginParams {
 export interface ArticlePage {
     labelId?: string
     categoryId?: string
+    key?: number
     searchValue?: string
     sortColumn?: string
 }

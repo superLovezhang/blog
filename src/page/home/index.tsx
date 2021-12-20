@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react"
+import { useHistory } from 'react-router-dom'
 
 import Category from "@/component/category/index.tsx"
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
@@ -60,7 +61,11 @@ const Home = () => {
 
             {articles.length !== 0 ? <>
                 <div className={styles.article_list}>
-                    {articles.map((article: ArticleVO) => <ArticleItem article={article} key={article.articleId}/>)}
+                    {articles.map((article: ArticleVO) => <ArticleItem
+                        article={article}
+                        key={article.articleId}
+                        plainTextLayout={plainTextLayout}
+                    />)}
                 </div>
                 <LoadMore hasMore={!!articleData?.data?.next} loadMore={nextPage}/>
             </> : <Empty/>}

@@ -98,7 +98,7 @@ const Header = () => {
                 <div className={styles.arrow_top}>
                     <i className={'iconfont icon-caret-up'}/>
                 </div>
-                <div className={styles.setting_item + ' cursor_pointer'}>
+                <div className={styles.setting_item + ' cursor_pointer'} onClick={() => history.push('/personalPage')}>
                     个人主页
                 </div>
                 <div className={styles.setting_item + ' cursor_pointer'} onClick={() => history.push('/setting')}>

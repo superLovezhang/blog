@@ -18,7 +18,7 @@ const PersonalSetting: FC<PersonalSettingProps> = ({ userInfo }) => {
     const avatarRef = createRef<HTMLInputElement>()
     const { register, getValues, handleSubmit, watch, setValue, formState: { errors } }  = useForm()
     const { mutate } = useSaveUser()
-    const genderData = [{ name: '男', value: 0 }, { name: '女', value: 1 }, { name: '保密', value: 3 }]
+    const genderData = [{ name: '男', value: 0 }, { name: '女', value: 1 }, { name: '保密', value: -1 }]
 
     useEffect(() => {
         setValue('avatar', userInfo.avatar)

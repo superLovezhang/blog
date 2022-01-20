@@ -1,5 +1,5 @@
 ## 🎉🎉🎉The project for blog was created by react!😁😁😁
-## 🥭Technology used in project
+## 🥭Technologies used in project
 + 🍇typescript + react + react-cli + react-hook
 + 🍈craco
 + 🍉react-router + react-router-config

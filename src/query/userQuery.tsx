@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-import {login, userInfo, register, sendVerifyCode, saveUser, updatePassword} from '../api/user'
+import { login, userInfo, register, sendVerifyCode, saveUser, updatePassword } from '../api/user'
 import { blogContext } from "../store"
 
 const USER_PREFIX_KEY = 'USER_'
@@ -22,6 +22,7 @@ export const useLogin = () => {
             client.invalidateQueries(USER_INFO_KEY)
             dispatch({ type: 'CLOSE_LOGIN' })
             alert('登陆成功')
+            window.history.go(-1)
         },
         onError: (err) => alert(err)
     })

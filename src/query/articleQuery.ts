@@ -29,7 +29,7 @@ export const useSaveArticle = () => {
     const history = useHistory()
     return useMutation(save, {
         onSuccess(_, params: any) {
-            alert('发布成功')
+            alert('发布成功，请等待管理员审核')
             history.push('/')
             const processedDrafts = JSON.parse(window.localStorage.getItem('drafts') ?? '[]')
                 .filter((item: any) => item.title !== params.articleName)

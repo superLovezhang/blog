@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { QueryClientProvider, QueryClient } from 'react-query'
 import { BrowserRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
@@ -18,7 +18,9 @@ function App() {
     return (<BrowserRouter>
         <QueryClientProvider client={client}>
             <BlogProvider>
-                {renderRoutes(routes)}
+                <Suspense fallback={<div>loading...</div>}>
+                    {renderRoutes(routes)}
+                </Suspense>
             </BlogProvider>
         </QueryClientProvider>
     </BrowserRouter>)

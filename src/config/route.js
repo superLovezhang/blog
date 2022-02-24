@@ -1,12 +1,14 @@
-import Home from '@/page/home'
-import BaseLayout from '@/page/baseLayout'
-import Article from '@/page/article'
-import NotFound from '@/page/notfound'
-import Publish from '@/page/publish'
-import MessageBoard from '@/page/messageBoard'
-import BiYing from '@/page/biying'
-import Setting from '@/page/setting'
-import PersonalPage from '@/page/personalPage'
+import React from 'react'
+
+const Home = React.lazy(() => import('@/page/home'))
+const BaseLayout = React.lazy(() => import('@/page/baseLayout'))
+const Article = React.lazy(() => import('@/page/article'))
+const NotFound = React.lazy(() => import('@/page/notfound'))
+const Publish = React.lazy(() => import('@/page/publish'))
+const MessageBoard = React.lazy(() => import('@/page/messageBoard'))
+const BiYing = React.lazy(() => import('@/page/biying'))
+const Setting = React.lazy(() => import('@/page/setting'))
+const PersonalPage = React.lazy(() => import('@/page/personalPage'))
 
 const routes = [
     {

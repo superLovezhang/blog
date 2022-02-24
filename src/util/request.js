@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseURL = process.env.NODE_ENV === 'production' ? 'http://www.tyzz.top:8000/open' : '/open'
+const baseURL = process.env.NODE_ENV === 'production' ? 'https://www.tyzz.top:8000/open' : '/open'
 
 const request = axios.create({
     baseURL,

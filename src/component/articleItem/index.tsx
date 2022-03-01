@@ -28,7 +28,7 @@ const ArticleItem: FC<ArticleItemProps> = ({ article, plainTextLayout }) => {
                 <img src={article.cover} alt={article.articleName}/>
             </div>}
             <div className={styles.summary_text}>
-                <span>{article.previewContent}</span>
+                <span>{article.previewContent.substr(0, 100)}</span>
             </div>
         </div>
         <div className={styles.article_info}>

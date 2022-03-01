@@ -7,6 +7,8 @@ import ImgList from "@/component/imgList/index.tsx"
 import { useUserInfo } from "../../query/userQuery"
 import { useComment } from "../../query/commentQuery"
 import { objectIsNull } from "../../util/util"
+import { DEFAULT_AVATAR } from "../../util/constant"
+
 import styles from "./index.module.less"
 
 interface CommentProps {
@@ -25,7 +27,7 @@ const PublishComment: FC<CommentProps> = ({ buttonBgColor = '#0084ff,#3fe6fe', a
     const hasLogin = !objectIsNull(user)
     const { publishButtonBg, avatar, username } = useMemo(() => ({
         publishButtonBg: hasLogin ? `linear-gradient(135deg,${buttonBgColor})` : '#ccc',
-        avatar: hasLogin ? user.avatar : 'https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/avatar/default-avatar.png?x-oss-process=image/resize,limit_0,m_fill,w_40,h_40/quality,q_100',
+        avatar: hasLogin ? user.avatar : DEFAULT_AVATAR,
         username: hasLogin ? user.username : '游客'
     }), [user, buttonBgColor, hasLogin])
 

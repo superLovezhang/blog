@@ -155,3 +155,6 @@ a {
 .custom-html-style p {
   font-size: 16px!important;
 }
+.custom-html-style {
+  color: inherit!important;
+}

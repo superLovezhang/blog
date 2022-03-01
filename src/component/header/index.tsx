@@ -5,6 +5,8 @@ import { useUserInfo } from "../../query/userQuery"
 import { blogContext } from "../../store"
 import { useTheme } from "@/util/hook.ts"
 import { className, objectIsNull } from '@/util/util.ts'
+import { DEFAULT_AVATAR } from "../../util/constant"
+
 import styles from './index.module.less'
 
 const Header = () => {
@@ -20,7 +22,7 @@ const Header = () => {
         'icon-Moon': theme !== 'light'
     }), [theme])
     const user = data?.data
-    const avatar = user?.avatar || 'https://xdlumia.oss-cn-beijing.aliyuncs.com/blog/avatar/default-avatar.png?x-oss-process=image/resize,limit_0,m_fill,w_40,h_40/quality,q_100'
+    const avatar = user?.avatar || DEFAULT_AVATAR
 
     const search = (e: any) => {
         if (e.keyCode === 13) {

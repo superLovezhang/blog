@@ -1,1 +1,2 @@
 export const IMG_EXTENSIONS = ['.jpeg', '.tiff', '.png', '.gif', '.psd', '.svg', '.pdf', '.jpg']
+export const DEFAULT_AVATAR = "https://tyzzblog.oss-cn-beijing.aliyuncs.com/2021/10/21/1634823510837image.png"

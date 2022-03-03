@@ -158,3 +158,6 @@ a {
 .custom-html-style {
   color: inherit!important;
 }
+.custom-html-style blockquote {
+  color: inherit!important;
+}

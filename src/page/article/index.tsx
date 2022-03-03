@@ -49,7 +49,7 @@ const Article: FC<ArticleProps> = () => {
                         <div className={styles.article_category}>
                             <span>文章分类</span>
                             <div className={styles.category_item}>
-                                <i className={`iconfont ${article.category?.iconClass}`}/>前端
+                                <i className={`iconfont ${article.category?.iconClass}`}/>{article.category?.categoryName}
                             </div>
                         </div>
                         <div className={styles.article_label}>

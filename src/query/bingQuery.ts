@@ -13,5 +13,7 @@ export const useBingList = (params?: Partial<BasePageDTO>) => {
     })
 }
 export const useTodayPaper = () => {
-    return useQuery([BING_TODAY_KEY], todayWallPaper)
+    return useQuery([BING_TODAY_KEY], todayWallPaper, {
+        staleTime: 1000 * 60 * 5
+    })
 }

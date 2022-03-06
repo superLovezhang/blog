@@ -87,7 +87,7 @@ export interface ArticleVO {
     previewContent: string
     cover: string
     linkAddress: string
-    articleType: string
+    articleType: ArticleType
     category: CategoryVO
     labels: LabelVO[]
     commentCount: number
@@ -172,4 +172,11 @@ export interface CollectionVO {
 export interface RadioItem {
     name: string
     value: string | number
+}
+export type ArticleType = 'ORIGINAL' | 'REPRINT' | 'TRANSLATE'
+export interface PublishParameters {
+    categoryId?: string
+    labelIds?: string[]
+    articleType?: ArticleType
+    linkAddress?: string
 }

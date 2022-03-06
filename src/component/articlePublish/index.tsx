@@ -1,8 +1,9 @@
-import { FC, useState } from "react"
+import {FC, useEffect, useState} from "react"
 import Multiselect from 'multiselect-react-dropdown'
 
 import { useCategoryList } from "../../query/categoryQuery"
 import { useLabelList } from "../../query/labelQuery"
+import { ArticleType, PublishParameters } from "../../api/types"
 import styles from "./index.module.less"
 
 const types: { name: string, type: ArticleType }[] = [
@@ -20,19 +21,18 @@ const types: { name: string, type: ArticleType }[] = [
     }
 ]
 
-type ArticleType = 'ORIGINAL' | 'REPRINT' | 'TRANSLATE'
-export interface PublishParameters {
-    categoryId?: string
-    labelIds?: string[]
-    articleType?: ArticleType
-    linkAddress?: string
-}
+
 interface ArticlePublishProps {
     style?: { [property: string]: string }
     onPublish?: (extraParameters: PublishParameters) => void
     visible?: boolean
+    defaultPublishParameters?: PublishParameters
 }
-const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) => {
+const ArticlePublish: FC<ArticlePublishProps> = ({ style,
+                                                     onPublish,
+                                                     visible,
+                                                     defaultPublishParameters
+}) => {
     const { data: categoryData } = useCategoryList()
     const { data: labelData } = useLabelList()
     const [publishParameters, setPublishParameters] = useState<PublishParameters>({
@@ -45,21 +45,15 @@ const ArticlePublish: FC<ArticlePublishProps> = ({ style, onPublish, visible }) 
     const categories = categoryData?.data ?? []
     const labels = labelData?.data ?? []
 
-    const validateParameters = () => {
-        for (let key in publishParameters) {
-            //@ts-ignore
-            const value = publishParameters[key]
-            if (!value) {
-                if (key !== 'linkAddress') {
-                    return false
-                }
-                if (publishParameters.articleType !== 'ORIGINAL') {
-                    return false
-                }
-            }
+    useEffect(() => setPublishParameters(defaultPublishParameters ?? {}), [defaultPublishParameters])
 
-        }
-        return true
+    const validateParameters = () => {
+        return Object.keys(publishParameters)
+            //@ts-ignore
+            .every(key => !!publishParameters[key] ||
+                (key === 'linkAddress' &&
+                publishParameters.articleType === 'ORIGINAL')
+            )
     }
     const publishArticle = () => {
         if (!validateParameters()) {

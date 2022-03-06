@@ -1,12 +1,13 @@
 import { useQuery, useMutation } from 'react-query'
 import { useHistory } from "react-router-dom"
-import { articleList, detail, hotList, save } from '../api/article'
+import { articleList, detail, ensurePermissionDetail, hotList, save } from '../api/article'
 import { ArticlePage } from "../api/types"
 
 export const QUERY_PREFIX = "ARTICLE_"
 export const ARTICLE_HOT_LIST_KEY = QUERY_PREFIX + "HOT_LIST"
 export const ARTICLE_DETAIL_KEY = QUERY_PREFIX + "DETAIL"
 export const ARTICLE_LIST_KEY = QUERY_PREFIX + "LIST"
+export const ARTICLE_PERMISSION_DETAIL = QUERY_PREFIX + "PERMISSION_DETAIL"
 export const useArticleHotList = () => {
     return useQuery(ARTICLE_HOT_LIST_KEY, hotList, {
         onError(err) {
@@ -34,6 +35,15 @@ export const useSaveArticle = () => {
             const processedDrafts = JSON.parse(window.localStorage.getItem('drafts') ?? '[]')
                 .filter((item: any) => item.title !== params.articleName)
             window.localStorage.setItem('drafts', JSON.stringify(processedDrafts))
+        }
+    })
+}
+
+export const usePermissionDetail = (articleId: string) => {
+    return useQuery(ARTICLE_PERMISSION_DETAIL, () => ensurePermissionDetail(articleId), {
+        enabled: !!articleId,
+        onError(err) {
+            alert(err)
         }
     })
 }

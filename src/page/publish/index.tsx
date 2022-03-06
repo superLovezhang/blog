@@ -5,14 +5,19 @@ import MarkdownEditor from '@/component/markdownEditor/index.tsx'
 import Empty from "@/component/empty/index.tsx"
 import ArticlePublish from "@/component/articlePublish/index.tsx"
 
-import { useSaveArticle } from "../../query/articleQuery"
+import { usePermissionDetail, useSaveArticle } from "../../query/articleQuery"
 import { className } from '@/util/util.ts'
+import { useParams } from "../../util/hook"
+import { ArticleVO, PublishParameters } from "../../api/types"
 import styles from './index.module.less'
+import {Debugger} from "inspector";
 
 interface Draft {
+    id?: string
     title?: string
     content?: string
     editTime: number
+    publishParameters?: PublishParameters
 }
 const Publish = () => {
     const { mutate, isError, error } = useSaveArticle()
@@ -23,13 +28,11 @@ const Publish = () => {
     const isEmpty = useMemo(() => drafts.length === 0, [drafts])
     const draft = useMemo(() => drafts[draftIndex] ?? {}, [draftIndex, drafts])
     const disablePublish = !draft.title || !draft.content
-
-    useEffect(() => {
-        window.onclick = () => setShowPublishSetting(false)
-        return () => { window.onclick = null }
-    }, [])
+    const articleId = useParams()['articleId']
+    const { data: articleData } = usePermissionDetail(articleId)
     //@ts-ignore
-    useEffect(() => isError && alert(error), [isError, error])
+    const article: ArticleVO = articleData?.data
+    console.log('current article is: ' , article, 'articleId: ', articleId)
 
     const defaultTitle = () => {
         const currentMoment = moment(new Date())
@@ -55,7 +58,7 @@ const Publish = () => {
     const preserveDrafts = (drafts: Draft[]) => {
         window.localStorage.setItem('drafts', JSON.stringify(drafts))
         setDrafts(drafts)
-        draftIndex > drafts.length - 1 && setDraftIndex(drafts.length - 1)
+        // draftIndex > drafts.length - 1 && setDraftIndex(drafts.length - 1)
     }
     const createPreserveDrafts = (drafts: Draft[]) => {
         preserveDrafts(drafts)
@@ -75,17 +78,61 @@ const Publish = () => {
         cloneDrafts.splice(index, 1)
         removePreserveDrafts(cloneDrafts)
     }
-    const newDrafts = () => {
+    const newDrafts = (draft?: Draft) => {
         const cloneDrafts = drafts.splice(0)
-        cloneDrafts.push(createDefaultDraft())
+        cloneDrafts.push(draft ?? createDefaultDraft())
         return cloneDrafts
     }
-    const createNewDraft = () => {
-        createPreserveDrafts(newDrafts())
+    function createNewDraft() : void;
+    function createNewDraft(draft: Draft): void;
+    function createNewDraft(draft?: Draft): void {
+        createPreserveDrafts(newDrafts(draft))
     }
     const publishArticle = (publishParameters: any) => {
-        mutate({ articleName: draft.title, content: draft.content, htmlContent, ...publishParameters })
+        mutate({ articleName: draft.title, content: draft.content, articleId: draft.id, htmlContent, ...publishParameters })
     }
+    const assemblyPublishParameters = (article: ArticleVO) => {
+        debugger
+        return {
+            categoryId: article.category.categoryId,
+            labelIds: article.labels.map(label => label.labelId),
+            articleType: article.articleType,
+            linkAddress: article.linkAddress
+        } as PublishParameters
+    }
+    const assemblyDraft = (article: ArticleVO) => {
+        return {
+            publishParameters: assemblyPublishParameters(article),
+            content: article.content,
+            id: article.articleId,
+            title: article.articleName,
+            editTime: new Date().getTime()
+        } as Draft
+    }
+    const removeNavigationParameters = () => {
+        window.history.replaceState(null, '', window.location.href.replace(window.location.search, ''))
+    }
+    const editPublishedArticle = (article: ArticleVO) => {
+        createNewDraft(assemblyDraft(article))
+        removeNavigationParameters()
+    }
+
+    /**
+     * 如果路由有id就去数据库查询当前文章数据 √
+     * 然后写入localstorage中
+     * 然后移除路由id 防止重复写入
+     */
+    useEffect(() => {
+        if (!!articleId && !!article) {
+            editPublishedArticle(article)
+        }
+    }, [articleId, article])
+    useEffect(() => {
+        window.onclick = () => setShowPublishSetting(false)
+        return () => { window.onclick = null }
+    }, [])
+    //@ts-ignore
+    useEffect(() => isError && alert(error), [isError, error])
 
     return <div className={styles.publish_wrap}>
         <div className={styles.draft_bar}>
@@ -144,6 +191,7 @@ const Publish = () => {
                     style={{ top: '45px', right: '10px' }}
                     visible={showPublishSetting}
                     onPublish={(params: any) => publishArticle(params)}
+                    defaultPublishParameters={draft.publishParameters ?? {}}
                 />
             </div>
             <MarkdownEditor

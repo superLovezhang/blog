@@ -57,8 +57,8 @@ const MarkdownEditor: FC<MarkdownEditorProps> = ({
 
 const NavbarWrapper = (html: string, mdContent: string) => {
     return <div style={{ position: 'relative'}}>
-        <MarkdownNavbar source={mdContent}/>
-        <div dangerouslySetInnerHTML={{__html: html}}></div>
+        <MarkdownNavbar source={mdContent} position={'right'}/>
+        <div dangerouslySetInnerHTML={{__html: html}}/>
     </div>
 }
 

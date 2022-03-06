@@ -18,12 +18,12 @@ const MarkdownNavbar: FC<MarkdownNavbarProps> = ({ source, position = 'left' }) 
         ` ${position === 'left' ? styles.left : styles.right}`
         }
     >
-            <div
-                className={styles.toggle_btn}
-                onClick={() => {
-                    setNavVisible(!navVisible);
-                }}
-            >目录</div>
+        <div
+            className={styles.toggle_btn}
+            onClick={() => {
+                setNavVisible(!navVisible);
+            }}
+        >目录</div>
         <Navbar
             className={styles.markdown_navbar}
             source={source}

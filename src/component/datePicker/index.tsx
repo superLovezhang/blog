@@ -28,7 +28,10 @@ const MyDatePicker: FC<MyDatePickerProps> = ({ onChange, value, formProps }) => 
         locale="cn"
         dateFormat="yyyy-MM-dd"
         customInput={<CustomInput/>}
-        isClearable={true}
+        isClearable
+        showYearDropdown
+        scrollableYearDropdown
+        yearDropdownItemNumber={30}
         onChange={(v) => {
             //@ts-ignore
             onChange?.(v ? moment(v).format('yyyy-MM-DD') : undefined)

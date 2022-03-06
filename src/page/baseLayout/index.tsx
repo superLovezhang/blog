@@ -6,8 +6,9 @@ import Login from "../../component/login/index"
 import ToTop from "@/component/toTop/index.tsx"
 import Header from '@/component/header/index.tsx'
 
+import { blogContext } from "../../store"
 import styles from './index.module.less'
-import {blogContext} from "../../store";
+import { useUserInfo } from "../../query/userQuery";
 
 interface BaseLayoutProps {
     route : RouteConfig
@@ -15,13 +16,17 @@ interface BaseLayoutProps {
 const BaseLayout: FC<BaseLayoutProps> = ({ route }) => {
     const { dispatch } = useContext(blogContext)
     const { pathname } = useLocation()
+    const { data: userData } = useUserInfo()
     const matchRoute = useMemo(() => matchRoutes(route.routes ?? [], pathname)[0], [route, pathname])
     useEffect(() => {
-        if (pathname === '/login') {
-            dispatch({ type: 'OPEN_LOGIN'})
+        if (pathname === '/login' && !!userData) {
+            console.log(userData)
+            if (!userData?.data) {
+                dispatch({type: 'OPEN_LOGIN'})
+            }
         }
         window.scrollTo({ top: 0 })
-    }, [pathname])
+    }, [pathname, userData])
 
     return <div className={styles.base_layout_wrap}>
         <Header/>

@@ -22,14 +22,14 @@ export const useLogin = () => {
             client.invalidateQueries(USER_INFO_KEY)
             dispatch({ type: 'CLOSE_LOGIN' })
             alert('登陆成功')
-            window.history.go(-1)
         },
         onError: (err) => alert(err)
     })
 }
 export const useUserInfo = () => {
     return useQuery([USER_INFO_KEY], userInfo, {
-        enabled: true
+        enabled: true,
+        staleTime: 1000 * 60 * 5
     })
 }
 export const useVerifyCode = () => {

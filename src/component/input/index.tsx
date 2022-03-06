@@ -1,6 +1,6 @@
 import { ChangeEvent, FC } from "react"
-import styles from './index.module.less'
 import { VerifyCodeButton } from "../login"
+import styles from './index.module.less'
 
 type InputType = 'INPUT' | 'VERIFY_CODE'
 interface InputProps {

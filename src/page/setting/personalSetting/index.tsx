@@ -33,13 +33,12 @@ const PersonalSetting: FC<PersonalSettingProps> = ({ userInfo }) => {
         console.log(data)
         mutate(data)
     }
-    console.log(getValues())
     return <div className={styles.setting_box}>
         <div className={styles.setting_item}>
             <div className={styles.left_label}>头像:</div>
             <div className={styles.right_content}>
                 <div className={styles.avatar} onClick={() => avatarRef?.current?.click?.()}>
-                    <img src={userInfo?.avatar} alt=""/>
+                    <img src={getValues('avatar') ?? userInfo?.avatar} alt=""/>
                     <div className={styles.mask}>
                         <i className="iconfont icon-camera"/>
                     </div>

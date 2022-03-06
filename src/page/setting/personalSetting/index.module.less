@@ -4,6 +4,7 @@
   height: 100%;
   .setting_item {
     margin-bottom: 18px;
+    display: flex;
     .left_label {
       width: 80px;
       height: 32px;
@@ -13,16 +14,19 @@
       text-align: right;
     }
     .right_content {
+      flex: 1;
       position: relative;
-      margin-left: 80px;
       .avatar {
-        width: 90px;
+        width: 100%;
         height: 90px;
         cursor: pointer;
         &:hover > .mask {
           opacity: 1;
         }
         img {
+          position: absolute;
+          top: 0;
+          left: 10px;
           width: 90px;
           height: 90px;
           cursor: pointer;
@@ -38,6 +42,7 @@
         }
         .mask {
           top: 0;
+          left: 10px;
           width: 90px;
           border-radius: 50%;
           height: 90px;

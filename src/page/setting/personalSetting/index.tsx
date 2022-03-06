@@ -24,7 +24,7 @@ const PersonalSetting: FC<PersonalSettingProps> = ({ userInfo }) => {
         setValue('avatar', userInfo.avatar)
         setValue('username', userInfo.username)
         setValue('gender', userInfo.gender)
-        setValue('birthday', userInfo.birthday) 
+        setValue('birthday', userInfo.birthday)
         setValue('city', userInfo.city)
         setValue('description', userInfo.description)
         watch()
@@ -38,7 +38,7 @@ const PersonalSetting: FC<PersonalSettingProps> = ({ userInfo }) => {
             <div className={styles.left_label}>头像:</div>
             <div className={styles.right_content}>
                 <div className={styles.avatar} onClick={() => avatarRef?.current?.click?.()}>
-                    <img src={getValues('avatar') ?? userInfo?.avatar} alt=""/>
+                    <img src={getValues('avatar') ?? userInfo.avatar} alt=""/>
                     <div className={styles.mask}>
                         <i className="iconfont icon-camera"/>
                     </div>

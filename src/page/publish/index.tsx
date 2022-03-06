@@ -154,6 +154,7 @@ const Publish = () => {
                     color: 'inherit',
                     border: '1px solid var(--border-line-color)'
                 }}
+                immediateSetHtml={draftIndex}
                 setMdContent={editArticleContent}
                 setHtmlContent={(html: string) => setHtmlContent(html)}
             />

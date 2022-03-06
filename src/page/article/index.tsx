@@ -4,11 +4,13 @@ import moment from "moment"
 import 'react-markdown-editor-lite/lib/index.css'
 
 
+
 import ArticleShortcut from "@/component/articleShortcut/index.tsx"
 import Share from "./share/index.tsx"
 import PublishComment from "@/component/publishComment/index.tsx"
 import Loading from "@/component/loading/index.tsx"
 import CommentList from "../../component/commentList"
+import MarkdownNavbar from "../../component/markdonwNavbar"
 
 import { useArticleDetail } from "../../query/articleQuery"
 import { ArticleVO } from "../../api/types"
@@ -21,6 +23,7 @@ const Article: FC<ArticleProps> = () => {
     const article = data?.data as Partial<ArticleVO>
 
     return <div className={styles.article_detail_wrap}>
+        <MarkdownNavbar source={article?.content ?? ''}/>
         <Share articleId={id} collected={article?.collected}/>
         <div className={styles.article_detail}>
             {!isLoading ? <>
@@ -41,9 +44,7 @@ const Article: FC<ArticleProps> = () => {
                         <div className={styles.publish_time}>发布于:{moment(article.createTime).fromNow()}</div>
                     </div>
                 </div>
-                <div
-                    className={styles.article_content + ' custom-html-style'}
-                >
+                <div className={styles.article_content + ' custom-html-style'}>
                     <div className={styles.article_text_box} dangerouslySetInnerHTML={{__html: article?.htmlContent ?? ''}}/>
                     <div className={styles.article_index}>
                         <div className={styles.article_category}>

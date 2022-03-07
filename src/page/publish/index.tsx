@@ -10,7 +10,6 @@ import { className } from '@/util/util.ts'
 import { useParams } from "../../util/hook"
 import { ArticleVO, PublishParameters } from "../../api/types"
 import styles from './index.module.less'
-import {Debugger} from "inspector";
 
 interface Draft {
     id?: string
@@ -83,16 +82,17 @@ const Publish = () => {
         cloneDrafts.push(draft ?? createDefaultDraft())
         return cloneDrafts
     }
-    function createNewDraft() : void;
-    function createNewDraft(draft: Draft): void;
-    function createNewDraft(draft?: Draft): void {
+
+    const createNewDraft = () => {
+        createPreserveDrafts(newDrafts())
+    }
+    const storageGeneratedDraft = (draft: Draft) => {
         createPreserveDrafts(newDrafts(draft))
     }
     const publishArticle = (publishParameters: any) => {
         mutate({ articleName: draft.title, content: draft.content, articleId: draft.id, htmlContent, ...publishParameters })
     }
     const assemblyPublishParameters = (article: ArticleVO) => {
-        debugger
         return {
             categoryId: article.category.categoryId,
             labelIds: article.labels.map(label => label.labelId),
@@ -113,7 +113,7 @@ const Publish = () => {
         window.history.replaceState(null, '', window.location.href.replace(window.location.search, ''))
     }
     const editPublishedArticle = (article: ArticleVO) => {
-        createNewDraft(assemblyDraft(article))
+        storageGeneratedDraft(assemblyDraft(article))
         removeNavigationParameters()
     }
 
@@ -202,7 +202,6 @@ const Publish = () => {
                     color: 'inherit',
                     border: '1px solid var(--border-line-color)'
                 }}
-                immediateSetHtml={draftIndex}
                 setMdContent={editArticleContent}
                 setHtmlContent={(html: string) => setHtmlContent(html)}
             />

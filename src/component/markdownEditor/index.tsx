@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, {FC, useEffect, useMemo, useState} from 'react'
 import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
 
@@ -15,7 +15,6 @@ interface MarkdownEditorProps {
     style?: { [property: string]: string }
     placeholder?: string
     value?: string
-    immediateSetHtml?: any
 }
 const MarkdownEditor: FC<MarkdownEditorProps> = ({
                                                      style,
@@ -23,7 +22,6 @@ const MarkdownEditor: FC<MarkdownEditorProps> = ({
                                                      setHtmlContent,
                                                      placeholder = '请输入内容',
                                                      value,
-                                                     immediateSetHtml
 }) => {
     const onImageUpload = (file: File) => new Promise(resolve => {
         uploadFile(file)
@@ -33,16 +31,12 @@ const MarkdownEditor: FC<MarkdownEditorProps> = ({
                 alert(err)
             })
     })
-    const onChange = ({ text, html }:  {
-        text: string;
-        html: string;
-    }) => {
-        setMdContent(text)
-        setHtmlContent?.(html)
-    }
+    const onChange = ({ text } : { text: string })=> setMdContent(text)
     useEffect(() => {
-        !!value && setHtmlContent?.(MarkdownParser.render(value))
-    }, [immediateSetHtml])
+        if (!!value) {
+            setHtmlContent?.(MarkdownParser.render(value))
+        }
+    }, [value])
 
     return <MdEditor
         style={style}

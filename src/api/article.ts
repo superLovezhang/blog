@@ -25,3 +25,8 @@ export const hotList = () => request('/article/hot')
  * @param articleId
  */
 export const ensurePermissionDetail = (articleId: string) => request('/article/ensurePermissionDetail', { params: { articleId: articleId} })
+/**
+ * 删除文章
+ * @param articleId
+ */
+export const remove = (articleId: string) => request('/article/remove/' + articleId )

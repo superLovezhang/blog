@@ -1,6 +1,6 @@
-import { useQuery, useMutation } from 'react-query'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { useHistory } from "react-router-dom"
-import { articleList, detail, ensurePermissionDetail, hotList, save } from '../api/article'
+import { articleList, detail, ensurePermissionDetail, hotList, save, remove } from '../api/article'
 import { ArticlePage } from "../api/types"
 
 export const QUERY_PREFIX = "ARTICLE_"
@@ -43,6 +43,18 @@ export const usePermissionDetail = (articleId: string) => {
     return useQuery(ARTICLE_PERMISSION_DETAIL, () => ensurePermissionDetail(articleId), {
         enabled: !!articleId,
         onError(err) {
+            alert(err)
+        }
+    })
+}
+export const useDeleteArticle = () => {
+    let client = useQueryClient()
+    return useMutation(remove, {
+        onSuccess: () => {
+            alert('删除成功！')
+            client.refetchQueries(ARTICLE_LIST_KEY)
+        },
+        onError: (err) => {
             alert(err)
         }
     })

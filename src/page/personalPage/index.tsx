@@ -11,6 +11,7 @@ import { useArticleList } from "../../query/articleQuery"
 import { usePagination } from "../../util/hook"
 import { ArticleVO } from "../../api/types"
 import styles from './index.module.less'
+import {QUOTES} from "../../util/constant";
 
 const ARTICLE_LIST = [
     {
@@ -32,6 +33,7 @@ interface PersonalPageProps {
 const PersonalPage: FC<PersonalPageProps> = () => {
     const [pagination, nextPage, resetPagination] = usePagination()
     const [currentActived, setCurrentActived] = useState(1)
+    const [quote, setQuote] = useState(QUOTES[Math.floor(Math.random() * 5)])
     const { data } = useTodayPaper()
     const { data: userData } = useUserInfo()
     const { data: articleData } = useArticleList({ key: currentActived, ...pagination })
@@ -58,7 +60,7 @@ const PersonalPage: FC<PersonalPageProps> = () => {
                     </div>
                     <div className={styles.user_detail_box}>
                         <h4>{user?.username}</h4>
-                        <p>小楼昨夜又东风，故国不堪回首月明中。</p>
+                        <p>{ quote }</p>
                     </div>
                 </div>
             </div>
@@ -72,7 +74,7 @@ const PersonalPage: FC<PersonalPageProps> = () => {
                     </div>)}
                 </div>
                 <div className={styles.article_list}>
-                    {records?.map((article: ArticleVO) => <ArticleItem article={article} key={article.articleId}/>)}
+                    {records?.map((article: ArticleVO) => <ArticleItem article={article} key={article.articleId} edit/>)}
                     {!records?.length && <Empty/>}
                     <LoadMore hasMore={next} loadMore={nextPage}/>
                 </div>

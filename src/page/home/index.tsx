@@ -14,13 +14,17 @@ import ArticleItem from "../../component/articleItem"
 import styles from './index.module.less'
 
 const Home = () => {
-    const [pagination, nextPage, resetPagination] = usePagination()
+    const [pagination, nextPage, resetPagination] = usePagination(10, false)
     const { state: { searchValue } } = useContext(blogContext)
     const [plainTextLayout, setPlainTextLayout] = useState(false)
+    const [articles, setArticles] = useState<any[]>([])
     const [articleQueryParams, setArticleQueryParams] = useState<ArticleQueryParams>({ })
     const { data: articleData, isError, error } = useArticleList({ ...articleQueryParams, ...pagination })
     const { sortColumn } = articleQueryParams
-    const articles = articleData?.data?.records ?? []
+
+    useEffect(() => {
+        setArticles([...articles, ...(articleData?.data?.records ?? [])])
+    }, [articleData?.data?.records])
 
     const changeArticleSort = () => {
         setArticleQueryParams({

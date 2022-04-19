@@ -31,7 +31,6 @@ const Publish = () => {
     const { data: articleData } = usePermissionDetail(articleId)
     //@ts-ignore
     const article: ArticleVO = articleData?.data
-    console.log('current article is: ' , article, 'articleId: ', articleId)
 
     const defaultTitle = () => {
         const currentMoment = moment(new Date())
@@ -112,10 +111,26 @@ const Publish = () => {
     const removeNavigationParameters = () => {
         window.history.replaceState(null, '', window.location.href.replace(window.location.search, ''))
     }
+    /**
+     * 根据文章id获取草稿索引
+     * -1 无
+     */
+    const findDraftIndexById = (id: string) => {
+        return drafts.findIndex((draft, index) => draft.id === id) ?? -1
+    }
     const editPublishedArticle = (article: ArticleVO) => {
-        storageGeneratedDraft(assemblyDraft(article))
+        let draftIdx = findDraftIndexById(article.articleId)
+        if (draftIdx !== -1) {
+            setDraftIndex(draftIdx)
+        } else {
+            storageGeneratedDraft(assemblyDraft(article))
+        }
         removeNavigationParameters()
     }
+    /**
+     * 确保当前文章可以被加载
+     */
+    const articleLoadable: () => boolean = () => !!articleId && !!article
 
     /**
      * 如果路由有id就去数据库查询当前文章数据 √
@@ -123,7 +138,7 @@ const Publish = () => {
      * 然后移除路由id 防止重复写入
      */
     useEffect(() => {
-        if (!!articleId && !!article) {
+        if (articleLoadable()) {
             editPublishedArticle(article)
         }
     }, [articleId, article])
@@ -157,7 +172,7 @@ const Publish = () => {
                         key={index}
                         onClick={() => setDraftIndex(index)}
                     >
-                        <h3>{draft.title ?? '无标题文章'}</h3>
+                        <h3 title={draft.title}>{draft.title ?? '无标题文章'}</h3>
                         <div className={styles.item_bottom}>
                             <div className={styles.item_time}>{moment(draft.editTime).fromNow()}</div>
                             <i className="iconfont icon-rubbish-icon" onClick={(e) => {

@@ -57,15 +57,37 @@
   }
   .article_info {
     display: flex;
+    justify-content: space-between;
     color: #939393;
     font-size: 12px;
     margin-top: 12px;
     line-height: 13px;
-    .info_item {
-      margin-right: 20px;
-      cursor: pointer;
-      i {
-        margin-right: 5px;
+    .article_data {
+      display: flex;
+      .info_item {
+        margin-right: 20px;
+        cursor: pointer;
+        i {
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .edit_box {
+      width: 100px;
+      .common {
+        cursor: pointer;
+        &:hover {
+          color: var(--primary-color);
+        }
+      }
+      .edit {
+        float: left;
+        .common();
+      }
+      .delete {
+        float: right;
+        .common();
       }
     }
   }

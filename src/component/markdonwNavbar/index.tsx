@@ -1,8 +1,8 @@
-import React, {FC, useMemo, useState} from "react"
-import Navbar from 'markdown-navbar'
+import React, { FC, useState } from "react"
+// @ts-ignore
+import Navbar from '../Navbar'
 
 import styles from './index.module.less'
-import 'markdown-navbar/dist/navbar.css'
 
 interface MarkdownNavbarProps {
     source: string

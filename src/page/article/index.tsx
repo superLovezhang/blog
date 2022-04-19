@@ -55,7 +55,7 @@ const Article: FC<ArticleProps> = () => {
                         </div>
                         <div className={styles.article_label}>
                             <span>文章标签</span>
-                            {article.labels?.map(label => <div className={styles.label_item}>{label.labelName}</div>)}
+                            {article.labels?.map(label => <div className={styles.label_item} key={label.labelId}>{label.labelName}</div>)}
                         </div>
                     </div>
                     {!!article?.linkAddress && <div className={styles.article_reprint}>

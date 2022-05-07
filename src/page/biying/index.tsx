@@ -10,7 +10,7 @@ import { bingDateFormat, bingPicURL } from "../../util/util"
 import styles from './index.module.less'
 
 const BiYing = () => {
-    const [pagination, nextPage] = usePagination(30, false)
+    const [pagination, nextPage] = usePagination(30)
     const { data } = useBingList({ ...pagination })
     //@ts-ignore
     const { data: picData, page, pages } = data ?? {}

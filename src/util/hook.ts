@@ -37,14 +37,11 @@ export const useScroll = () => {
 
     return visible
 }
-export const usePagination: (size?: number , paginationWay?: boolean) => [{ size: number, page: number}, () => void, () => void] =
-    (size = 10, paginationWay = true) => {
+export const usePagination: (size?: number) => [{ size: number, page: number}, () => void, () => void] =
+    (size = 10) => {
     const defaultPagination = { page: 1, size }
     const [pagination, setPagination] = useState(defaultPagination)
-    const nextPage = () => {
-        paginationWay ? setPagination({ ...pagination, size: pagination.size + size })
-            : setPagination({ ...pagination, page: pagination.page + 1 })
-    }
+    const nextPage = () => setPagination({ ...pagination, page: pagination.page + 1 })
     const resetPagination = () => setPagination(defaultPagination)
     return [pagination, nextPage, resetPagination]
 }

@@ -13,28 +13,36 @@ import Empty from "../../component/empty"
 import ArticleItem from "../../component/articleItem"
 import styles from './index.module.less'
 
+const ARTICLE_TYPE = [
+    { name: '最新', column: 'createTime' },
+    { name: '最热', column: 'viewCount' }
+]
+
 const Home = () => {
-    const [pagination, nextPage, resetPagination] = usePagination(10, false)
+    const [pagination, nextPage, resetPagination] = usePagination()
     const { state: { searchValue } } = useContext(blogContext)
     const [plainTextLayout, setPlainTextLayout] = useState(false)
+    const [isPagination, setIsPagination] = useState(false)
     const [articles, setArticles] = useState<any[]>([])
     const [articleQueryParams, setArticleQueryParams] = useState<ArticleQueryParams>({ })
     const { data: articleData, isError, error } = useArticleList({ ...articleQueryParams, ...pagination })
-    const { sortColumn } = articleQueryParams
+    const { sortColumn = 'createTime' } = articleQueryParams
 
     useEffect(() => {
-        setArticles([...articles, ...(articleData?.data?.records ?? [])])
-    }, [articleData?.data?.records])
-
-    const changeArticleSort = () => {
-        setArticleQueryParams({
-            ...articleQueryParams,
-            sortColumn: sortColumn === 'viewCount' ? 'createTime' : 'viewCount'
-        })
-    }
+        if (isPagination) {
+            setArticles([...articles, ...(articleData?.data?.records ?? [])])
+        } else {
+            setArticles(articleData?.data?.records ?? [])
+        }
+    }, [articleData?.data?.records, isPagination])
     const changeQueryParams = (params: any = {}) => {
         resetPagination()
+        setIsPagination(false)
         setArticleQueryParams({ ...articleQueryParams, ...params })
+    }
+    const navigationNextPage = () => {
+        nextPage()
+        setIsPagination(true)
     }
     //@ts-ignore
     useEffect(() => isError && alert(error), [isError, error])
@@ -47,14 +55,11 @@ const Home = () => {
         />
         <div className={styles.article_box}>
             <div className={styles.sort_top}>
-                <span
-                    className={`cursor_pointer ${(sortColumn === 'createTime' || !sortColumn) && 'active'}`}
-                    onClick={changeArticleSort}
-                >最新</span>
-                <span
-                    className={`cursor_pointer ${sortColumn === 'viewCount' && 'active'}`}
-                    onClick={changeArticleSort}
-                >最热</span>
+                {ARTICLE_TYPE.map(type => <span
+                    key={type.name}
+                    className={`cursor_pointer ${(sortColumn === type.column) && 'active'}`}
+                    onClick={() => changeQueryParams({ sortColumn: type.column})}
+                >{type.name}</span>)}
                 <div className={styles.layout_change} onClick={() => setPlainTextLayout(!plainTextLayout)}>
                     {!plainTextLayout ?
                         <i className={'iconfont icon-7xinxifabu cursor_pointer'}/> :
@@ -70,7 +75,7 @@ const Home = () => {
                         plainTextLayout={plainTextLayout}
                     />)}
                 </div>
-                <LoadMore hasMore={!!articleData?.data?.next} loadMore={nextPage}/>
+                <LoadMore hasMore={!!articleData?.data?.next} loadMore={navigationNextPage}/>
             </> : <Empty/>}
         </div>
         <ArticleShortcut/>

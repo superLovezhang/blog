@@ -3,11 +3,12 @@ import React, {FC, Fragment, useContext, useEffect, useState} from "react"
 import EmojiPicker from '@/component/emojiPicker/index.tsx'
 import ImageView from "../imageView"
 
-import { useComment, useLikeComment, useRemoveComment } from "../../query/commentQuery"
+import { useComment, useRemoveComment } from "../../query/commentQuery"
 import { useUserInfo } from "../../query/userQuery"
 import { blogContext } from "../../store"
-import { CommentTreeVO, CommentVO } from "../../api/types"
+import {CommentTreeVO, CommentVO, LikeType} from "../../api/types"
 import styles from "./index.module.less"
+import {useLike} from "../../query/likeQuery";
 
 
 interface CommentProps {
@@ -16,8 +17,8 @@ interface CommentProps {
 }
 const Comment: FC<CommentProps> = ({ comment, parentId }) => {
     const { data: userData } = useUserInfo()
-    const { mutateAsync: commentMutate, isError: isCommentError, error: commentError } = useComment()
-    const { mutateAsync: likeMutate, isError: isLikeError, error: likeError } = useLikeComment()
+    const { mutateAsync: commentMutate } = useComment()
+    const { mutate: like } = useLike()
     const { mutate: removeCommentApi } = useRemoveComment()
     const [commentContent, setComment] = useState('')
     const { dispatch } = useContext(blogContext)
@@ -39,24 +40,11 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
         await commentMutate({ articleId: comment.articleId, replyId: comment.commentId, parentId, content: commentContent })
         setShowReply(!showReply)
     }
-    const clickLikeComment = async () => {
-        await likeMutate(comment.commentId)
-    }
     const removeComment = () => {
         if (window.confirm('确定删除这条评论吗')) {
             removeCommentApi(comment.commentId)
         }
     }
-    useEffect(() => {
-        if (isCommentError) {
-            alert(commentError)
-        }
-    }, [isCommentError, commentError])
-    useEffect(() => {
-        if (isLikeError) {
-            alert(likeError)
-        }
-    }, [isLikeError, likeError])
 
     return <div className={styles.comment_item}>
         <div className={styles.comment_avatar}>
@@ -76,7 +64,7 @@ const Comment: FC<CommentProps> = ({ comment, parentId }) => {
                     <div className={styles.comment_operation}>
                         <div
                             className={`${styles.like} ${comment.selfLike && styles.collected}`}
-                            onClick={clickLikeComment}
+                            onClick={() => like({ id: comment.commentId, likeType: LikeType.COMMENT })}
                         >
                             <i className='iconfont icon-like-fill'/>
                             <span>{comment.likes} 点赞</span>

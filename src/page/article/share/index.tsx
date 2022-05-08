@@ -1,25 +1,39 @@
-import { FC, useEffect } from "react"
+import { FC } from "react"
 
 import { useCollectArticle } from "../../../query/collectionQuery"
+
+import { ArticleVO, LikeType } from "../../../api/types"
+import { useLike } from "../../../query/likeQuery"
 import styles from './index.module.less'
 
+
+
 interface ShareProps {
-    articleId: number
-    collected: boolean
+    article: ArticleVO
 }
-const Share: FC<ShareProps> = ({ articleId, collected }) => {
-    const { mutate, isError, error } = useCollectArticle()
+const Share: FC<ShareProps> = ({ article }) => {
+    const { articleId, collected, liked, collects, likes } = article ?? {}
+    const { mutate: collect } = useCollectArticle()
+    const { mutate: like } = useLike()
     const scrollToBottom = () => {
         window.scrollTo({ top: document?.querySelector('#root')?.clientHeight ?? 0, behavior: 'smooth' })
     }
-   useEffect(() => { isError && alert(error) }, [isError, error])
 
     return <div className={styles.share_wrap}>
         <div
+            className={`${styles.share_item} ${liked ? styles.collected : ''}`}
+            title='点赞'
+            onClick={() => like({ id: articleId, likeType: LikeType.ARTICLE })}
+        >
+            <span>{likes}</span>
+            <i className="iconfont icon-like-fill"/>
+        </div>
+        <div
             className={`${styles.share_item} ${collected ? styles.collected : ''}`}
             title='收藏'
-            onClick={() => mutate(articleId)}
+            onClick={() => collect(articleId)}
         >
+            <span>{collects}</span>
             <i className="iconfont icon-collected"/>
         </div>
         <div

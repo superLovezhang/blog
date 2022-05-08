@@ -11,6 +11,9 @@ export const useCollectArticle = () => {
     return useMutation(collect, {
         onSuccess() {
             client.invalidateQueries(ARTICLE_DETAIL_KEY)
+        },
+        onError(err) {
+            alert(err)
         }
     })
 }

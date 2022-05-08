@@ -24,7 +24,7 @@ const Article: FC<ArticleProps> = () => {
 
     return <div className={styles.article_detail_wrap}>
         <MarkdownNavbar source={article?.content ?? ''}/>
-        <Share articleId={id} collected={article?.collected}/>
+        <Share article={article}/>
         <div className={styles.article_detail}>
             {!isLoading ? <>
                 <div className={styles.article_info}>

@@ -4,7 +4,7 @@ import { CommentPageDTO } from "../api/types"
 import { ARTICLE_DETAIL_KEY } from "./articleQuery"
 
 const QUERY_PREFIX = "COMMENT_"
-const COMMENT_LIST_KEY = QUERY_PREFIX + "COMMENT_LIST"
+export const COMMENT_LIST_KEY = QUERY_PREFIX + "COMMENT_LIST"
 
 export const useComment = () => {
     const client = useQueryClient()
@@ -12,6 +12,9 @@ export const useComment = () => {
         onSuccess() {
             client.invalidateQueries(COMMENT_LIST_KEY)
             client.invalidateQueries(ARTICLE_DETAIL_KEY)
+        },
+        onError(err) {
+            alert(err)
         }
     })
 }

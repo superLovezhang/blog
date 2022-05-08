@@ -92,8 +92,10 @@ export interface ArticleVO {
     labels: LabelVO[]
     commentCount: number
     viewCount: number
-    collected: boolean
     likes: number
+    collects: number
+    collected: boolean
+    liked: boolean
     createTime: string
     updateTime: string
 }
@@ -179,4 +181,8 @@ export interface PublishParameters {
     labelIds?: string[]
     articleType?: ArticleType
     linkAddress?: string
+}
+export enum LikeType {
+    ARTICLE = 'ARTICLE',
+    COMMENT = 'COMMENT'
 }

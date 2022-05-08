@@ -11,7 +11,7 @@
 .share_wrap {
   top: 160px;
   width: 42px;
-  height: 230px;
+  height: 280px;
   display: flex;
   margin-top: 88px;
   position: sticky;
@@ -20,21 +20,30 @@
   flex-direction: column;
   color: var(--sub-font-color);
   justify-content: space-between;
-  .collected {
+  .collected i {
     color: #409eff;
   }
   .share_item {
     width: 42px;
     height: 42px;
+    position: relative;
     cursor: pointer;
     line-height: 42px;
     border-radius: 50%;
     background-color: var(--main-bg-color);
-    .collected {
-      color: #05a6f0;
-    }
     i {
       font-size: 20px;
+    }
+    span {
+      top: 0;
+      right: -20px;
+      width: 30px;
+      font-size: 12px;
+      color: var(--main-bg-color);
+      line-height: 19px;
+      position: absolute;
+      border-radius: 19px;
+      background-color: #c2c8d1;
     }
   }
   span {

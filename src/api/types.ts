@@ -68,6 +68,10 @@ export interface Article {
     createTime: string
     updateTime: string
 }
+export interface ArticleRecordVO {
+    articleId: string
+    articleName: string
+}
 export interface ArticleDTO {
     articleId: string
     articleName: string

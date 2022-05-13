@@ -11,7 +11,7 @@ export const className = (cssObject: { [key: string]: boolean } = {}) => {
     return cssString
 }
 export const getFileExtension = (fileName: string = '') => fileName.substring(fileName.lastIndexOf('.'))
-export const objectIsNull = (object: null | undefined | {} | object) => !object || JSON.stringify(object) === '{}'
+export const objectIsNull = (object: null | undefined | object) => !object || JSON.stringify(object) === '{}'
 export const currentMomentObj = (): {
     year: number,
     month: number,
@@ -73,4 +73,16 @@ export const downloadImage = (imgsrc: string, name: string) => {//下载图片�
         a.dispatchEvent(event)
     };
     image.src = imgsrc
+}
+/**
+ * 获取当前聊天id 如果本地存储存在直接返回
+ * 否则以当前时间戳生产id存储并返回
+ */
+export const chatId = () => {
+    let chatId = window.localStorage.getItem("chatId")
+    if (!chatId) {
+        chatId = new Date().getTime() + ""
+        window.localStorage.setItem("chatId", chatId)
+    }
+    return chatId
 }

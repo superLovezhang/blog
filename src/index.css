@@ -70,6 +70,8 @@ html.light {
   --hover-color: rgb(242, 242, 242);
   --alpha-color: 0,0,0;
   --common-linear-bg: linear-gradient(135deg,#0084ff,#3fe6fe);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --chat-tip-bg: #cecece;
 }
 html.dark {
   --spare-bg-color: #0c0c0c;
@@ -82,6 +84,8 @@ html.dark {
   --hover-color: rgb(37,37,44);
   --alpha-color: 255, 255, 255;
   --common-linear-bg: linear-gradient(135deg,#0084ff,#3fe6fe);
+  --shadow-color: rgba(255,255,255,0.3);
+  --chat-tip-bg: #3f3d3d;
 }
 #root {
   color: var(--font-color);

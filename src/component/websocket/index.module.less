@@ -1,0 +1,170 @@
+.ws_container {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  z-index: 1000;
+  .dialog {
+    width: 375px;
+    height: 535px;
+    display: flex;
+    flex-direction: column;
+    min-height: 1px;
+    border-radius: 10px;
+    background-color: var(--spare-bg-color);
+    box-shadow: var(--shadow-color) 0 0 20px;
+    .dialog_header {
+      flex: 0 0 auto;
+      padding: 0 20px;
+      height: 60px;
+      display: flex;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      align-items: center;
+      background-color: var(--main-bg-color);
+      .logo {
+        margin-right: 10px;
+        img {
+          width: 40px;
+          height: 40px;
+        }
+      }
+      .msg {
+        font-size: 12px;
+        line-height: 16px;
+        .dot {
+          margin-left: 5px;
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          &.success {
+            background-color: #18dc18;
+          }
+          &.error {
+            background-color: #f10909;
+          }
+        }
+      }
+    }
+    .dialog_content {
+      flex: 1 1 auto;
+      padding: 5px 20px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden auto;
+      .dialog_message_item {
+        margin-bottom: 15px;
+        &.self_send {
+          img {
+            float: right;
+            margin-right: 0;
+            margin-left: 10px;
+          }
+          .main_content {
+            float: right;
+            .username {
+              text-align: right;
+            }
+            .message {
+              background-color: var(--primary-color);
+            }
+          }
+        }
+        img {
+          width: 40px;
+          height: 40px;
+          float: left;
+          margin-right: 10px;
+          //vertical-align: middle;
+        }
+        .main_content {
+          font-size: 14px;
+          float: left;
+          display: flex;
+          flex-direction: column;
+          .username {
+            display: inline-block;
+            font-size: 10px;
+            margin-bottom: 8px;
+          }
+          .message {
+            max-width: 250px;
+            padding: 7px 12px;
+            border: none;
+            border-radius: 10px;
+            line-height: 20px;
+            word-break: break-word;
+            background-color: var(--main-bg-color);
+          }
+        }
+        //.timestamp {}
+      }
+      .dialog_tip_item {
+        min-width: 50%;
+        max-width: 80%;
+        line-height: 18px;
+        text-align: center;
+        margin: 0 auto 15px auto;
+        font-size: 12px;
+        border-radius: 4px;
+        background-color: var(--chat-tip-bg);
+      }
+    }
+    .dialog_commit {
+      flex: 0 0 auto;
+      padding: 0 20px;
+      height: 60px;
+      display: flex;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--main-bg-color);
+      input {
+        width: 90%;
+        height: 50%;
+        font-size: 14px;
+        color: var(--font-color);
+        padding: 0 15px;
+        border: 1px solid var(--sub-font-color);
+        border-radius: 10px;
+        background-color: inherit;
+      }
+      .icon {
+        width: 10%;
+        cursor: pointer;
+        text-align: center;
+      }
+    }
+  }
+  @keyframes dialogTop {
+    from {
+      transform: translate(0, 80px);
+    }
+    to {
+      transform: translate(0, 0);
+    }
+  }
+
+  .expand {
+    display: flex;
+    animation: dialogTop 0.3s linear 0s 1 normal forwards running;
+  }
+  .collapse {
+    display: none;
+    animation: 0.3s linear 0s 1 normal none running forwards;
+  }
+  .drag_icon {
+    float: right;
+    width: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    background-color: var(--primary-color);
+    & > i {
+      font-size: 22px;
+    }
+  }
+}

@@ -190,3 +190,11 @@ export enum LikeType {
     ARTICLE = 'ARTICLE',
     COMMENT = 'COMMENT'
 }
+export interface WsMessageDTO {
+    userId: string
+    timestamp: number
+    avatar: string
+    message: string
+    username: string
+    messageType: 'MESSAGE' | 'INFO' | 'TIP' | 'SYNC'
+}

@@ -1,4 +1,4 @@
-import React, {FC, Fragment, useContext, useEffect, useState} from "react"
+import React, {FC, Fragment, useContext, useState} from "react"
 
 import EmojiPicker from '@/component/emojiPicker/index.tsx'
 import ImageView from "../imageView"

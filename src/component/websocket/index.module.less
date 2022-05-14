@@ -1,3 +1,21 @@
+@media (max-width: 690px) {
+  .ws_container {
+    display: none;
+  }
+}
+.dot {
+  margin-left: 5px;
+  display: inline-block!important;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  &.success {
+    background-color: #18dc18;
+  }
+  &.error {
+    background-color: #f10909;
+  }
+}
 .ws_container {
   position: fixed;
   right: 20px;
@@ -31,19 +49,6 @@
       .msg {
         font-size: 12px;
         line-height: 16px;
-        .dot {
-          margin-left: 5px;
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          &.success {
-            background-color: #18dc18;
-          }
-          &.error {
-            background-color: #f10909;
-          }
-        }
       }
     }
     .dialog_content {
@@ -160,11 +165,19 @@
     line-height: 50px;
     border-radius: 50%;
     color: white;
+    position: relative;
     cursor: pointer;
     text-align: center;
     background-color: var(--primary-color);
     & > i {
       font-size: 22px;
+    }
+    .news {
+      .dot();
+      position: absolute;
+      top: 2px;
+      right: 10px;
+      background-color: red;
     }
   }
 }

@@ -36,8 +36,9 @@ import styles from '../index.module.less'
 // ]
 interface DialogProps {
     shape: boolean
+    setNew: (i: boolean) => void
 }
-const Dialog: FC<DialogProps> = ({ shape }) => {
+const Dialog: FC<DialogProps> = ({ shape, setNew }) => {
     const {data: userInfo} = useUserInfo()
     const [ws, setWS] = useState<null | WebSocket>()
     const [status, setStatus] = useState(false)
@@ -249,6 +250,8 @@ const Dialog: FC<DialogProps> = ({ shape }) => {
             scrollToBottom()
             // clear message of input box
             setInputValue('')
+            // clear unread flag
+            setNew(false)
         }
     }, [shape])
 

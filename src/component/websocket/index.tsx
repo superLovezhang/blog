@@ -11,14 +11,18 @@ interface WebSocketClientProps {
 const WebSocketClient: FC<WebSocketClientProps> = ({}) => {
     const history = useHistory()
     const [shape, setShape] = useState(false)
+    const [hasNew, setHasNew] = useState(true)
 
     useEffect(() => {
         setShape(false)
     }, [history.location])
 
     return <div className={styles.ws_container}>
-        <Dialog shape={shape}/>
-        <ChatIcon switchShape={() => setShape(!shape)}/>
+        <Dialog shape={shape} setNew={setHasNew}/>
+        <ChatIcon
+            className={`${hasNew && styles.news}`}
+            switchShape={() => setShape(!shape)}
+        />
     </div>
 }
 

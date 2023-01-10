@@ -87,7 +87,7 @@ html.dark {
   --shadow-color: rgba(255,255,255,0.3);
   --chat-tip-bg: #3f3d3d;
 }
-#root {
+html {
   color: var(--font-color);
   background-color: var(--spare-bg-color);
 }
@@ -164,4 +164,8 @@ a {
 }
 .custom-html-style blockquote {
   color: inherit!important;
+}
+#record_bottom {
+  font-size: 13px;
+  text-align: center;
 }
